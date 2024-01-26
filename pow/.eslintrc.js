@@ -9,7 +9,7 @@ module.exports = {
 		"plugin:node/recommended"
 	],
 	"parserOptions": {
-		"ecmaVersion": 13,
+		"ecmaVersion": 2022,
 		"impliedStrict": true
 	},
 	"rules": {

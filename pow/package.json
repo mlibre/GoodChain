@@ -1,7 +1,7 @@
 {
   "name": "goodchain",
   "version": "1.0.0",
-  "description": "Welcome to GoodChains. This is a project to explore the blockchain technology.",
+  "description": "Welcome to GoodChains. A project to explore the blockchain technology",
   "main": "index.js",
   "engines": {
     "node": ">=20"
