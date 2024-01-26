@@ -1,0 +1,35 @@
+{
+  "name": "goodchain",
+  "version": "1.0.0",
+  "description": "A simple PoS blockchain",
+  "main": "main.js",
+  "author": {
+    "name": "mlibre",
+    "email": "m.gh@linuxmail.org",
+    "url": "https://twitter.com/mlibreT"
+  },
+  "license": "GPL-3.0",
+  "homepage": "https://github.com/mlibre/",
+  "repository": "github:mlibre/",
+  "bugs": "https://github.com/mlibre/",
+  "keywords": [
+    "blockchain",
+    "PoS",
+    "proof of stake",
+    "goodchain"
+  ],
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "dependencies": {
+    "ip": "^1.1.5",
+    "lodash": "^4.17.21",
+    "mkdirp": "^1.0.4",
+    "object-hash": "^2.2.0",
+    "public-ip": "^5.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.32.0",
+    "eslint-plugin-node": "^11.1.0"
+  }
+}

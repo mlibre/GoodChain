@@ -1,0 +1,14 @@
+{
+	"-----BEGIN RSA PUBLIC KEY-----\nMEgCQQDq9pcrYEJsu5pY1WTEbRfqtqoc1N+xASOlWUA3PlfOtbXpeywfAOk+7zn4\n4zmKkgPVUcJjFBJ6GsMo2ziQ9Xt1AgMBAAE=\n-----END RSA PUBLIC KEY-----\n": {
+		"balance": 350.3,
+		"transaction_number": 1
+	},
+	"-----BEGIN RSA PUBLIC KEY-----\nMEgCQQC8p6W6KjjtbS0ObtAtxhEPDFd+VjU57nUh9UKTvMajLmnAax9+AKLiioBl\nfqMJBd4QkMAITUV1bvM4TLNGB1L1AgMBAAE=\n-----END RSA PUBLIC KEY-----\n": {
+		"balance": 44.7,
+		"transaction_number": 1
+	},
+	"user3": {
+		"balance": 5,
+		"transaction_number": 0
+	}
+}

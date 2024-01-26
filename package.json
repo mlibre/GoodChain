@@ -1,0 +1,17 @@
+{
+  "name": "goodchain",
+  "version": "1.0.0",
+  "description": "Welcome to GoodChains. This is a project to explore the blockchain technology.",
+  "main": "index.js",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "eslint-plugin-node": "^11.1.0"
+  }
+}

@@ -1,0 +1,94 @@
+[
+	{
+		"index": 0,
+		"timestamp": 1706291744389,
+		"transactions": [
+			{
+				"from": null,
+				"to": "-----BEGIN RSA PUBLIC KEY-----\nMEgCQQDq9pcrYEJsu5pY1WTEbRfqtqoc1N+xASOlWUA3PlfOtbXpeywfAOk+7zn4\n4zmKkgPVUcJjFBJ6GsMo2ziQ9Xt1AgMBAAE=\n-----END RSA PUBLIC KEY-----\n",
+				"amount": 100,
+				"fee": 0,
+				"transaction_number": 0,
+				"signature": null
+			}
+		],
+		"previousHash": "",
+		"hash": "0001b811dd10ad80a7664ad08cb65543def1ebc3d3b5210070d0dde27749a583",
+		"nonce": 215,
+		"miner": "-----BEGIN RSA PUBLIC KEY-----\nMEgCQQDq9pcrYEJsu5pY1WTEbRfqtqoc1N+xASOlWUA3PlfOtbXpeywfAOk+7zn4\n4zmKkgPVUcJjFBJ6GsMo2ziQ9Xt1AgMBAAE=\n-----END RSA PUBLIC KEY-----\n",
+		"difficulty": "000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+	},
+	{
+		"index": 1,
+		"timestamp": 1706291744395,
+		"transactions": [
+			{
+				"from": null,
+				"to": "-----BEGIN RSA PUBLIC KEY-----\nMEgCQQDq9pcrYEJsu5pY1WTEbRfqtqoc1N+xASOlWUA3PlfOtbXpeywfAOk+7zn4\n4zmKkgPVUcJjFBJ6GsMo2ziQ9Xt1AgMBAAE=\n-----END RSA PUBLIC KEY-----\n",
+				"amount": 100,
+				"fee": 0,
+				"transaction_number": 0,
+				"signature": null
+			}
+		],
+		"previousHash": "0001b811dd10ad80a7664ad08cb65543def1ebc3d3b5210070d0dde27749a583",
+		"hash": "000499c85f2eb22d77eac8e2c7d6e34a175dedb2e36fe2efed790f2c1585e6f9",
+		"nonce": 2969,
+		"miner": "-----BEGIN RSA PUBLIC KEY-----\nMEgCQQDq9pcrYEJsu5pY1WTEbRfqtqoc1N+xASOlWUA3PlfOtbXpeywfAOk+7zn4\n4zmKkgPVUcJjFBJ6GsMo2ziQ9Xt1AgMBAAE=\n-----END RSA PUBLIC KEY-----\n",
+		"difficulty": "000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+	},
+	{
+		"index": 2,
+		"timestamp": 1706291744409,
+		"transactions": [
+			{
+				"from": "-----BEGIN RSA PUBLIC KEY-----\nMEgCQQDq9pcrYEJsu5pY1WTEbRfqtqoc1N+xASOlWUA3PlfOtbXpeywfAOk+7zn4\n4zmKkgPVUcJjFBJ6GsMo2ziQ9Xt1AgMBAAE=\n-----END RSA PUBLIC KEY-----\n",
+				"to": "-----BEGIN RSA PUBLIC KEY-----\nMEgCQQC8p6W6KjjtbS0ObtAtxhEPDFd+VjU57nUh9UKTvMajLmnAax9+AKLiioBl\nfqMJBd4QkMAITUV1bvM4TLNGB1L1AgMBAAE=\n-----END RSA PUBLIC KEY-----\n",
+				"amount": 50,
+				"fee": 0,
+				"transaction_number": 1,
+				"signature": "170144e7b87f3da2fcbe6d817dee936af9f84aef75adce15e142efc8e3b2a81c30b4f9a92026b65cbbad158736489c3f7278a1e6933d4a9eab7a20279193493e"
+			},
+			{
+				"from": null,
+				"to": "-----BEGIN RSA PUBLIC KEY-----\nMEgCQQDq9pcrYEJsu5pY1WTEbRfqtqoc1N+xASOlWUA3PlfOtbXpeywfAOk+7zn4\n4zmKkgPVUcJjFBJ6GsMo2ziQ9Xt1AgMBAAE=\n-----END RSA PUBLIC KEY-----\n",
+				"amount": 100,
+				"fee": 0,
+				"transaction_number": 0,
+				"signature": null
+			}
+		],
+		"previousHash": "000499c85f2eb22d77eac8e2c7d6e34a175dedb2e36fe2efed790f2c1585e6f9",
+		"hash": "00028b764562f13cf93e6f2e243f00a8114602a16d61e9dcfd542d4d9b21a933",
+		"nonce": 15357,
+		"miner": "-----BEGIN RSA PUBLIC KEY-----\nMEgCQQDq9pcrYEJsu5pY1WTEbRfqtqoc1N+xASOlWUA3PlfOtbXpeywfAOk+7zn4\n4zmKkgPVUcJjFBJ6GsMo2ziQ9Xt1AgMBAAE=\n-----END RSA PUBLIC KEY-----\n",
+		"difficulty": "000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+	},
+	{
+		"index": 3,
+		"timestamp": 1706291744467,
+		"transactions": [
+			{
+				"from": "-----BEGIN RSA PUBLIC KEY-----\nMEgCQQC8p6W6KjjtbS0ObtAtxhEPDFd+VjU57nUh9UKTvMajLmnAax9+AKLiioBl\nfqMJBd4QkMAITUV1bvM4TLNGB1L1AgMBAAE=\n-----END RSA PUBLIC KEY-----\n",
+				"to": "user3",
+				"amount": 5,
+				"fee": 0.3,
+				"transaction_number": 2,
+				"signature": "04388b66fac7801563530646286353973c4ab74e69f565bff22066c44ba80e297e923e080d5474de3168ac970ee9d6487f2b9965ce80d0a3f8c50c9e0fa12623"
+			},
+			{
+				"from": null,
+				"to": "-----BEGIN RSA PUBLIC KEY-----\nMEgCQQDq9pcrYEJsu5pY1WTEbRfqtqoc1N+xASOlWUA3PlfOtbXpeywfAOk+7zn4\n4zmKkgPVUcJjFBJ6GsMo2ziQ9Xt1AgMBAAE=\n-----END RSA PUBLIC KEY-----\n",
+				"amount": 100.3,
+				"fee": 0,
+				"transaction_number": 0,
+				"signature": null
+			}
+		],
+		"previousHash": "00028b764562f13cf93e6f2e243f00a8114602a16d61e9dcfd542d4d9b21a933",
+		"hash": "000909b06873d0c2b381829c8a0f8f85fc831c1561da5d3c45e6c833340f3d77",
+		"nonce": 2834,
+		"miner": "-----BEGIN RSA PUBLIC KEY-----\nMEgCQQDq9pcrYEJsu5pY1WTEbRfqtqoc1N+xASOlWUA3PlfOtbXpeywfAOk+7zn4\n4zmKkgPVUcJjFBJ6GsMo2ziQ9Xt1AgMBAAE=\n-----END RSA PUBLIC KEY-----\n",
+		"difficulty": "000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+	}
+]
