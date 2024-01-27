@@ -1,4 +1,4 @@
-const { initJsonFile, updateFile, calculateMiningFee } = require( "./utils" )
+const { initJsonFile, updateFile, calculateMiningFee, proccessTransaction } = require( "./utils" )
 const Wallet = require( "./wallet" )
 const transaction = require( "./transactions" )
 const Block = require( "./block" )
@@ -25,7 +25,7 @@ class Blockchain
 	{
 		const self = this
 		self.addCoinbaseTransaction( minerKeyPairs );
-		self.wallet.update( self.transactionPool );
+		this.transactionPool = proccessTransaction( this.transactionPool, this.wallet );
 		const block = new Block({
 			index: self.chainLength,
 			transactions: self.transactionPool,

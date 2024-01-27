@@ -1,5 +1,5 @@
 const crypto = require( "crypto" );
-const { initJsonFile, isCoinBase } = require( "./utils" )
+const { initJsonFile } = require( "./utils" )
 
 class Wallet
 {
@@ -9,18 +9,6 @@ class Wallet
 		this.wallets = initJsonFile( filePath );
 	}
 
-	update ( transactions )
-	{
-		for ( const trx of transactions )
-		{
-			if ( !isCoinBase( trx ) )
-			{
-				this.minusBalance( trx.from, trx.amount + trx.fee );
-				this.incrementTN( trx.from );
-			}
-			this.addBalance( trx.to, trx.amount );
-		}
-	}
 	get ( address )
 	{
 		return this.wallets[address];
