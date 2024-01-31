@@ -1,18 +1,20 @@
-var express = require( "express" );
-var cookieParser = require( "cookie-parser" );
-var logger = require( "morgan" );
+const express = require( "express" );
+const cookieParser = require( "cookie-parser" );
+const logger = require( "morgan" );
 
-var indexRouter = require( "./routes/index" );
-var blockchainRouter = require( "./routes/blockchain" );
+const blockchainRouter = require( "./routes/blockchain" );
+const transactionRouter = require( "./routes/transaction" );
+const mineRouter = require( "./routes/mine" );
 
-var app = express();
+const app = express();
 
 app.use( logger( "dev" ) );
 app.use( express.json() );
 app.use( express.urlencoded({ extended: false }) );
 app.use( cookieParser() );
 
-app.use( "/", indexRouter );
+app.use( "/", transactionRouter );
 app.use( "/blockchain", blockchainRouter );
+app.use( "/mine", mineRouter );
 
 module.exports = app;
