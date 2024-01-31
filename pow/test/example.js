@@ -1,7 +1,7 @@
-const Blockchain = require( "./library/chain" );
-const Wallet = require( "./library/wallet" );
-const transactions = require( "./library/transactions" )
-const { deleteDb } = require( "./library/utils" )
+const Blockchain = require( "../library/chain" );
+const Wallet = require( "../library/wallet" );
+const transactions = require( "../library/transactions" )
+const { deleteDb } = require( "../library/utils" )
 deleteDb( "./db/blockchain.json" );
 deleteDb( "./db/wallets.json" );
 
