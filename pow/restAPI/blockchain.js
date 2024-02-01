@@ -1,14 +1,16 @@
 const path = require( "path" );
+const { blockchainName, blockchainFile, walletsFile, minerKeysFile } = require( "./config" );
+
 const Blockchain = require( "../library/chain" );
 const Wallet = require( "../library/wallet" );
 const { initJsonFile } = require( "../library/utils" )
 
-const minerKeys = initJsonFile( rPath( "../keys/miner.json" ), Wallet.createKeyPair() );
+const minerKeys = initJsonFile( rPath( minerKeysFile ), Wallet.createKeyPair() );
 
 module.exports = new Blockchain(
-	rPath( "../db/blockchain.json" ),
-	rPath( "../db/wallets.json" ),
-	"GoodChain",
+	rPath( blockchainFile ),
+	rPath( walletsFile ),
+	blockchainName,
 	minerKeys
 );
 

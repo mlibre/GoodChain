@@ -2,9 +2,8 @@ const http = require( "http" );
 const express = require( "express" );
 const cookieParser = require( "cookie-parser" );
 const logger = require( "morgan" );
+const { port, host } = require( "./config" );
 
-const port = process.argv[2] || process.env.PORT || 3000;
-const host = process.argv[3] || process.env.HOST || "127.0.0.1";
 
 require( "./blockchain" )
 const nodes = require( "./nodes" )
