@@ -5,8 +5,8 @@ router.post( "/", function ( req, res, next )
 {
 	const { from, to, amount, fee, transaction_number, signature } = req.body;
 	const transaction = { from, to, amount, fee, transaction_number, signature };
-	blockchain.addTransaction( transaction );
-	res.send( transaction );
+	const blockNumber = blockchain.addTransaction( transaction );
+	res.send( blockNumber.toString() );
 });
 
 module.exports = router;
