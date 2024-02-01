@@ -34,5 +34,5 @@ The blockchain data is stored in `blockchain.json` and `wallet` data in `wallets
 A basic `Express.js` REST API is provided in restAPI folder. It exposes endpoints to get blockchain data, mine a new block and submit new transaction.
 
 ```js
-npm start -- --port 3000 --host "localhost" --blockchainFile "../db/blockchain.json" --walletsFile "../db/wallets.json" --minerKeysFile "./keys/miner.json" --blockchainArg "GoodChain"
+npm start -- --port 3000 --host "localhost" --blockchainFile "./db/blockchain.json" --walletsFile "./db/wallets.json" --minerKeysFile "./keys/miner.json" --blockchainArg "GoodChain"
 ```
