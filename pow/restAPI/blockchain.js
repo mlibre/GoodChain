@@ -1,7 +1,18 @@
-const Blockchain = require( "../library/chain" );
-const Wallet = require( "../library/wallet" );
-const { initJsonFile } = require( "../library/utils" )
+const path = require( "path" );
+const Blockchain = mrequire( "../library/chain" );
+const Wallet = mrequire( "../library/wallet" );
+const { initJsonFile } = mrequire( "../library/utils" )
 
-const minerKeys = initJsonFile( "../keys/miner.json", Wallet.createKeyPair() );
+const minerKeys = initJsonFile( rPath( "../keys/miner.json" ), Wallet.createKeyPair() );
 
-module.exports = new Blockchain( "../db/blockchain.json", "../db/wallets.json", minerKeys );
+module.exports = new Blockchain( rPath( "../db/blockchain.json" ), rPath( "../db/wallets.json" ), minerKeys );
+
+
+function mrequire ( requirePath )
+{
+	return require( path.join( __dirname, requirePath ) );
+}
+function rPath ( rpath )
+{
+	return path.join( __dirname, rpath );
+}
