@@ -4,8 +4,7 @@ const blockchain = require( "../blockchain" );
 
 router.get( "/", function ( req, res, next )
 {
-	const block = blockchain.mineNewBlock();
-	res.send( block );
+	res.send( blockchain.chain );
 });
 
 module.exports = router;

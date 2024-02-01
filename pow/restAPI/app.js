@@ -4,9 +4,11 @@ const cookieParser = require( "cookie-parser" );
 const logger = require( "morgan" );
 require( "./blockchain" )
 const port = process.argv[2] || process.env.PORT || 3000;
+
 const blockchainRouter = require( "./routes/blockchain" );
 const transactionRouter = require( "./routes/transaction" );
 const mineRouter = require( "./routes/mine" );
+const registerNodeRouter = require( "./routes/register-node" );
 
 const app = express();
 app.use( logger( "dev" ) );
@@ -18,6 +20,7 @@ app.set( "port", port );
 app.use( "/blockchain", blockchainRouter );
 app.use( "/transaction", transactionRouter );
 app.use( "/mine", mineRouter );
+app.use( "/register-node", registerNodeRouter );
 
 
 const server = http.createServer( app );

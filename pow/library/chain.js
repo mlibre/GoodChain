@@ -19,11 +19,11 @@ class Blockchain
 
 		if ( this.isChainEmpty() )
 		{
-			this.mineNewBlock( minerKeys )
+			this.mineNewBlock()
 		}
 	}
 
-	mineNewBlock ( minerKeyPairs = this.minerKeys )
+	mineNewBlock ()
 	{
 		const self = this
 		self.addCoinbaseTransaction( minerKeyPairs );
