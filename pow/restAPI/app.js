@@ -2,8 +2,13 @@ const http = require( "http" );
 const express = require( "express" );
 const cookieParser = require( "cookie-parser" );
 const logger = require( "morgan" );
-require( "./blockchain" )
+
 const port = process.argv[2] || process.env.PORT || 3000;
+const host = process.argv[3] || process.env.HOST || "127.0.0.1";
+
+require( "./blockchain" )
+const nodes = require( "./nodes" )
+nodes.add({ host, port });
 
 const blockchainRouter = require( "./routes/blockchain" );
 const transactionRouter = require( "./routes/transaction" );
@@ -24,7 +29,7 @@ app.use( "/nodes", nodeRouter );
 
 
 const server = http.createServer( app );
-server.listen( port );
+server.listen( port, host );
 server.on( "error", onError );
 server.on( "listening", onListening );
 

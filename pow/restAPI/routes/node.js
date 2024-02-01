@@ -1,16 +1,16 @@
 const express = require( "express" );
 const router = express.Router();
-const { blockchain, nodes } = require( "../blockchain" );
+const nodes = require( "../nodes" );
 
 router.get( "/", function ( req, res, next )
 {
-	res.send( nodes );
+	res.send( nodes.list );
 });
 
-router.get( "/", function ( req, res, next )
+router.post( "/", function ( req, res, next )
 {
-	nodes.push( req.body )
-	res.send( blockchain.chain );
+	nodes.add( req.body )
+	res.send( "ok" );
 });
 
 
