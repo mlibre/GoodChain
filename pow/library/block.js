@@ -61,7 +61,7 @@ class Block
 				throw new Error( "Invalid previous hash" );
 			}
 
-			if ( block.timestamp <= previousBlock.timestamp )
+			if ( block.timestamp < previousBlock.timestamp )
 			{
 				throw new Error( "Block timestamp must be greater than previous block timestamp" );
 			}
