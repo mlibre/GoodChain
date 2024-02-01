@@ -1,9 +1,9 @@
-var express = require( "express" );
-var router = express.Router();
-
+const express = require( "express" );
+const router = express.Router();
+const blockchain = require( "../blockchain" );
 router.post( "/", function ( req, res, next )
 {
-	res.send( "transction" );
+	res.send( `transction${ blockchain}` );
 });
 
 module.exports = router;
