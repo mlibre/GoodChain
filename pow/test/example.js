@@ -7,7 +7,7 @@ deleteDb( "./db/wallets.json" );
 
 const userKeys = Wallet.createKeyPair();
 const minerKeys = Wallet.createKeyPair();
-const blockchain = new Blockchain( "./db/blockchain.json", "./db/wallets.json", minerKeys );
+const blockchain = new Blockchain( "./db/blockchain.json", "./db/wallets.json", "GoodChain", minerKeys );
 blockchain.mineNewBlock( minerKeys );
 
 const trx =

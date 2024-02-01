@@ -1,11 +1,11 @@
 const { hashDataObject } = require( "./utils" )
-const transaction = require( "./transactions" )
 
 class Block
 {
-	constructor ({	index, nonce, previousHash, transactions,	hash,	miner, difficulty	})
+	constructor ({	index, chainName, nonce, previousHash, transactions,	hash,	miner, difficulty	})
 	{
 		this.index = index;
+		this.chainName = chainName;
 		this.timestamp = Date.now();
 		this.transactions = transactions;
 		this.previousHash = previousHash || "";
@@ -18,6 +18,7 @@ class Block
 	{
 		return {
 			index: this.index,
+			chainName: this.chainName,
 			timestamp: this.timestamp,
 			transactions: this.transactions,
 			previousHash: this.previousHash,
@@ -41,6 +42,7 @@ class Block
 	{
 		const tmpBlock = {
 			index: block.index,
+			chainName: block.chainName,
 			timestamp: block.timestamp,
 			transactions: block.transactions,
 			previousHash: block.previousHash,

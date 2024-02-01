@@ -5,8 +5,9 @@ const Block = require( "./block" )
 
 class Blockchain
 {
-	constructor ( chainFilePath, walletFilePath, genesisMiner )
+	constructor ( chainFilePath, walletFilePath, chainName, genesisMiner )
 	{
+		this.chainName = chainName;
 		this.filePath = chainFilePath;
 		this.chain = initJsonFile( chainFilePath, [] );
 		this.wallet = new Wallet( walletFilePath );
@@ -28,6 +29,7 @@ class Blockchain
 		this.transactionPool = proccessTransaction( this.transactionPool, this.wallet );
 		const block = new Block({
 			index: self.chainLength,
+			chainName: self.chainName,
 			transactions: self.transactionPool,
 			previousHash: self.latestBlock?.hash,
 			miner: minerKeyPairs.publicKey,

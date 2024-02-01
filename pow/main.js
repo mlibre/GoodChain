@@ -4,7 +4,7 @@ const { initJsonFile } = require( "./library/utils" )
 
 const minerKeys = initJsonFile( "./keys/miner.json", Wallet.createKeyPair() );
 
-const blockchain = new Blockchain( "./db/blockchain.json", "./db/wallets.json", minerKeys );
+const blockchain = new Blockchain( "./db/blockchain.json", "./db/wallets.json", "GoodChain", minerKeys );
 
 console.log( blockchain.validateChain() );
 console.log( "Latest Block :", blockchain.latestBlock );
