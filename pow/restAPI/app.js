@@ -2,7 +2,7 @@ const http = require( "http" );
 const express = require( "express" );
 const cookieParser = require( "cookie-parser" );
 const logger = require( "morgan" );
-
+require( "./blockchain" )
 const port = process.env.PORT || 3000;
 const blockchainRouter = require( "./routes/blockchain" );
 const transactionRouter = require( "./routes/transaction" );
@@ -15,8 +15,8 @@ app.use( express.urlencoded({ extended: false }) );
 app.use( cookieParser() );
 app.set( "port", port );
 
-app.use( "/", transactionRouter );
 app.use( "/blockchain", blockchainRouter );
+app.use( "/transaction", transactionRouter );
 app.use( "/mine", mineRouter );
 
 
@@ -56,5 +56,3 @@ function onListening ()
 {
 	console.log( "Listening on", server.address().address, server.address().port );
 }
-
-module.exports = app;
