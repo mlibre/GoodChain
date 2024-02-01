@@ -118,5 +118,65 @@
 		"nonce": 1700,
 		"miner": "-----BEGIN RSA PUBLIC KEY-----\nMEgCQQDKtvmAXs78nKCdIixPsLAJFABotAvoB8/c6L8zBF2YlednPGmYTgHKll6T\nySUj2nq9z5dn1SNuA5SAcbtCkOiHAgMBAAE=\n-----END RSA PUBLIC KEY-----\n",
 		"difficulty": "000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+	},
+	{
+		"index": 6,
+		"chainName": "GoodChain",
+		"timestamp": 1706818462401,
+		"transactions": [
+			{
+				"from": null,
+				"to": "-----BEGIN RSA PUBLIC KEY-----\nMEgCQQDKtvmAXs78nKCdIixPsLAJFABotAvoB8/c6L8zBF2YlednPGmYTgHKll6T\nySUj2nq9z5dn1SNuA5SAcbtCkOiHAgMBAAE=\n-----END RSA PUBLIC KEY-----\n",
+				"amount": 100,
+				"fee": 0,
+				"transaction_number": 0,
+				"signature": null
+			}
+		],
+		"previousHash": "000af7ca19b06178779bac9d86b8c599d283086e3e2c3b07a7a0e1c851012577",
+		"hash": "0003e8d2d56af96b4e60c19f3350ecca9c1b743361d78cdbcb7842d8e5dcb1b1",
+		"nonce": 888,
+		"miner": "-----BEGIN RSA PUBLIC KEY-----\nMEgCQQDKtvmAXs78nKCdIixPsLAJFABotAvoB8/c6L8zBF2YlednPGmYTgHKll6T\nySUj2nq9z5dn1SNuA5SAcbtCkOiHAgMBAAE=\n-----END RSA PUBLIC KEY-----\n",
+		"difficulty": "000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+	},
+	{
+		"index": 7,
+		"chainName": "GoodChain",
+		"timestamp": 1706818462634,
+		"transactions": [
+			{
+				"from": null,
+				"to": "-----BEGIN RSA PUBLIC KEY-----\nMEgCQQDKtvmAXs78nKCdIixPsLAJFABotAvoB8/c6L8zBF2YlednPGmYTgHKll6T\nySUj2nq9z5dn1SNuA5SAcbtCkOiHAgMBAAE=\n-----END RSA PUBLIC KEY-----\n",
+				"amount": 100,
+				"fee": 0,
+				"transaction_number": 0,
+				"signature": null
+			}
+		],
+		"previousHash": "0003e8d2d56af96b4e60c19f3350ecca9c1b743361d78cdbcb7842d8e5dcb1b1",
+		"hash": "000c383c64da745391ed1eb0ed1cfe0e9a3c9abc17351d6abcc0eefe77b81746",
+		"nonce": 288,
+		"miner": "-----BEGIN RSA PUBLIC KEY-----\nMEgCQQDKtvmAXs78nKCdIixPsLAJFABotAvoB8/c6L8zBF2YlednPGmYTgHKll6T\nySUj2nq9z5dn1SNuA5SAcbtCkOiHAgMBAAE=\n-----END RSA PUBLIC KEY-----\n",
+		"difficulty": "000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+	},
+	{
+		"index": 8,
+		"chainName": "GoodChain",
+		"timestamp": 1706818463101,
+		"transactions": [
+			{
+				"from": null,
+				"to": "-----BEGIN RSA PUBLIC KEY-----\nMEgCQQDKtvmAXs78nKCdIixPsLAJFABotAvoB8/c6L8zBF2YlednPGmYTgHKll6T\nySUj2nq9z5dn1SNuA5SAcbtCkOiHAgMBAAE=\n-----END RSA PUBLIC KEY-----\n",
+				"amount": 100,
+				"fee": 0,
+				"transaction_number": 0,
+				"signature": null
+			}
+		],
+		"previousHash": "000c383c64da745391ed1eb0ed1cfe0e9a3c9abc17351d6abcc0eefe77b81746",
+		"hash": "000cb15997ad5898bafa6c2dfa75a81e9c8c7444375517f4a15445d250f5d039",
+		"nonce": 4352,
+		"miner": "-----BEGIN RSA PUBLIC KEY-----\nMEgCQQDKtvmAXs78nKCdIixPsLAJFABotAvoB8/c6L8zBF2YlednPGmYTgHKll6T\nySUj2nq9z5dn1SNuA5SAcbtCkOiHAgMBAAE=\n-----END RSA PUBLIC KEY-----\n",
+		"difficulty": "000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
 	}
 ]

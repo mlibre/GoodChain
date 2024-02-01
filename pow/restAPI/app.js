@@ -6,8 +6,7 @@ const { port, host } = require( "./config" );
 
 
 require( "./blockchain" )
-const nodes = require( "./nodes" )
-nodes.add({ host, port });
+require( "./nodes" )
 
 const blockchainRouter = require( "./routes/blockchain" );
 const transactionRouter = require( "./routes/transaction" );
