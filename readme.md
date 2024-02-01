@@ -1,20 +1,14 @@
 # GoodChains 🚀
 
-Welcome to GoodChains. This is a project to explore the blockchain technology.
+This project implements a basic blockchain using both `Proof of Work` (PoW) and `Proof of Stake` (PoS) consensus algorithms.
 
-## Project Overview 🌐
+## Proof of Work Implementation
 
-The project is split into two realms:
+The PoW implementation is located in the [pow](./pow/readme.md) folder. It includes a simple implementation of the proof of work algorithm.
 
-### Proof-of-Stake (POS) 💎
+## Proof of Stake Implementation
 
-- **Directory:** [POS](./pos/readme.md)
-- **Description:** Check out the `example`
-
-### Proof-of-Work (POW) ⚙️
-
-- **Directory:** [POW](./pow/readme.md)
-- **Description:**
+The PoS implementation is located in the [pos](./pos/readme.md) folder. It includes a simple implementation of the proof of stake algorithm.
 
 ## Getting Started 🚀
 
