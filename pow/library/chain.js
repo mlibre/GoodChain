@@ -5,9 +5,10 @@ const Block = require( "./block" )
 
 class Blockchain
 {
-	constructor ( chainFilePath, walletFilePath, chainName, genesisMiner )
+	constructor ( chainFilePath, walletFilePath, chainName, minerKeys )
 	{
 		this.chainName = chainName;
+		this.minerKeys = minerKeys;
 		this.filePath = chainFilePath;
 		this.chain = initJsonFile( chainFilePath, [] );
 		this.wallet = new Wallet( walletFilePath );
@@ -18,11 +19,11 @@ class Blockchain
 
 		if ( this.isChainEmpty() )
 		{
-			this.mineNewBlock( genesisMiner )
+			this.mineNewBlock( minerKeys )
 		}
 	}
 
-	mineNewBlock ( minerKeyPairs )
+	mineNewBlock ( minerKeyPairs = this.minerKeys )
 	{
 		const self = this
 		self.addCoinbaseTransaction( minerKeyPairs );

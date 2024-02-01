@@ -2,7 +2,7 @@
 	{
 		"index": 0,
 		"chainName": "GoodChain",
-		"timestamp": 1706789498386,
+		"timestamp": 1706796439277,
 		"transactions": [
 			{
 				"from": null,
@@ -14,8 +14,8 @@
 			}
 		],
 		"previousHash": "",
-		"hash": "000b4da7428031797ee37d5388a7f167b52b7f0fccc67220e9cb7f6bf443eaa7",
-		"nonce": 1662,
+		"hash": "000540c625f60cc5a78a8c212eb5113e5c715e0305347275f26244c541ece899",
+		"nonce": 6452,
 		"miner": "-----BEGIN RSA PUBLIC KEY-----\nMEgCQQDKtvmAXs78nKCdIixPsLAJFABotAvoB8/c6L8zBF2YlednPGmYTgHKll6T\nySUj2nq9z5dn1SNuA5SAcbtCkOiHAgMBAAE=\n-----END RSA PUBLIC KEY-----\n",
 		"difficulty": "000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
 	}

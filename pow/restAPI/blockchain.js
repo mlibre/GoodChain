@@ -5,8 +5,12 @@ const { initJsonFile } = mrequire( "../library/utils" )
 
 const minerKeys = initJsonFile( rPath( "../keys/miner.json" ), Wallet.createKeyPair() );
 
-module.exports = new Blockchain( rPath( "../db/blockchain.json" ), rPath( "../db/wallets.json" ), minerKeys );
-
+module.exports = new Blockchain(
+	rPath( "../db/blockchain.json" ),
+	rPath( "../db/wallets.json" ),
+	"GoodChain",
+	minerKeys
+);
 
 function mrequire ( requirePath )
 {
