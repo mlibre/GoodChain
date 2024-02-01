@@ -7,7 +7,7 @@
     "node": ">=20"
   },
   "scripts": {
-    "start": "node ./restAPI/app.js $@"
+    "start": "node ./restAPI/app.js"
   },
   "author": "",
   "license": "ISC",
