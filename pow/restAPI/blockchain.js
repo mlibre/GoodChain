@@ -1,5 +1,5 @@
 const path = require( "path" );
-const Blockchain = mrequire( "../library/chain" );
+const Blockchain = require( "../library/chain" );
 const Wallet = mrequire( "../library/wallet" );
 const { initJsonFile } = mrequire( "../library/utils" )
 
