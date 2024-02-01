@@ -3,7 +3,7 @@ const express = require( "express" );
 const cookieParser = require( "cookie-parser" );
 const logger = require( "morgan" );
 require( "./blockchain" )
-const port = process.env.PORT || 3000;
+const port = process.argv[2] || process.env.PORT || 3000;
 const blockchainRouter = require( "./routes/blockchain" );
 const transactionRouter = require( "./routes/transaction" );
 const mineRouter = require( "./routes/mine" );
