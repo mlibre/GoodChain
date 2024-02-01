@@ -1,6 +1,6 @@
 const express = require( "express" );
 const router = express.Router();
-const blockchain = require( "../blockchain" );
+const { blockchain } = require( "../blockchain" );
 router.post( "/", function ( req, res, next )
 {
 	const { from, to, amount, fee, transaction_number, signature } = req.body;

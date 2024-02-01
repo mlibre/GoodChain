@@ -8,7 +8,7 @@ const port = process.argv[2] || process.env.PORT || 3000;
 const blockchainRouter = require( "./routes/blockchain" );
 const transactionRouter = require( "./routes/transaction" );
 const mineRouter = require( "./routes/mine" );
-const registerNodeRouter = require( "./routes/register-node" );
+const nodeRouter = require( "./routes/node" );
 
 const app = express();
 app.use( logger( "dev" ) );
@@ -20,7 +20,7 @@ app.set( "port", port );
 app.use( "/blockchain", blockchainRouter );
 app.use( "/transaction", transactionRouter );
 app.use( "/mine", mineRouter );
-app.use( "/register-node", registerNodeRouter );
+app.use( "/nodes", nodeRouter );
 
 
 const server = http.createServer( app );

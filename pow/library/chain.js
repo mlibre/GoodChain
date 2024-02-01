@@ -26,14 +26,14 @@ class Blockchain
 	mineNewBlock ()
 	{
 		const self = this
-		self.addCoinbaseTransaction( minerKeyPairs );
+		self.addCoinbaseTransaction();
 		this.transactionPool = proccessTransaction( this.transactionPool, this.wallet );
 		const block = new Block({
 			index: self.chainLength,
 			chainName: self.chainName,
 			transactions: self.transactionPool,
 			previousHash: self.latestBlock?.hash,
-			miner: minerKeyPairs.publicKey,
+			miner: this.minerKeys.publicKey,
 			difficulty: self.difficulty
 		});
 		block.mine();
@@ -58,11 +58,11 @@ class Blockchain
 		return this.chainLength
 	}
 
-	addCoinbaseTransaction ( minerKeyPairs )
+	addCoinbaseTransaction ( )
 	{
 		const trx = {
 			from: null,
-			to: minerKeyPairs.publicKey,
+			to: this.minerKeys.publicKey,
 			amount: this.miningReward + calculateMiningFee( this.transactionPool ),
 			fee: 0,
 			transaction_number: 0,
