@@ -1,4 +1,3 @@
-const path = require( "path" );
 const { blockchainName, blockchainFile, walletsFile, minerKeysFile } = require( "./config" );
 
 const Blockchain = require( "../library/chain" );
@@ -13,8 +12,3 @@ module.exports = new Blockchain(
 	blockchainName,
 	minerKeys
 );
-
-function rPath ( rpath )
-{
-	return path.join( __dirname, rpath );
-}

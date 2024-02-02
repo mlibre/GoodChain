@@ -9,6 +9,7 @@ require( "./blockchain" )
 require( "./nodes" )
 
 const blockchainRouter = require( "./routes/blockchain" );
+const walletRouter = require( "./routes/wallet" );
 const transactionRouter = require( "./routes/transaction" );
 const mineRouter = require( "./routes/mine" );
 const nodeRouter = require( "./routes/node" );
@@ -21,6 +22,7 @@ app.use( cookieParser() );
 app.set( "port", port );
 
 app.use( "/blockchain", blockchainRouter );
+app.use( "/wallet", walletRouter );
 app.use( "/transaction", transactionRouter );
 app.use( "/mine", mineRouter );
 app.use( "/nodes", nodeRouter );

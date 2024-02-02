@@ -8,7 +8,10 @@ class Wallet
 		this.filePath = filePath;
 		this.wallets = initJsonFile( filePath );
 	}
-
+	get list ()
+	{
+		return this.wallets;
+	}
 	get ( address )
 	{
 		return this.wallets[address];
@@ -48,7 +51,10 @@ class Wallet
 
 	validateAddress ( address )
 	{
-		this.wallets[address] = this.wallets[address] || { balance: 0, transaction_number: 0 };
+		if ( address )
+		{
+			this.wallets[address] = this.wallets[address] || { balance: 0, transaction_number: 0 };
+		}
 	}
 
 	static createKeyPair ()
