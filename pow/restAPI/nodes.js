@@ -1,4 +1,4 @@
-const { port, host } = require( "./config" )
+const { port, host, protocol } = require( "./config" )
 class Nodes
 {
 	constructor ( nodes )
@@ -33,4 +33,4 @@ class Nodes
 	}
 }
 
-module.exports = new Nodes( [ { port, host } ] );
+module.exports = new Nodes( [ { port, host, protocol } ] );
