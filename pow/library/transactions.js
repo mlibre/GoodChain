@@ -1,5 +1,6 @@
 const crypto = require( "crypto" );
 const { isCoinBase } = require( "./utils" );
+const _ = require( "lodash" );
 
 exports.sign = function ( privateKey, transaction )
 {
@@ -53,5 +54,14 @@ exports.checkPoolSize = function ( transactionPool, transactionPoolSize )
 	if ( transactionPool.length >= transactionPoolSize )
 	{
 		throw new Error( "Transaction pool is full" );
+	}
+}
+
+exports.isDuplicate = function ( transactionPool, { from, to, amount, fee, transaction_number, signature })
+{
+	const duplicate = _.find( transactionPool, { from, to, amount, fee, transaction_number, signature });
+	if ( duplicate )
+	{
+		throw new Error( "Duplicate transaction" );
 	}
 }

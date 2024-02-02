@@ -1,6 +1,6 @@
 {
-	"-----BEGIN RSA PUBLIC KEY-----\nMEgCQQDKtvmAXs78nKCdIixPsLAJFABotAvoB8/c6L8zBF2YlednPGmYTgHKll6T\nySUj2nq9z5dn1SNuA5SAcbtCkOiHAgMBAAE=\n-----END RSA PUBLIC KEY-----\n": {
-		"balance": 900,
+	"-----BEGIN RSA PUBLIC KEY-----\nMEgCQQC1S8OB38lFmnq8jQ3zozsRxzuvgUUnMrVJRLDHKz+ZDvgjJvM0Yb9YH6nE\nRnPZ6BhDWEIlDwSA7b0KYjZZxT7jAgMBAAE=\n-----END RSA PUBLIC KEY-----\n": {
+		"balance": 200,
 		"transaction_number": 0
 	}
 }

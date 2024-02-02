@@ -1,6 +1,6 @@
 const { initJsonFile, updateFile, calculateMiningFee, proccessTransaction } = require( "./utils" )
 const Wallet = require( "./wallet" )
-const transaction = require( "./transactions" )
+const trxLib = require( "./transactions" )
 const Block = require( "./block" )
 
 class Blockchain
@@ -50,8 +50,9 @@ class Blockchain
 		this.wallet.validateAddress( from );
 		this.wallet.validateAddress( to );
 
-		transaction.validate({	from,	to, amount, fee, transaction_number, signature }, this.wallet );
-		transaction.checkPoolSize( this.transactionPool, this.transactionPoolSize );
+		trxLib.validate({	from,	to, amount, fee, transaction_number, signature }, this.wallet );
+		trxLib.checkPoolSize( this.transactionPool, this.transactionPoolSize );
+		trxLib.isDuplicate( this.transactionPool, {	from,	to, amount, fee, transaction_number, signature });
 
 		this.transactionPool.push({ from,	to, amount, fee, transaction_number, signature });
 		this.transactionPool.sort( ( a, b ) => { return b.fee - a.fee });

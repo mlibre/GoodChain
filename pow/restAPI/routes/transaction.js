@@ -1,6 +1,8 @@
 const express = require( "express" );
 const router = express.Router();
 const blockchain = require( "../blockchain" );
+const nodes = require( "../nodes" );
+const axios = require( "axios" );
 
 router.get( "/", function ( req, res )
 {
@@ -14,5 +16,21 @@ router.post( "/", function ( req, res, next )
 	const blockNumber = blockchain.addTransaction( transaction );
 	res.send( blockNumber.toString() );
 });
+
+router.get( "/update", async function ( req, res )
+{
+	for ( const node of nodes.list )
+	{
+		const response = await axios.get( `${node.protocol}://${node.host}:${node.port}/transaction` );
+		for ( const transaction of response.data )
+		{
+			blockchain.addTransaction( transaction );
+		}
+	}
+
+	res.json( blockchain.transactionPool );
+});
+
+
 
 module.exports = router;
