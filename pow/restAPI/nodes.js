@@ -9,23 +9,7 @@ class Nodes
 
 	add ( info )
 	{
-		if ( !this.list.includes( info ) )
-		{
-			this.list.push( info );
-			return true;
-		}
-		return false;
-	}
-
-	delete ( info )
-	{
-		const index = this.list.indexOf( info );
-		if ( index !== -1 )
-		{
-			this.list.splice( index, 1 );
-			return true;
-		}
-		return false;
+		this.list.push( info );
 	}
 
 	get all ()
