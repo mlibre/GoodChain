@@ -2,10 +2,11 @@ const express = require( "express" );
 const router = express.Router();
 const nodes = require( "../nodes" );
 const axios = require( "axios" );
+const _ = require( "lodash" );
 
 router.get( "/", function ( req, res, next )
 {
-	res.send( nodes.list );
+	res.send( nodes.all );
 });
 
 router.post( "/", function ( req, res, next )
@@ -22,20 +23,9 @@ router.post( "/update", async function ( req, res, next )
 		try
 		{
 			const response = await axios.get( `${node.protocol}://${node.host}:${node.port}/nodes` );
-			const nodeList = response.data;
-			for ( let j = 0; j < nodeList.length; j++ )
-			{
-				const newNode = nodeList[j];
-				if ( !nodes.list.some( existingNode =>
-				{
-					return existingNode.port === newNode.port &&
-						existingNode.host === newNode.host &&
-						existingNode.protocol === newNode.protocol
-				}) )
-				{
-					nodes.add( newNode );
-				}
-			}
+			const remoteNodeList = response.data;
+			const uniqueItems = _.differenceBy( remoteNodeList, nodes.list, "host" );
+			nodes.list.push( ...uniqueItems );
 		}
 		catch ( error )
 		{

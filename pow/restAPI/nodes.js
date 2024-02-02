@@ -1,36 +1,37 @@
 const { port, host, protocol } = require( "./config" )
 class Nodes
 {
-	constructor ( nodes )
+	constructor ( hostInfo, list )
 	{
-		this.nodes = nodes || [];
+		this.list = list || [];
+		this.hostInfo = hostInfo
 	}
 
-	add ( nodeUrl )
+	add ( info )
 	{
-		if ( !this.nodes.includes( nodeUrl ) )
+		if ( !this.list.includes( info ) )
 		{
-			this.nodes.push( nodeUrl );
+			this.list.push( info );
 			return true;
 		}
 		return false;
 	}
 
-	delete ( nodeUrl )
+	delete ( info )
 	{
-		const index = this.nodes.indexOf( nodeUrl );
+		const index = this.list.indexOf( info );
 		if ( index !== -1 )
 		{
-			this.nodes.splice( index, 1 );
+			this.list.splice( index, 1 );
 			return true;
 		}
 		return false;
 	}
 
-	get list ()
+	get all ()
 	{
-		return this.nodes;
+		return this.list.concat( this.hostInfo );
 	}
 }
 
-module.exports = new Nodes( [ { port, host, protocol } ] );
+module.exports = new Nodes({ port, host, protocol });
