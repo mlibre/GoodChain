@@ -1,4 +1,6 @@
 const { port, host, protocol } = require( "./config" )
+const _ = require( "lodash" );
+
 class Nodes
 {
 	constructor ( hostInfo, list )
@@ -9,7 +11,25 @@ class Nodes
 
 	add ( info )
 	{
-		this.list.push( info );
+		if ( !this.isDuplicate( info ) )
+		{
+			this.list.push( info );
+			return true
+		}
+		return false;
+	}
+
+	addBulk ( infos )
+	{
+		for ( const info of infos )
+		{
+			this.add( info );
+		}
+	}
+
+	isDuplicate ( info )
+	{
+		return !!_.find( this.all, { host: info.host, port: info.port, protocol: info.protocol });
 	}
 
 	get all ()

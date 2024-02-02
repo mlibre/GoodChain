@@ -23,9 +23,7 @@ router.post( "/update", async function ( req, res, next )
 		try
 		{
 			const response = await axios.get( `${node.protocol}://${node.host}:${node.port}/nodes` );
-			const remoteNodeList = response.data;
-			const uniqueItems = _.differenceBy( remoteNodeList, nodes.list, "host" );
-			nodes.list.push( ...uniqueItems );
+			nodes.addBulk( response.data );
 		}
 		catch ( error )
 		{
