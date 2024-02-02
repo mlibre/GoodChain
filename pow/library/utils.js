@@ -1,5 +1,6 @@
 const fs = require( "fs" );
 const crypto = require( "crypto" );
+const { v4: uuidv4 } = require( "uuid" );
 
 exports.initJsonFile = function initJsonFile ( path, defaultData = {})
 {
@@ -65,24 +66,7 @@ exports.deleteFile = function ( filePath )
 	}
 }
 
-exports.proccessTransaction = function ( transactions, wallet )
+exports.uuid = function ()
 {
-	const processedTransactions = [];
-	for ( const trx of transactions )
-	{
-		if ( exports.isCoinBase( trx ) )
-		{
-			wallet.addBalance( trx.to, trx.amount );
-			processedTransactions.push( trx );
-			continue
-		}
-		if ( wallet.hasEnoughBalance( trx.from, trx.amount + trx.fee ) )
-		{
-			wallet.minusBalance( trx.from, trx.amount + trx.fee );
-			wallet.incrementTN( trx.from );
-			wallet.addBalance( trx.to, trx.amount );
-			processedTransactions.push( trx );
-		}
-	}
-	return processedTransactions;
+	return uuidv4();
 }

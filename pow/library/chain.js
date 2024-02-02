@@ -1,4 +1,4 @@
-const { initJsonFile, updateFile, calculateMiningFee, proccessTransaction } = require( "./utils" )
+const { initJsonFile, updateFile, calculateMiningFee, uuid } = require( "./utils" )
 const Wallet = require( "./wallet" )
 const trxLib = require( "./transactions" )
 const Block = require( "./block" )
@@ -26,8 +26,9 @@ class Blockchain
 	mineNewBlock ()
 	{
 		const self = this
-		self.addCoinbaseTransaction();
-		this.transactionPool = proccessTransaction( this.transactionPool, this.wallet );
+		const coinbaseTrx = self.genCoinbaseTransaction();
+		self.addTransaction( coinbaseTrx )
+		this.transactionPool = trxLib.proccessTransactions( this.transactionPool, this.wallet );
 		const block = new Block({
 			index: self.chainLength,
 			chainName: self.chainName,
@@ -54,14 +55,14 @@ class Blockchain
 		trxLib.checkPoolSize( this.transactionPool, this.transactionPoolSize );
 		trxLib.isDuplicate( this.transactionPool, {	from,	to, amount, fee, transaction_number, signature });
 
-		this.transactionPool.push({ from,	to, amount, fee, transaction_number, signature });
+		this.transactionPool.push({ from,	to, amount, fee, transaction_number, signature, uuid: uuid() });
 		this.transactionPool.sort( ( a, b ) => { return b.fee - a.fee });
 		return this.chainLength
 	}
 
-	addCoinbaseTransaction ( )
+	genCoinbaseTransaction ( )
 	{
-		const trx = {
+		return {
 			from: null,
 			to: this.minerKeys.publicKey,
 			amount: this.miningReward + calculateMiningFee( this.transactionPool ),
@@ -69,8 +70,6 @@ class Blockchain
 			transaction_number: 0,
 			signature: null
 		};
-		this.transactionPool.push( trx );
-		return trx;
 	}
 
 	validateChain ()

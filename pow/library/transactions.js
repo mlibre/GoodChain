@@ -65,3 +65,25 @@ exports.isDuplicate = function ( transactionPool, { from, to, amount, fee, trans
 		throw new Error( "Duplicate transaction" );
 	}
 }
+
+exports.proccessTransactions = function ( transactions, wallet )
+{
+	const processedTransactions = [];
+	for ( const trx of transactions )
+	{
+		if ( isCoinBase( trx ) )
+		{
+			wallet.addBalance( trx.to, trx.amount );
+			processedTransactions.push( trx );
+			continue
+		}
+		if ( wallet.hasEnoughBalance( trx.from, trx.amount + trx.fee ) )
+		{
+			wallet.minusBalance( trx.from, trx.amount + trx.fee );
+			wallet.incrementTN( trx.from );
+			wallet.addBalance( trx.to, trx.amount );
+			processedTransactions.push( trx );
+		}
+	}
+	return processedTransactions;
+}
