@@ -45,7 +45,7 @@ exports.isCoinBase = function ({ from, signature })
 	return false
 }
 
-exports.deleteDb = function ( filePath )
+exports.deleteFile = function ( filePath )
 {
 	try
 	{

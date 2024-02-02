@@ -24,7 +24,7 @@ app.use( "/blockchain", blockchainRouter );
 app.use( "/transaction", transactionRouter );
 app.use( "/mine", mineRouter );
 app.use( "/nodes", nodeRouter );
-
+app.use( errorHandler )
 
 const server = http.createServer( app );
 server.listen( port, host );
@@ -61,4 +61,14 @@ function onError ( error )
 function onListening ()
 {
 	console.log( "Listening on", server.address().address, server.address().port );
+}
+
+function errorHandler ( err, req, res, next )
+{
+	if ( res.headersSent )
+	{
+		return next( err )
+	}
+	res.status( 500 )
+	res.render( "error", { error: err })
 }

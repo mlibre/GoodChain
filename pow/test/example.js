@@ -1,12 +1,14 @@
 const Blockchain = require( "../library/chain" );
 const Wallet = require( "../library/wallet" );
 const transactions = require( "../library/transactions" )
-const { deleteDb } = require( "../library/utils" )
-deleteDb( "./db/blockchain.json" );
-deleteDb( "./db/wallets.json" );
+const { deleteFile, initJsonFile } = require( "../library/utils" )
+deleteFile( "./db/blockchain.json" );
+deleteFile( "./db/wallets.json" );
+deleteFile( "./keys/miner.json" );
+deleteFile( "./keys/user.json" );
 
-const userKeys = Wallet.createKeyPair();
-const minerKeys = Wallet.createKeyPair();
+const userKeys = initJsonFile( "./keys/user.json", Wallet.createKeyPair() );
+const minerKeys = initJsonFile( "./keys/miner.json", Wallet.createKeyPair() );
 const blockchain = new Blockchain( "./db/blockchain.json", "./db/wallets.json", "GoodChain", minerKeys );
 blockchain.mineNewBlock();
 

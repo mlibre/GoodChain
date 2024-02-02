@@ -14,4 +14,4 @@ const trx =
 	transaction_number: 1
 }
 trx.signature = transactions.sign( minerKeys.privateKey, trx );
-console.log( trx );
+console.log( JSON.stringify( trx ) );

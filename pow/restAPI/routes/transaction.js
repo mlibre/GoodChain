@@ -17,18 +17,24 @@ router.post( "/", function ( req, res, next )
 	res.send( blockNumber.toString() );
 });
 
-router.get( "/update", async function ( req, res )
+router.get( "/update", async function ( req, res, next )
 {
-	for ( const node of nodes.list )
+	try
 	{
-		const response = await axios.get( `${node.protocol}://${node.host}:${node.port}/transaction` );
-		for ( const transaction of response.data )
+		for ( const node of nodes.list )
 		{
-			blockchain.addTransaction( transaction );
+			const response = await axios.get( `${node.protocol}://${node.host}:${node.port}/transaction` );
+			for ( const transaction of response.data )
+			{
+				blockchain.addTransaction( transaction );
+			}
 		}
+		res.json( blockchain.transactionPool );
 	}
-
-	res.json( blockchain.transactionPool );
+	catch ( error )
+	{
+		next( error );
+	}
 });
 
 
