@@ -37,15 +37,6 @@ exports.hashDataObject = function ( data )
 	.digest( "hex" );
 }
 
-exports.isCoinBase = function ({ from, signature })
-{
-	if ( !from && !signature )
-	{
-		return true;
-	}
-	return false
-}
-
 exports.deleteFile = function ( filePath )
 {
 	try

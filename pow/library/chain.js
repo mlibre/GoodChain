@@ -1,7 +1,7 @@
 const { initJsonFile, updateFile, calculateMiningFee, uuid } = require( "./utils" )
 const Wallet = require( "./wallet" )
-const trxLib = require( "./transactions" )
 const Block = require( "./block" )
+const trxLib = require( "./transactions" )
 
 class Blockchain
 {
