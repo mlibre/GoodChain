@@ -36,3 +36,8 @@ A basic `Express.js` REST API is provided in restAPI folder. It exposes endpoint
 ```js
 npm start -- --host "localhost" --protocol http --port 3000 --blockchainFile "./db/blockchain.json" --walletsFile "./db/wallets.json" --minerKeysFile "./keys/miner.json" --blockchainName "GoodChain"
 ```
+
+## Donate :heartpulse:
+
+ETH:
+> 0xc9b64496986E7b6D4A68fDF69eF132A35e91838e
