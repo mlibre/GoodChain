@@ -38,10 +38,8 @@ class Blockchain
 			difficulty: self.difficulty
 		});
 		block.mine();
-		self.addBlock( block );
-		Block.verify( block, self.previousBlock )
+		self.verifyAndAddBlock( block );
 		self.transactionPool = [];
-		updateFile( self.filePath, self.chain );
 		updateFile( self.wallet.filePath, self.wallet.wallets );
 		return block;
 	}
@@ -108,6 +106,14 @@ class Blockchain
 	addBlock ( block )
 	{
 		this.chain.push( block )
+	}
+
+	verifyAndAddBlock ( block )
+	{
+		Block.verify( block, this.latestBlock )
+		this.addBlock( block )
+		updateFile( this.filePath, this.chain )
+		return block
 	}
 
 	isChainEmpty ()
