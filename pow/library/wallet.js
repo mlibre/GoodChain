@@ -1,4 +1,4 @@
-const crypto = require( "crypto" );
+const { generateKeyPairSync } = require( "crypto" );
 const { initJsonFile } = require( "./utils" )
 
 class Wallet
@@ -59,13 +59,12 @@ class Wallet
 
 	static createKeyPair ()
 	{
-		const keyPair = crypto.generateKeyPairSync( "rsa", { modulusLength: 512 });
-		const publicKey = keyPair.publicKey.export({ type: "pkcs1", format: "pem" });
-		const privateKey = keyPair.privateKey.export({ type: "pkcs1", format: "pem" });
+		const keyPair = generateKeyPairSync( "ed25519" );
+		const publicKey = keyPair.publicKey.export({ type: "spki", format: "pem" });
+		const privateKey = keyPair.privateKey.export({ type: "pkcs8", format: "pem" });
 
-		let publicKeyString = publicKey.replace( /-----BEGIN RSA PUBLIC KEY-----/, "" ); // remove header
-		publicKeyString = publicKeyString.replace( /-----END RSA PUBLIC KEY-----/, "" ); // remove footer
-		publicKeyString = publicKeyString.replace( /\n/g, "" ); // remove newlines
+		let publicKeyString = publicKey.replace( /-----BEGIN RSA PUBLIC KEY-----/, "" );
+		publicKeyString = publicKeyString.replace( /-----END RSA PUBLIC KEY-----/, "" );
 
 		return { publicKey, privateKey, publicKeyString };
 	}

@@ -1,14 +1,6 @@
 const crypto = require( "crypto" );
 const _ = require( "lodash" );
 
-exports.sign = function ( transaction, privateKey )
-{
-	const key = crypto.createPrivateKey( privateKey );
-	const transactionString = JSON.stringify( transaction );
-	const signatureBuffer = crypto.sign( "sha256", Buffer.from( transactionString ), key );
-	return signatureBuffer.toString( "hex" );
-}
-
 exports.validate = function ({ from, to, amount, fee, transaction_number, signature }, wallet )
 {
 	if ( amount < 0 )
@@ -35,12 +27,17 @@ exports.validate = function ({ from, to, amount, fee, transaction_number, signat
 	return true;
 }
 
-exports.verifySignature = function verifySignature ( publicKey, signature, data )
+exports.sign = function ( transaction, privateKey )
 {
-	const key = crypto.createPublicKey( publicKey );
-	const transactionString = JSON.stringify( data );
-	const signatureBuffer = Buffer.from( signature, "hex" );
-	const result = crypto.verify( "sha256", Buffer.from( transactionString ), key, signatureBuffer );
+	const signature = crypto.sign( null, Buffer.from( JSON.stringify( transaction ) ), privateKey );
+	return signature.toString( "hex" );
+
+}
+
+exports.verifySignature = function verifySignature ( publicKey, signatureHex, data )
+{
+	const signature = Buffer.from( signatureHex, "hex" );
+	const result = crypto.verify( null, Buffer.from( JSON.stringify( data ) ), publicKey, signature );
 	if ( !result )
 	{
 		throw new Error( "Invalid signature" );
