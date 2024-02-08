@@ -31,7 +31,6 @@ exports.sign = function ( transaction, privateKey )
 {
 	const signature = crypto.sign( null, Buffer.from( JSON.stringify( transaction ) ), privateKey );
 	return signature.toString( "hex" );
-
 }
 
 exports.verifySignature = function verifySignature ( publicKey, signatureHex, data )
