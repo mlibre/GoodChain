@@ -8,7 +8,7 @@
   },
   "scripts": {
     "start": "node ./restAPI/app.js",
-    "all": "node ./restAPI/app.js --host localhost --protocol http --port 3000 --blockchainFile './db/blockchain.json' --walletsFile './db/wallets.json' --minerKeysFile './keys/miner.json' --blockchainName 'GoodChain'",
+    "3000": "node ./restAPI/app.js --host localhost --protocol http --port 3000 --blockchainFile './db/blockchain.json' --walletsFile './db/wallets.json' --minerKeysFile './keys/miner.json' --blockchainName 'GoodChain'",
     "3001": "node ./restAPI/app.js --host localhost --protocol http --port 3001 --blockchainFile './db/blockchain.json' --walletsFile './db/wallets.json' --minerKeysFile './keys/miner.json' --blockchainName 'GoodChain'"
   },
   "author": "",

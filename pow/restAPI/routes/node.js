@@ -39,9 +39,9 @@ router.get( "/broadcast", async function ( req, res, next )
 		try
 		{
 			await axios.post( `${node.protocol}://${node.host}:${node.port}/nodes`, {
-				protocol: nodes.hostInfo.protocol,
-				host: nodes.hostInfo.host,
-				port: nodes.hostInfo.port,
+				protocol: nodes.hosturl.protocol,
+				host: nodes.hosturl.host,
+				port: nodes.hosturl.port,
 			});
 		}
 		catch ( error )

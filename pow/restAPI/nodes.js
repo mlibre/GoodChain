@@ -1,12 +1,12 @@
-const { port, host, protocol } = require( "./config" )
+const { url, nodes } = require( "./config" )
 const _ = require( "lodash" );
 
 class Nodes
 {
-	constructor ( hostInfo, list )
+	constructor ( hosturl, list )
 	{
-		this.list = list || [];
-		this.hostInfo = hostInfo
+		this.list = this.parseUrlList( list );
+		this.hosturl = this.parseUrl( hosturl )
 	}
 
 	add ( info )
@@ -32,10 +32,27 @@ class Nodes
 		return !!_.find( this.all, { host: info.host, port: info.port, protocol: info.protocol });
 	}
 
+	parseUrl ( url )
+	{
+		const urlObj = new URL( url );
+		const protocol = urlObj.protocol.replace( ":", "" );
+		const host = urlObj.hostname;
+		const { port } = urlObj;
+		return { host, port, protocol };
+	}
+
+	parseUrlList ( list )
+	{
+		return _.map( list, ( node ) =>
+		{
+			this.parseUrl( node );
+		});
+	}
+
 	get all ()
 	{
-		return this.list.concat( this.hostInfo );
+		return this.list.concat( this.hosturl );
 	}
 }
 
-module.exports = new Nodes({ port, host, protocol });
+module.exports = new Nodes( url, nodes );
