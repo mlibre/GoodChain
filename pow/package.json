@@ -7,7 +7,8 @@
     "node": ">=20"
   },
   "scripts": {
-    "start": "node ./restAPI/app.js"
+    "start": "node ./restAPI/app.js",
+    "all": "node ./restAPI/app.js --host localhost --protocol http --port 3000 --blockchainFile './db/blockchain.json' --walletsFile './db/wallets.json' --minerKeysFile './keys/miner.json' --blockchainName 'GoodChain'"
   },
   "author": "",
   "license": "ISC",
