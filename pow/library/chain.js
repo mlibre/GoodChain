@@ -88,11 +88,6 @@ class Blockchain
 		return this.chain[this.chain.length - 1]
 	}
 
-	get previousBlock ()
-	{
-		return this.chain[this.chain.length - 2]
-	}
-
 	get chainLength ()
 	{
 		return this.chain.length
