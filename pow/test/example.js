@@ -20,7 +20,7 @@ const trx =
 	fee: 0,
 	transaction_number: 1
 }
-trx.signature = transactions.sign( minerKeys.privateKey, trx );
+trx.signature = transactions.sign( trx, minerKeys.privateKey );
 
 const blockNumber = blockchain.addTransaction( trx );
 blockchain.mineNewBlock();
@@ -33,7 +33,7 @@ const trx2 = {
 	fee: 0.3,
 	transaction_number: 2
 }
-trx2.signature = transactions.sign( userKeys.privateKey, trx2 );
+trx2.signature = transactions.sign( trx2, userKeys.privateKey );
 blockchain.addTransaction( trx2 );
 
 blockchain.mineNewBlock();

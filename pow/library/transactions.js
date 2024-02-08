@@ -1,7 +1,7 @@
 const crypto = require( "crypto" );
 const _ = require( "lodash" );
 
-exports.sign = function ( privateKey, transaction )
+exports.sign = function ( transaction, privateKey )
 {
 	const key = crypto.createPrivateKey( privateKey );
 	const transactionString = JSON.stringify( transaction );

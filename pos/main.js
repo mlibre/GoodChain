@@ -69,7 +69,6 @@ class GoodChain
 			await self.pre_validate_block( block )
 			self.state_update( block )
 			block.state_hash ||= self.hash( self.state ) // for when THIS validator mines a block
-			block.validator_sign ||= self.signBlock( block ) // for when THIS validator mines a block
 			block.hash ||= self.hash( block ) // for when THIS validator mines a block
 			self.validate_block( block )
 			self.chain.push( block )
@@ -265,17 +264,6 @@ class GoodChain
 			return Buffer.from( string, from ).toString( to )
 		}
 		return string
-	}
-
-	// Signs a Block by the validator privateKey
-	// to make sure that the address belongs to the validator, a validator should not be able to put
-	// other's addresses, because that will minus some MCT from them
-	signBlock ( block )
-	{
-		const self = this
-		const shaHash = self.hash( block )
-		const key = crypto.createPrivateKey( self.validator.privateKey );
-		return crypto.sign( "sha256", Buffer.from( shaHash ), key );
 	}
 
 	// Checks if the block is signed by the validator
