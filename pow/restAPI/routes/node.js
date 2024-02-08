@@ -21,7 +21,7 @@ router.post( "/update", async function ( req, res, next )
 	{
 		try
 		{
-			const response = await axios.get( `${node.protocol}://${node.host}:${node.port}/nodes` );
+			const response = await axios.get( `${node.url}/nodes` );
 			nodes.addBulk( response.data );
 		}
 		catch ( error )
@@ -38,7 +38,7 @@ router.get( "/broadcast", async function ( req, res, next )
 	{
 		try
 		{
-			await axios.post( `${node.protocol}://${node.host}:${node.port}/nodes`, {
+			await axios.post( `${node.url}/nodes`, {
 				protocol: nodes.hosturl.protocol,
 				host: nodes.hosturl.host,
 				port: nodes.hosturl.port,

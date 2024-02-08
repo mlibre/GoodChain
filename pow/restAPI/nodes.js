@@ -5,8 +5,8 @@ class Nodes
 {
 	constructor ( hosturl, list )
 	{
-		this.list = this.parseUrlList( list );
-		this.hosturl = this.parseUrl( hosturl )
+		this.list = list;
+		this.hosturl = hosturl
 	}
 
 	add ( info )
