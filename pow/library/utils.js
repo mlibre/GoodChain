@@ -61,3 +61,17 @@ exports.uuid = function ()
 {
 	return uuidv4();
 }
+
+exports.removePublicKeyHeaders = function ( publicKey )
+{
+	const headerRegex = /^-----BEGIN PUBLIC KEY-----\r?\n/;
+	const footerRegex = /\n-----END PUBLIC KEY-----/;
+
+	const strippedPublicKey = publicKey.replace( headerRegex, "" );
+	return strippedPublicKey.replace( footerRegex, "" );
+}
+
+exports.addPublicKeyHeaders = function ( publicKey )
+{
+	return `-----BEGIN PUBLIC KEY-----\n${publicKey}-----END PUBLIC KEY-----`;
+}

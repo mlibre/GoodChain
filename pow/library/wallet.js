@@ -1,5 +1,5 @@
 const { generateKeyPairSync } = require( "crypto" );
-const { initJsonFile } = require( "./utils" )
+const { initJsonFile, removePublicKeyHeaders } = require( "./utils" )
 
 class Wallet
 {
@@ -63,8 +63,7 @@ class Wallet
 		const publicKey = keyPair.publicKey.export({ type: "spki", format: "pem" });
 		const privateKey = keyPair.privateKey.export({ type: "pkcs8", format: "pem" });
 
-		let publicKeyString = publicKey.replace( /-----BEGIN RSA PUBLIC KEY-----/, "" );
-		publicKeyString = publicKeyString.replace( /-----END RSA PUBLIC KEY-----/, "" );
+		const publicKeyString = removePublicKeyHeaders( publicKey )
 
 		return { publicKey, privateKey, publicKeyString };
 	}
