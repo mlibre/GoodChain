@@ -10,7 +10,7 @@ router.get( "/", function ( req, res, next )
 
 router.post( "/", function ( req, res, next )
 {
-	nodes.add( req.body )
+	nodes.add( req.body.url )
 	res.send( "ok" );
 });
 
@@ -39,9 +39,7 @@ router.get( "/broadcast", async function ( req, res, next )
 		try
 		{
 			await axios.post( `${node.url}/nodes`, {
-				protocol: nodes.hosturl.protocol,
-				host: nodes.hosturl.host,
-				port: nodes.hosturl.port,
+				url: nodes.hosturl
 			});
 		}
 		catch ( error )

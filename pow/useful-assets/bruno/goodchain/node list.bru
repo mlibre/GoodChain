@@ -1,0 +1,11 @@
+meta {
+  name: node list
+  type: http
+  seq: 7
+}
+
+get {
+  url: http://localhost:{{port}}/nodes
+  body: json
+  auth: none
+}

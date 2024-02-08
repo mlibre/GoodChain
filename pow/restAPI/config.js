@@ -6,7 +6,8 @@ const parseArgs = require( "minimist" );
 const args = parseArgs( process.argv.slice( 2 ) );
 
 // Define default values or fallbacks
-const url = args.url || process.env.url;
+const url = args.url || process.env.url || "http://localhost:3000";
+const { host, port } = parseUrl( url );
 const nodes = args.nodes || process.env.NODES;
 const blockchainFile = args.blockchainFile || process.env.BLOCKCHAIN_FILE || "./db/blockchain.json";
 const walletsFile = args.walletsFile || process.env.WALLETS_FILE || "./db/wallets.json";
@@ -15,9 +16,20 @@ const blockchainName = args.blockchainName || process.env.BLOCKCHAIN_NAME || "Go
 
 module.exports = {
 	url,
+	host,
+	port,
 	nodes,
 	blockchainFile,
 	walletsFile,
 	minerKeysFile,
 	blockchainName
 };
+
+function parseUrl ( url )
+{
+	const urlObj = new URL( url );
+	const protocol = urlObj.protocol.replace( ":", "" );
+	const host = urlObj.hostname;
+	const { port } = urlObj;
+	return { host, port, protocol };
+}

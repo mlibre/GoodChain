@@ -1,0 +1,17 @@
+meta {
+  name: add node
+  type: http
+  seq: 8
+}
+
+post {
+  url: http://localhost:{{port}}/nodes
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "url": "http://localhost:3001"
+  }
+}

@@ -5,15 +5,15 @@ class Nodes
 {
 	constructor ( hosturl, list )
 	{
-		this.list = list;
+		this.list = list || [];
 		this.hosturl = hosturl
 	}
 
-	add ( info )
+	add ( url )
 	{
-		if ( !this.isDuplicate( info ) )
+		if ( !this.isDuplicate( url ) )
 		{
-			this.list.push( info );
+			this.list.push( url );
 			return true
 		}
 		return false;
@@ -27,18 +27,10 @@ class Nodes
 		}
 	}
 
-	isDuplicate ( info )
+	isDuplicate ( url )
 	{
-		return !!_.find( this.all, { host: info.host, port: info.port, protocol: info.protocol });
-	}
-
-	parseUrl ( url )
-	{
-		const urlObj = new URL( url );
-		const protocol = urlObj.protocol.replace( ":", "" );
-		const host = urlObj.hostname;
-		const { port } = urlObj;
-		return { host, port, protocol };
+		// use indexof
+		return this.all.indexOf( url ) !== -1;
 	}
 
 	parseUrlList ( list )
