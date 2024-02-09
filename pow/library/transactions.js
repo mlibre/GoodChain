@@ -57,6 +57,10 @@ module.exports = class Transaction
 
 	verifySignature ( )
 	{
+		if ( !this.signature )
+		{
+			throw new Error( "No signature" );
+		}
 		const signature = Buffer.from( this.signature, "hex" );
 		const result = crypto.verify( null, Buffer.from( JSON.stringify( this.dataWithoutSignature ) ), this.from, signature );
 		if ( !result )

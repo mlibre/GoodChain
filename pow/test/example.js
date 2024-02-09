@@ -29,7 +29,7 @@ const trx2 = new Transaction({
 	to: "user3",
 	amount: 5,
 	fee: 0.3,
-	transaction_number: 2
+	transaction_number: 1
 });
 trx2.sign( userKeys.privateKey );
 

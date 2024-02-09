@@ -101,8 +101,9 @@ class Blockchain
 				processedTransactions.push( trx.data );
 				continue
 			}
-			if ( trx.transaction_number < this.wallet.transactionNumber( trx.from ) )
+			if ( trx.transaction_number <= this.wallet.transactionNumber( trx.from ) )
 			{
+				console.log( "Transaction number is less than wallet transaction number" );
 				continue
 			}
 			if ( this.wallet.hasEnoughBalance( trx.from, trx.amount + trx.fee ) )
