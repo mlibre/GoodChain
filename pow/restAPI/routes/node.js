@@ -10,8 +10,8 @@ router.get( "/", function ( req, res, next )
 
 router.post( "/", function ( req, res, next )
 {
-	nodes.add( req.body.url )
-	res.send( "ok" );
+	const result = nodes.add( req.body.url )
+	res.send( result );
 });
 
 
