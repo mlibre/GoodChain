@@ -1,5 +1,4 @@
-const { generateKeyPairSync } = require( "crypto" );
-const { initJsonFile, removePublicKeyHeaders } = require( "./utils" )
+const { initJsonFile } = require( "./utils" )
 
 class Wallet
 {

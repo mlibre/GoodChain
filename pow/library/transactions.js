@@ -1,7 +1,6 @@
 const crypto = require( "crypto" );
 const { uuid } = require( "./utils" )
 
-
 module.exports = class Transaction
 {
 	constructor ({ from, to, amount, fee, transaction_number, signature, id })
