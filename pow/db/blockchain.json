@@ -100,5 +100,35 @@
 		"nonce": 2606,
 		"miner": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAeri5Q/XQrMUPqUNYY6dGYIwrVCTSpCv+vSUZaRBlaWA=\n-----END PUBLIC KEY-----\n",
 		"difficulty": "000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+	},
+	{
+		"index": 4,
+		"chainName": "GoodChain",
+		"timestamp": 1707511058715,
+		"transactions": [
+			{
+				"from": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAeri5Q/XQrMUPqUNYY6dGYIwrVCTSpCv+vSUZaRBlaWA=\n-----END PUBLIC KEY-----\n",
+				"to": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEA33fBQoy814eC/VbhGHyI1KwNEXmKf+owV/6G/0rxJuw=\n-----END PUBLIC KEY-----\n",
+				"amount": 1.1,
+				"fee": 0,
+				"transaction_number": 3,
+				"signature": "91299a344ae820dc6d4534308705f5e9af122d3f3ab4a543eb0aeb60cbd644f3b32282a9c7bb5c96bc7e2a63dc07bef74ddf48f0c11df3a59755cc876bd45103",
+				"id": "72ede18a-41ab-4435-9e46-887e5a8708a4"
+			},
+			{
+				"from": null,
+				"to": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAeri5Q/XQrMUPqUNYY6dGYIwrVCTSpCv+vSUZaRBlaWA=\n-----END PUBLIC KEY-----\n",
+				"amount": 100,
+				"fee": 0,
+				"transaction_number": 0,
+				"signature": null,
+				"id": "332f8d9c-05ca-4392-9ae5-e04cd6061ad8"
+			}
+		],
+		"previousHash": "00079842ca2d2d9c022e545f2757ccd65ea07065f53e4b5a9aec020631f9f89e",
+		"hash": "000a4accfc86e01a326e9491527afd1fdeb53edf4f21694f0b27bd7084ff25e8",
+		"nonce": 15,
+		"miner": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAeri5Q/XQrMUPqUNYY6dGYIwrVCTSpCv+vSUZaRBlaWA=\n-----END PUBLIC KEY-----\n",
+		"difficulty": "000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
 	}
 ]

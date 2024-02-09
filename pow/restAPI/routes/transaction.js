@@ -1,8 +1,7 @@
 const express = require( "express" );
 const router = express.Router();
-const _ = require( "lodash" );
 const blockchain = require( "../blockchain" );
-const trxLib = require( "../../library/transactions" )
+const Transaction = require( "../../library/transactions" )
 const nodes = require( "../nodes" );
 const axios = require( "axios" );
 
@@ -13,9 +12,7 @@ router.get( "/", function ( req, res )
 
 router.post( "/", function ( req, res, next )
 {
-	const { from, to, amount, fee, transaction_number, signature } = req.body;
-	const transaction = { from, to, amount, fee, transaction_number, signature };
-	const blockNumber = blockchain.addTransaction( transaction );
+	const blockNumber = blockchain.addTransaction( req.body );
 	res.send( blockNumber.toString() );
 });
 
@@ -28,7 +25,14 @@ router.get( "/update", async function ( req, res, next )
 			const response = await axios.get( `${node}/transaction` );
 			for ( const transaction of response.data )
 			{
-				blockchain.addTransaction( transaction );
+				try
+				{
+					blockchain.addTransaction( transaction );
+				}
+				catch ( error )
+				{
+					console.log( error );
+				}
 			}
 		}
 		res.json( blockchain.transactionPool );
@@ -41,9 +45,9 @@ router.get( "/update", async function ( req, res, next )
 
 router.post( "/sign", function ( req, res, next )
 {
-	const transaction = _.pick( req.body, [ "from", "to", "amount", "fee", "transaction_number" ] );
-	const signature = trxLib.sign( transaction, req.body.privateKey );
-	res.send({ ...transaction, signature });
+	const transaction = new Transaction( req.body );
+	transaction.sign( req.body.privateKey );
+	res.send( transaction.data );
 });
 
 module.exports = router;
