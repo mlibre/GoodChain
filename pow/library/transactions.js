@@ -45,15 +45,6 @@ exports.sign = function ( transaction, privateKey )
 	return signature.toString( "hex" );
 }
 
-exports.isDuplicate = function ( transactionPool, { from, to, amount, fee, transaction_number, signature })
-{
-	const duplicate = _.find( transactionPool, { from, to, amount, fee, transaction_number, signature });
-	if ( duplicate )
-	{
-		throw new Error( "Duplicate transaction" );
-	}
-}
-
 exports.proccessTransactions = function ( transactions, wallet )
 {
 	const processedTransactions = [];

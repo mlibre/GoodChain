@@ -1,3 +1,4 @@
+const _ = require( "lodash" );
 const { initJsonFile, updateFile, calculateMiningFee, uuid } = require( "./utils" )
 const Wallet = require( "./wallet" )
 const Block = require( "./block" )
@@ -46,14 +47,15 @@ class Blockchain
 
 	addTransaction ({	from,	to, amount, fee, transaction_number, signature })
 	{
+		const transaction = { from, to, amount, fee, transaction_number, signature };
 		this.wallet.validateAddress( from );
 		this.wallet.validateAddress( to );
 
-		trxLib.validate({	from,	to, amount, fee, transaction_number, signature }, this.wallet );
-		this.checkPoolSize( );
-		trxLib.isDuplicate( this.transactionPool, {	from,	to, amount, fee, transaction_number, signature });
+		trxLib.validate( transaction, this.wallet );
+		this.checkTransactionsPoolSize( );
+		this.isTransactionDuplicate( transaction );
 
-		this.transactionPool.push({ from, to, amount, fee, transaction_number, signature, id: uuid() });
+		this.transactionPool.push({ ...transaction, id: uuid() });
 		this.transactionPool.sort( ( a, b ) => { return b.fee - a.fee });
 		return this.chainLength
 	}
@@ -70,11 +72,20 @@ class Blockchain
 		};
 	}
 
-	checkPoolSize ( )
+	checkTransactionsPoolSize ( )
 	{
 		if ( this.transactionPool.length >= this.transactionPoolSize )
 		{
 			throw new Error( "Transaction pool is full" );
+		}
+	}
+
+	isTransactionDuplicate ({ from, to, amount, fee, transaction_number, signature })
+	{
+		const duplicate = _.find( this.transactionPool, { from, to, amount, fee, transaction_number, signature });
+		if ( duplicate )
+		{
+			throw new Error( "Duplicate transaction" );
 		}
 	}
 
