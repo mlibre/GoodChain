@@ -8,7 +8,7 @@ const args = parseArgs( process.argv.slice( 2 ) );
 // Define default values or fallbacks
 const url = args.url || process.env.url || "http://127.0.0.1:3000";
 const { host, port } = parseUrl( url );
-let nodes = args.nodes || process.env.NODES;
+let nodes = args.nodes || process.env.NODES || [];
 nodes = Array.isArray( nodes ) ? nodes : [ nodes ];
 const blockchainFile = args.blockchainFile || process.env.BLOCKCHAIN_FILE || "./db/blockchain.json";
 const walletsFile = args.walletsFile || process.env.WALLETS_FILE || "./db/wallets.json";
