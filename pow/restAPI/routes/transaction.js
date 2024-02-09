@@ -1,6 +1,8 @@
 const express = require( "express" );
 const router = express.Router();
+const _ = require( "lodash" );
 const blockchain = require( "../blockchain" );
+const trxLib = require( "../../library/transactions" )
 const nodes = require( "../nodes" );
 const axios = require( "axios" );
 
@@ -37,6 +39,11 @@ router.get( "/update", async function ( req, res, next )
 	}
 });
 
-
+router.post( "/sign", function ( req, res, next )
+{
+	const transaction = _.pick( req.body, [ "from", "to", "amount", "fee", "transaction_number" ] );
+	const signature = trxLib.sign( transaction, req.body.privateKey );
+	res.send({ ...transaction, signature });
+});
 
 module.exports = router;

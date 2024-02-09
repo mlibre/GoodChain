@@ -1,11 +1,11 @@
 meta {
-  name: add transaction
+  name: signing a transaction
   type: http
-  seq: 4
+  seq: 5
 }
 
 post {
-  url: http://{{host}}:{{port}}/transaction
+  url: http://{{host}}:{{port}}/transaction/sign
   body: json
   auth: none
 }
@@ -17,6 +17,6 @@ body:json {
     "amount": 1.1,
     "fee": 0,
     "transaction_number": 3,
-    "signature": "18296b76bb164d51aead51199e72649324891e9f3a85b91028fd0107998b4722575bc3375cd75bbdfb34306d9c5fbdcb1ba4787118e1f4139fac72b7b242a200"
+    "privateKey": "-----BEGIN PRIVATE KEY-----\nMC4CAQAwBQYDK2VwBCIEIEUmvLCqc0MrRUZji6y5UmD4PQBd3bgZJhPWQ/6NrQ02\n-----END PRIVATE KEY-----\n"
   }
 }
