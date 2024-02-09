@@ -1,5 +1,5 @@
 const { hashDataObject } = require( "./utils" )
-const trxLib = require( "./transactions" )
+const Transaction = require( "./transactions" )
 const _ = require( "lodash" );
 
 class Block
@@ -55,10 +55,10 @@ class Block
 			}
 			for ( let i = 0; i < block.transactions.length; i++ )
 			{
-				const transaction = block.transactions[i];
-				if ( !trxLib.isCoinBase( transaction ) )
+				const transaction = new Transaction( block.transactions[i] );
+				if ( !transaction.isCoinBase( ) )
 				{
-					if ( !trxLib.verifySignature( transaction.from, transaction.signature, transaction ) )
+					if ( !transaction.verifySignature( ) )
 					{
 						throw new Error( "Invalid transaction signature" );
 					}

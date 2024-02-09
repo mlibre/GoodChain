@@ -1,55 +1,80 @@
 const crypto = require( "crypto" );
-const _ = require( "lodash" );
+const { uuid } = require( "./utils" )
 
-exports.validate = function ({ from, to, amount, fee, transaction_number, signature }, wallet )
-{
-	if ( amount < 0 )
-	{
-		throw new Error( "Invalid amount" )
-	}
-	if ( exports.isCoinBase({ from, signature }) )
-	{
-		return true
-	}
-	if ( !from || !to )
-	{
-		throw new Error( "Invalid transaction" );
-	}
-	if ( !wallet.hasEnoughBalance( from, amount + fee ) )
-	{
-		throw new Error( "Insufficient balance" );
-	}
-	if ( transaction_number < wallet.transactionNumber( from ) )
-	{
-		throw new Error( "Invalid transaction number" );
-	}
-	exports.verifySignature( from, signature, { from, to, amount, fee, transaction_number })
-	return true;
-}
 
-exports.verifySignature = function ( publicKey, signatureHex, data )
+module.exports = class Transaction
 {
-	data = _.pick( data, [ "from", "to", "amount", "fee", "transaction_number" ] );
-	const signature = Buffer.from( signatureHex, "hex" );
-	const result = crypto.verify( null, Buffer.from( JSON.stringify( data ) ), publicKey, signature );
-	if ( !result )
+	constructor ({ from, to, amount, fee, transaction_number, signature, id })
 	{
-		throw new Error( "Invalid signature" );
+		this.from = from;
+		this.to = to;
+		this.amount = amount;
+		this.fee = fee;
+		this.transaction_number = transaction_number;
+		this.signature = signature;
+		this.id = id || uuid()
 	}
-	return result;
-}
-
-exports.sign = function ( transaction, privateKey )
-{
-	const signature = crypto.sign( null, Buffer.from( JSON.stringify( transaction ) ), privateKey );
-	return signature.toString( "hex" );
-}
-
-exports.isCoinBase = function ({ from, signature })
-{
-	if ( !from && !signature )
+	get data ()
 	{
+		return {
+			from: this.from,
+			to: this.to,
+			amount: this.amount,
+			fee: this.fee,
+			transaction_number: this.transaction_number,
+			signature: this.signature,
+			id: this.id
+		};
+	}
+	get dataWithoutSignature ()
+	{
+		return {
+			from: this.from,
+			to: this.to,
+			amount: this.amount,
+			fee: this.fee,
+			transaction_number: this.transaction_number,
+			id: this.id
+		}
+	}
+	validate ()
+	{
+		if ( this.amount < 0 )
+		{
+			throw new Error( "Invalid amount" );
+		}
+		if ( this.isCoinBase() )
+		{
+			return true;
+		}
+		if ( !this.from || !this.to )
+		{
+			throw new Error( "Invalid transaction" );
+		}
+		this.verifySignature( );
 		return true;
 	}
-	return false
+
+	verifySignature ( )
+	{
+		const signature = Buffer.from( this.signature, "hex" );
+		const result = crypto.verify( null, Buffer.from( JSON.stringify( this.dataWithoutSignature ) ), this.from, signature );
+		if ( !result )
+		{
+			throw new Error( "Invalid signature" );
+		}
+		return result;
+	}
+
+	sign ( privateKey )
+	{
+		const signature = crypto.sign( null, Buffer.from( JSON.stringify( this.dataWithoutSignature ) ), privateKey );
+		this.signature = signature.toString( "hex" )
+		return this.signature;
+	}
+
+	isCoinBase ()
+	{
+		return !this.from && !this.signature;
+	}
 }

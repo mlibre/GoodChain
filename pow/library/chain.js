@@ -1,8 +1,8 @@
 const _ = require( "lodash" );
-const { initJsonFile, updateFile, calculateMiningFee, uuid } = require( "./utils" )
+const { initJsonFile, updateFile, calculateMiningFee } = require( "./utils" )
 const Wallet = require( "./wallet" )
 const Block = require( "./block" )
-const trxLib = require( "./transactions" )
+const Transaction = require( "./transactions" )
 
 class Blockchain
 {
@@ -45,17 +45,17 @@ class Blockchain
 		return block;
 	}
 
-	addTransaction ({	from,	to, amount, fee, transaction_number, signature })
+	addTransaction ( transaction )
 	{
-		const transaction = { from, to, amount, fee, transaction_number, signature };
-		this.wallet.validateAddress( from );
-		this.wallet.validateAddress( to );
+		const trx = new Transaction( transaction );
+		this.wallet.validateAddress( trx.from );
+		this.wallet.validateAddress( trx.to );
 
-		trxLib.validate( transaction, this.wallet );
+		trx.validate( );
 		this.checkTransactionsPoolSize( );
-		this.isTransactionDuplicate( transaction );
+		this.isTransactionDuplicate( trx.data );
 
-		this.transactionPool.push({ ...transaction, id: uuid() });
+		this.transactionPool.push( trx.data );
 		this.transactionPool.sort( ( a, b ) => { return b.fee - a.fee });
 		return this.chainLength
 	}
@@ -92,12 +92,17 @@ class Blockchain
 	proccessTransactions = function ( )
 	{
 		const processedTransactions = [];
-		for ( const trx of this.transactions )
+		for ( const tmpTrx of this.transactionPool )
 		{
-			if ( exports.isCoinBase( trx ) )
+			const trx = new Transaction( tmpTrx );
+			if ( trx.isCoinBase( ) )
 			{
 				this.wallet.addBalance( trx.to, trx.amount );
-				processedTransactions.push( trx );
+				processedTransactions.push( trx.data );
+				continue
+			}
+			if ( trx.transaction_number < this.wallet.transactionNumber( trx.from ) )
+			{
 				continue
 			}
 			if ( this.wallet.hasEnoughBalance( trx.from, trx.amount + trx.fee ) )
@@ -105,7 +110,7 @@ class Blockchain
 				this.wallet.minusBalance( trx.from, trx.amount + trx.fee );
 				this.wallet.incrementTN( trx.from );
 				this.wallet.addBalance( trx.to, trx.amount );
-				processedTransactions.push( trx );
+				processedTransactions.push( trx.data );
 			}
 		}
 		return processedTransactions;
