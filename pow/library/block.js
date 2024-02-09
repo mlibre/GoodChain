@@ -1,4 +1,6 @@
 const { hashDataObject } = require( "./utils" )
+const trxLib = require( "./transactions" )
+const _ = require( "lodash" );
 
 class Block
 {
@@ -16,16 +18,7 @@ class Block
 	}
 	get data ()
 	{
-		return {
-			index: this.index,
-			chainName: this.chainName,
-			timestamp: this.timestamp,
-			transactions: this.transactions,
-			previousHash: this.previousHash,
-			nonce: this.nonce,
-			miner: this.miner,
-			difficulty: this.difficulty
-		};
+		return Block.pickData( this );
 	}
 	mine ( )
 	{
@@ -38,19 +31,14 @@ class Block
 		}
 		return this.nonce
 	}
+	static pickData ( block )
+	{
+		return _.pick( block, [ "index", "chainName", "timestamp", "transactions", "previousHash", "nonce", "miner", "difficulty" ] );
+	}
 	static verify ( block, previousBlock )
 	{
-		const tmpBlock = {
-			index: block.index,
-			chainName: block.chainName,
-			timestamp: block.timestamp,
-			transactions: block.transactions,
-			previousHash: block.previousHash,
-			nonce: block.nonce,
-			miner: block.miner,
-			difficulty: block.difficulty
-		};
-		if ( block.hash !== hashDataObject( tmpBlock ) )
+		const normalizedBlock = Block.pickData( block )
+		if ( block.hash !== hashDataObject( normalizedBlock ) )
 		{
 			throw new Error( "Invalid block hash" );
 		}
@@ -65,6 +53,19 @@ class Block
 			{
 				throw new Error( "Block timestamp must be greater than previous block timestamp" );
 			}
+			for ( let i = 0; i < block.transactions.length; i++ )
+			{
+				const transaction = block.transactions[i];
+				if ( !trxLib.isCoinBase( transaction ) )
+				{
+					if ( !trxLib.verifySignature( transaction.from, transaction.signature, transaction ) )
+					{
+						throw new Error( "Invalid transaction signature" );
+					}
+				}
+
+			}
+
 		}
 
 	}

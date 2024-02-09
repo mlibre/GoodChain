@@ -53,7 +53,7 @@ class Blockchain
 		trxLib.checkPoolSize( this.transactionPool, this.transactionPoolSize );
 		trxLib.isDuplicate( this.transactionPool, {	from,	to, amount, fee, transaction_number, signature });
 
-		this.transactionPool.push({ from,	to, amount, fee, transaction_number, signature, id: uuid() });
+		this.transactionPool.push({ from, to, amount, fee, transaction_number, signature, id: uuid() });
 		this.transactionPool.sort( ( a, b ) => { return b.fee - a.fee });
 		return this.chainLength
 	}

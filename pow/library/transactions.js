@@ -27,14 +27,9 @@ exports.validate = function ({ from, to, amount, fee, transaction_number, signat
 	return true;
 }
 
-exports.sign = function ( transaction, privateKey )
+exports.verifySignature = function ( publicKey, signatureHex, data )
 {
-	const signature = crypto.sign( null, Buffer.from( JSON.stringify( transaction ) ), privateKey );
-	return signature.toString( "hex" );
-}
-
-exports.verifySignature = function verifySignature ( publicKey, signatureHex, data )
-{
+	data = _.pick( data, [ "from", "to", "amount", "fee", "transaction_number" ] );
 	const signature = Buffer.from( signatureHex, "hex" );
 	const result = crypto.verify( null, Buffer.from( JSON.stringify( data ) ), publicKey, signature );
 	if ( !result )
@@ -42,6 +37,12 @@ exports.verifySignature = function verifySignature ( publicKey, signatureHex, da
 		throw new Error( "Invalid signature" );
 	}
 	return result;
+}
+
+exports.sign = function ( transaction, privateKey )
+{
+	const signature = crypto.sign( null, Buffer.from( JSON.stringify( transaction ) ), privateKey );
+	return signature.toString( "hex" );
 }
 
 exports.checkPoolSize = function ( transactionPool, transactionPoolSize )
