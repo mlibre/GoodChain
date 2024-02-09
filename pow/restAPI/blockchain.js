@@ -1,10 +1,9 @@
 const { blockchainName, blockchainFile, walletsFile, minerKeysFile } = require( "./config" );
 
 const Blockchain = require( "../library/chain" );
-const Wallet = require( "../library/wallet" );
-const { initJsonFile } = require( "../library/utils" )
+const { initJsonFile, createKeyPair } = require( "../library/utils" )
 
-const minerKeys = initJsonFile( minerKeysFile, Wallet.createKeyPair() );
+const minerKeys = initJsonFile( minerKeysFile, createKeyPair() );
 
 module.exports = new Blockchain(
 	blockchainFile,

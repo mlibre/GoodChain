@@ -1,9 +1,8 @@
-const Wallet = require( "../library/wallet" );
-const transactions = require( "../library/transactions" )
-const { initJsonFile } = require( "../library/utils" )
+const { sign } = require( "../library/transactions" )
+const { initJsonFile, createKeyPair } = require( "../library/utils" )
 
-const minerKeys = initJsonFile( "./keys/miner.json", Wallet.createKeyPair() );
-const userKeys = initJsonFile( "./keys/user.json", Wallet.createKeyPair() );
+const minerKeys = initJsonFile( "./keys/miner.json", createKeyPair() );
+const userKeys = initJsonFile( "./keys/user.json", createKeyPair() );
 
 const trx =
 {
@@ -13,5 +12,5 @@ const trx =
 	fee: 0,
 	transaction_number: 1
 }
-trx.signature = transactions.sign( trx, minerKeys.privateKey );
+trx.signature = sign( trx, minerKeys.privateKey );
 console.log( JSON.stringify( trx ) );

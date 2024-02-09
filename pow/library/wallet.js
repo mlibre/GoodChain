@@ -56,17 +56,6 @@ class Wallet
 			this.wallets[address] = this.wallets[address] || { balance: 0, transaction_number: 0 };
 		}
 	}
-
-	static createKeyPair ()
-	{
-		const keyPair = generateKeyPairSync( "ed25519" );
-		const publicKey = keyPair.publicKey.export({ type: "spki", format: "pem" });
-		const privateKey = keyPair.privateKey.export({ type: "pkcs8", format: "pem" });
-
-		const publicKeyString = removePublicKeyHeaders( publicKey )
-
-		return { publicKey, privateKey, publicKeyString };
-	}
 }
 
 

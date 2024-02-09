@@ -1,14 +1,13 @@
 const Blockchain = require( "../library/chain" );
-const Wallet = require( "../library/wallet" );
-const transactions = require( "../library/transactions" )
-const { deleteFile, initJsonFile } = require( "../library/utils" )
+const { sign } = require( "../library/transactions" )
+const { deleteFile, initJsonFile, createKeyPair } = require( "../library/utils" )
 deleteFile( "./db/blockchain.json" );
 deleteFile( "./db/wallets.json" );
 deleteFile( "./keys/miner.json" );
 deleteFile( "./keys/user.json" );
 
-const userKeys = initJsonFile( "./keys/user.json", Wallet.createKeyPair() );
-const minerKeys = initJsonFile( "./keys/miner.json", Wallet.createKeyPair() );
+const userKeys = initJsonFile( "./keys/user.json", createKeyPair() );
+const minerKeys = initJsonFile( "./keys/miner.json", createKeyPair() );
 const blockchain = new Blockchain( "./db/blockchain.json", "./db/wallets.json", "GoodChain", minerKeys );
 blockchain.mineNewBlock();
 
@@ -20,7 +19,7 @@ const trx =
 	fee: 0,
 	transaction_number: 1
 }
-trx.signature = transactions.sign( trx, minerKeys.privateKey );
+trx.signature = sign( trx, minerKeys.privateKey );
 
 const blockNumber = blockchain.addTransaction( trx );
 blockchain.mineNewBlock();
@@ -33,7 +32,7 @@ const trx2 = {
 	fee: 0.3,
 	transaction_number: 2
 }
-trx2.signature = transactions.sign( trx2, userKeys.privateKey );
+trx2.signature = sign( trx2, userKeys.privateKey );
 blockchain.addTransaction( trx2 );
 
 blockchain.mineNewBlock();

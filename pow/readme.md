@@ -16,9 +16,9 @@ This project implements a simple `proof-of-work` blockchain in `JavaScript` usin
 ```js
 const Blockchain = require( "./library/chain" );
 const Wallet = require( "./library/wallet" );
-const { initJsonFile } = require( "./library/utils" )
+const { initJsonFile, createKeyPair } = require( "./library/utils" )
 
-const minerKeys = initJsonFile( "./keys/miner.json", Wallet.createKeyPair() );
+const minerKeys = initJsonFile( "./keys/miner.json", createKeyPair() );
 
 const blockchain = new Blockchain( "./db/blockchain.json", "./db/wallets.json", "GoodChain", minerKeys );
 

@@ -62,6 +62,17 @@ exports.uuid = function ()
 	return uuidv4();
 }
 
+exports.createKeyPair = function ()
+{
+	const keyPair = crypto.generateKeyPairSync( "ed25519" );
+	const publicKey = keyPair.publicKey.export({ type: "spki", format: "pem" });
+	const privateKey = keyPair.privateKey.export({ type: "pkcs8", format: "pem" });
+
+	const publicKeyString = exports.removePublicKeyHeaders( publicKey )
+
+	return { publicKey, privateKey, publicKeyString };
+}
+
 exports.removePublicKeyHeaders = function ( publicKey )
 {
 	const headerRegex = /^-----BEGIN PUBLIC KEY-----\r?\n/;
