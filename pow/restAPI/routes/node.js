@@ -21,12 +21,12 @@ router.post( "/update", async function ( req, res, next )
 	{
 		try
 		{
-			const response = await axios.get( `${node.url}/nodes` );
+			const response = await axios.get( `${node}/nodes` );
 			nodes.addBulk( response.data );
 		}
 		catch ( error )
 		{
-			console.error( `Error fetching data from node ${node.url}:`, error.message );
+			console.error( `Error fetching data from node ${node}:`, error.message );
 		}
 	}
 	res.send( nodes.all );
@@ -38,13 +38,13 @@ router.get( "/broadcast", async function ( req, res, next )
 	{
 		try
 		{
-			await axios.post( `${node.url}/nodes`, {
+			await axios.post( `${node}/nodes`, {
 				url: nodes.hosturl
 			});
 		}
 		catch ( error )
 		{
-			console.error( `Error introducing self to node ${node.url}:`, error.message );
+			console.error( `Error introducing self to node ${node}:`, error.message );
 		}
 	}
 	res.send( "Introduced self to all nodes" );
