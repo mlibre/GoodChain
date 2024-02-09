@@ -45,14 +45,6 @@ exports.sign = function ( transaction, privateKey )
 	return signature.toString( "hex" );
 }
 
-exports.checkPoolSize = function ( transactionPool, transactionPoolSize )
-{
-	if ( transactionPool.length >= transactionPoolSize )
-	{
-		throw new Error( "Transaction pool is full" );
-	}
-}
-
 exports.isDuplicate = function ( transactionPool, { from, to, amount, fee, transaction_number, signature })
 {
 	const duplicate = _.find( transactionPool, { from, to, amount, fee, transaction_number, signature });

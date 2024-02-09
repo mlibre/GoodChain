@@ -50,7 +50,7 @@ class Blockchain
 		this.wallet.validateAddress( to );
 
 		trxLib.validate({	from,	to, amount, fee, transaction_number, signature }, this.wallet );
-		trxLib.checkPoolSize( this.transactionPool, this.transactionPoolSize );
+		this.checkPoolSize( );
 		trxLib.isDuplicate( this.transactionPool, {	from,	to, amount, fee, transaction_number, signature });
 
 		this.transactionPool.push({ from, to, amount, fee, transaction_number, signature, id: uuid() });
@@ -70,17 +70,12 @@ class Blockchain
 		};
 	}
 
-	validateChain ()
+	checkPoolSize ( )
 	{
-		if ( this.chainLength === 0 )
+		if ( this.transactionPool.length >= this.transactionPoolSize )
 		{
-			return true;
+			throw new Error( "Transaction pool is full" );
 		}
-		for ( let i = 0; i < this.chainLength; i++ )
-		{
-			Block.verify( this.getBlock( i ), this.getBlock( i - 1 ) )
-		}
-		return true
 	}
 
 	get latestBlock ()
@@ -114,6 +109,19 @@ class Blockchain
 	isChainEmpty ()
 	{
 		return this.chain.length === 0
+	}
+
+	validateChain ()
+	{
+		if ( this.chainLength === 0 )
+		{
+			return true;
+		}
+		for ( let i = 0; i < this.chainLength; i++ )
+		{
+			Block.verify( this.getBlock( i ), this.getBlock( i - 1 ) )
+		}
+		return true
 	}
 }
 
