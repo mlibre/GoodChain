@@ -89,6 +89,24 @@ class Blockchain
 		}
 	}
 
+	verifyAndAddBlock ( block )
+	{
+		Block.verify( block, this.latestBlock )
+		this.addBlock( block )
+		updateFile( this.filePath, this.chain )
+		return block
+	}
+
+	addBlock ( block )
+	{
+		this.chain.push( block )
+	}
+
+	getBlock ( blockNumber )
+	{
+		return this.chain[blockNumber]
+	}
+
 	get latestBlock ()
 	{
 		return this.chain[this.chain.length - 1]
@@ -97,24 +115,6 @@ class Blockchain
 	get chainLength ()
 	{
 		return this.chain.length
-	}
-
-	getBlock ( blockNumber )
-	{
-		return this.chain[blockNumber]
-	}
-
-	addBlock ( block )
-	{
-		this.chain.push( block )
-	}
-
-	verifyAndAddBlock ( block )
-	{
-		Block.verify( block, this.latestBlock )
-		this.addBlock( block )
-		updateFile( this.filePath, this.chain )
-		return block
 	}
 
 	isChainEmpty ()
