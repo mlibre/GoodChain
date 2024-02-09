@@ -45,28 +45,6 @@ exports.sign = function ( transaction, privateKey )
 	return signature.toString( "hex" );
 }
 
-exports.proccessTransactions = function ( transactions, wallet )
-{
-	const processedTransactions = [];
-	for ( const trx of transactions )
-	{
-		if ( exports.isCoinBase( trx ) )
-		{
-			wallet.addBalance( trx.to, trx.amount );
-			processedTransactions.push( trx );
-			continue
-		}
-		if ( wallet.hasEnoughBalance( trx.from, trx.amount + trx.fee ) )
-		{
-			wallet.minusBalance( trx.from, trx.amount + trx.fee );
-			wallet.incrementTN( trx.from );
-			wallet.addBalance( trx.to, trx.amount );
-			processedTransactions.push( trx );
-		}
-	}
-	return processedTransactions;
-}
-
 exports.isCoinBase = function ({ from, signature })
 {
 	if ( !from && !signature )

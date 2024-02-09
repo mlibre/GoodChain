@@ -29,7 +29,7 @@ class Blockchain
 		const self = this
 		const coinbaseTrx = self.genCoinbaseTransaction();
 		self.addTransaction( coinbaseTrx )
-		this.transactionPool = trxLib.proccessTransactions( this.transactionPool, this.wallet );
+		this.transactionPool = self.proccessTransactions( );
 		const block = new Block({
 			index: self.chainLength,
 			chainName: self.chainName,
@@ -87,6 +87,28 @@ class Blockchain
 		{
 			throw new Error( "Duplicate transaction" );
 		}
+	}
+
+	proccessTransactions = function ( )
+	{
+		const processedTransactions = [];
+		for ( const trx of this.transactions )
+		{
+			if ( exports.isCoinBase( trx ) )
+			{
+				this.wallet.addBalance( trx.to, trx.amount );
+				processedTransactions.push( trx );
+				continue
+			}
+			if ( this.wallet.hasEnoughBalance( trx.from, trx.amount + trx.fee ) )
+			{
+				this.wallet.minusBalance( trx.from, trx.amount + trx.fee );
+				this.wallet.incrementTN( trx.from );
+				this.wallet.addBalance( trx.to, trx.amount );
+				processedTransactions.push( trx );
+			}
+		}
+		return processedTransactions;
 	}
 
 	verifyAndAddBlock ( block )
