@@ -56,14 +56,7 @@ class Block
 			for ( let i = 0; i < block.transactions.length; i++ )
 			{
 				const transaction = new Transaction( block.transactions[i] );
-				if ( !transaction.isCoinBase( ) )
-				{
-					if ( !transaction.verifySignature( ) )
-					{
-						throw new Error( "Invalid transaction signature" );
-					}
-				}
-
+				transaction.validate( )
 			}
 
 		}

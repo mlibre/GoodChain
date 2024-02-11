@@ -144,14 +144,15 @@ class Blockchain
 	verifyAndAddBlock ( block )
 	{
 		Block.verify( block, this.latestBlock )
-		this.addBlock( block )
-		updateFile( this.filePath, this.chain )
-		return block
+		// verifyTransactionsList( block.transactions, this.wallet )
+		return this.addBlock( block )
 	}
 
 	addBlock ( block )
 	{
 		this.chain.push( block )
+		updateFile( this.filePath, this.chain )
+		return block
 	}
 
 	getBlock ( blockNumber )
