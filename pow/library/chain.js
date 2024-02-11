@@ -29,20 +29,31 @@ class Blockchain
 		const self = this
 		const coinbaseTrx = self.genCoinbaseTransaction();
 		self.addTransaction( coinbaseTrx )
-		this.transactionPool = self.proccessTransactions( );
+		const processedTransactions = self.proccessTransactions( );
 		const block = new Block({
 			index: self.chainLength,
 			chainName: self.chainName,
-			transactions: self.transactionPool,
+			transactions: processedTransactions,
 			previousHash: self.latestBlock?.hash,
 			miner: this.minerKeys.publicKey,
 			difficulty: self.difficulty
 		});
 		block.mine();
 		self.verifyAndAddBlock( block );
-		self.transactionPool = [];
-		updateFile( self.wallet.filePath, self.wallet.wallets );
+
 		return block;
+	}
+
+	genCoinbaseTransaction ( )
+	{
+		return {
+			from: null,
+			to: this.minerKeys.publicKey,
+			amount: this.miningReward + calculateMiningFee( this.transactionPool ),
+			fee: 0,
+			transaction_number: 0,
+			signature: null
+		};
 	}
 
 	addTransaction ( transaction )
@@ -83,18 +94,6 @@ class Blockchain
 		return results;
 	}
 
-	genCoinbaseTransaction ( )
-	{
-		return {
-			from: null,
-			to: this.minerKeys.publicKey,
-			amount: this.miningReward + calculateMiningFee( this.transactionPool ),
-			fee: 0,
-			transaction_number: 0,
-			signature: null
-		};
-	}
-
 	checkTransactionsPoolSize ( )
 	{
 		if ( this.transactionPool.length >= this.transactionPoolSize )
@@ -112,7 +111,7 @@ class Blockchain
 		}
 	}
 
-	proccessTransactions = function ( )
+	proccessTransactions ( )
 	{
 		const processedTransactions = [];
 		for ( const tmpTrx of this.transactionPool )
@@ -137,6 +136,8 @@ class Blockchain
 				processedTransactions.push( trx.data );
 			}
 		}
+		this.transactionPool = [];
+		updateFile( this.wallet.filePath, this.wallet.wallets );
 		return processedTransactions;
 	}
 

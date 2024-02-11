@@ -4,7 +4,7 @@ const _ = require( "lodash" );
 
 class Block
 {
-	constructor ({	index, chainName, nonce, previousHash, transactions,	hash,	miner, difficulty	})
+	constructor ({	index, chainName, nonce, previousHash, transactions, hash, miner, difficulty })
 	{
 		this.index = index;
 		this.chainName = chainName;
