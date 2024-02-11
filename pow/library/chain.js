@@ -29,18 +29,17 @@ class Blockchain
 		const self = this
 		const coinbaseTrx = self.genCoinbaseTransaction();
 		self.addTransaction( coinbaseTrx )
-		const processedTransactions = self.proccessTransactions( );
+		self.cleanupTransactionPool()
 		const block = new Block({
 			index: self.chainLength,
 			chainName: self.chainName,
-			transactions: processedTransactions,
+			transactions: self.transactionPool,
 			previousHash: self.latestBlock?.hash,
-			miner: this.minerKeys.publicKey,
+			miner: self.minerKeys.publicKey,
 			difficulty: self.difficulty
 		});
 		block.mine();
 		self.verifyAndAddBlock( block );
-
 		return block;
 	}
 
@@ -111,45 +110,89 @@ class Blockchain
 		}
 	}
 
-	proccessTransactions ( )
+	simulateTransactions ( transactions )
 	{
-		const processedTransactions = [];
-		for ( const tmpTrx of this.transactionPool )
+		const clonedWallet = new Wallet( null, this.wallet.list );
+		for ( const tmpTrx of transactions )
+		{
+			const trx = new Transaction( tmpTrx );
+			if ( trx.isCoinBase( ) )
+			{
+				clonedWallet.addBalance( trx.to, trx.amount );
+				continue
+			}
+			if ( trx.transaction_number <= clonedWallet.transactionNumber( trx.from ) )
+			{
+				throw new Error( "Transaction number is less than wallet transaction number" );
+			}
+			clonedWallet.minusBalance( trx.from, trx.amount + trx.fee );
+			clonedWallet.incrementTN( trx.from );
+			clonedWallet.addBalance( trx.to, trx.amount );
+		}
+	}
+
+	performTransactions ( transactionList )
+	{
+		for ( const tmpTrx of transactionList )
 		{
 			const trx = new Transaction( tmpTrx );
 			if ( trx.isCoinBase( ) )
 			{
 				this.wallet.addBalance( trx.to, trx.amount );
-				processedTransactions.push( trx.data );
 				continue
 			}
-			if ( trx.transaction_number <= this.wallet.transactionNumber( trx.from ) )
+			this.wallet.minusBalance( trx.from, trx.amount + trx.fee );
+			this.wallet.incrementTN( trx.from );
+			this.wallet.addBalance( trx.to, trx.amount );
+		}
+		updateFile( this.wallet.filePath, this.wallet.wallets );
+		return transactionList;
+	}
+
+	cleanupTransactionPool ( )
+	{
+		const clonedWallet = new Wallet( null, this.wallet.list );
+		const newTransactionPool = []
+		for ( const tmpTrx of this.transactionPool )
+		{
+			try
 			{
-				console.log( "Transaction number is less than wallet transaction number" );
-				continue
+				const trx = new Transaction( tmpTrx );
+				if ( trx.isCoinBase( ) )
+				{
+					clonedWallet.addBalance( trx.to, trx.amount );
+					newTransactionPool.push( trx.data );
+					continue
+				}
+				if ( trx.transaction_number <= clonedWallet.transactionNumber( trx.from ) )
+				{
+					throw new Error( "Transaction number is less than wallet transaction number" );
+				}
+				clonedWallet.minusBalance( trx.from, trx.amount + trx.fee );
+				clonedWallet.incrementTN( trx.from );
+				clonedWallet.addBalance( trx.to, trx.amount );
+				newTransactionPool.push( trx.data );
 			}
-			if ( this.wallet.hasEnoughBalance( trx.from, trx.amount + trx.fee ) )
+			catch ( error )
 			{
-				this.wallet.minusBalance( trx.from, trx.amount + trx.fee );
-				this.wallet.incrementTN( trx.from );
-				this.wallet.addBalance( trx.to, trx.amount );
-				processedTransactions.push( trx.data );
+				console.log( error );
 			}
 		}
-		this.transactionPool = [];
-		updateFile( this.wallet.filePath, this.wallet.wallets );
-		return processedTransactions;
+		this.transactionPool = newTransactionPool;
+		return newTransactionPool
 	}
 
 	verifyAndAddBlock ( block )
 	{
 		Block.verify( block, this.latestBlock )
-		// verifyTransactionsList( block.transactions, this.wallet )
+		this.simulateTransactions( block.transactions )
 		return this.addBlock( block )
 	}
 
 	addBlock ( block )
 	{
+		this.performTransactions( block.transactions );
+		this.transactionPool = [];
 		this.chain.push( block )
 		updateFile( this.filePath, this.chain )
 		return block

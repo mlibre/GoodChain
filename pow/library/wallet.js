@@ -2,10 +2,10 @@ const { initJsonFile } = require( "./utils" )
 
 class Wallet
 {
-	constructor ( filePath )
+	constructor ( filePath, wallets )
 	{
 		this.filePath = filePath;
-		this.wallets = initJsonFile( filePath );
+		this.wallets = structuredClone( wallets ) || initJsonFile( filePath );
 	}
 	get list ()
 	{
@@ -35,12 +35,11 @@ class Wallet
 
 	minusBalance ( address, amount )
 	{
+		if ( this.balance( address ) < amount )
+		{
+			throw new Error( "Insufficient balance" );
+		}
 		return this.wallets[address].balance -= amount;
-	}
-
-	hasEnoughBalance ( address, amount )
-	{
-		return this.balance( address ) >= amount;
 	}
 
 	transactionNumber ( address )
