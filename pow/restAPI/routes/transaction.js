@@ -23,17 +23,7 @@ router.get( "/update", async function ( req, res, next )
 		for ( const node of nodes.list )
 		{
 			const response = await axios.get( `${node}/transaction` );
-			for ( const transaction of response.data )
-			{
-				try
-				{
-					blockchain.addTransaction( transaction );
-				}
-				catch ( error )
-				{
-					console.log( error );
-				}
-			}
+			blockchain.addBulkTransaction( response.data );
 		}
 		res.json( blockchain.transactionPool );
 	}

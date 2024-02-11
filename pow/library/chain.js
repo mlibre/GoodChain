@@ -60,6 +60,29 @@ class Blockchain
 		return this.chainLength
 	}
 
+	addBulkTransaction ( transactions )
+	{
+		const results = []
+		for ( const transaction of transactions )
+		{
+			try
+			{
+				results.push({
+					id: transaction.id,
+					blockNumber: this.addTransaction( transaction )
+				});
+			}
+			catch ( error )
+			{
+				results.push({
+					id: transaction.id,
+					error
+				});
+			}
+		}
+		return results;
+	}
+
 	genCoinbaseTransaction ( )
 	{
 		return {
