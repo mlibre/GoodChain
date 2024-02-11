@@ -18,7 +18,7 @@ class Blockchain
 		this.difficulty = "000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff";
 		this.miningReward = 100;
 
-		if ( this.isChainEmpty() )
+		if ( this.chain.length === 0 )
 		{
 			this.mineNewBlock()
 		}
@@ -166,11 +166,6 @@ class Blockchain
 	get chainLength ()
 	{
 		return this.chain.length
-	}
-
-	isChainEmpty ()
-	{
-		return this.chain.length === 0
 	}
 
 	validateChain ()
