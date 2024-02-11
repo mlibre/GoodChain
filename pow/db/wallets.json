@@ -1,10 +1,10 @@
 {
 	"-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAeri5Q/XQrMUPqUNYY6dGYIwrVCTSpCv+vSUZaRBlaWA=\n-----END PUBLIC KEY-----\n": {
-		"balance": 449.2,
-		"transaction_number": 2
+		"balance": 1548.1,
+		"transaction_number": 3
 	},
 	"-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEA33fBQoy814eC/VbhGHyI1KwNEXmKf+owV/6G/0rxJuw=\n-----END PUBLIC KEY-----\n": {
-		"balance": 45.800000000000004,
+		"balance": 46.900000000000006,
 		"transaction_number": 1
 	},
 	"user3": {

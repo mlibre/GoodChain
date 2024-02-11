@@ -4,13 +4,13 @@ const blockchain = require( "../blockchain" );
 
 router.get( "/", function ( req, res )
 {
-	res.json( blockchain.getBlock( req.query.block_number ) );
+	res.json( blockchain.getBlock( req.query.index ) );
 });
 
 router.post( "/", function ( req, res, next )
 {
 	const block = blockchain.verifyAndAddBlock( req.body );
-	res.send( block.toString() );
+	res.send( block );
 });
 
 
