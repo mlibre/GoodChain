@@ -73,5 +73,30 @@ function errorHandler ( err, req, res, next )
 	{
 		return next( err )
 	}
-	res.status( 500 ).send( err.message )
+	res.status( 500 ).send( convertErrorToSimpleObj( err ) )
+}
+
+function convertErrorToSimpleObj ( err )
+{
+	const simpleErr = { };
+	if ( err.message )
+	{
+		simpleErr.message = err.message;
+	}
+	if ( err.stack )
+	{
+		simpleErr.stack = err.stack;
+	}
+	for ( const key of Object.getOwnPropertyNames( err ) )
+	{
+		if ( err[key] instanceof Error || typeof err[key] === "object" )
+		{
+			simpleErr[key] = convertErrorToSimpleObj( err[key] );
+		}
+		else
+		{
+			simpleErr[key] = err[key];
+		}
+	}
+	return simpleErr;
 }

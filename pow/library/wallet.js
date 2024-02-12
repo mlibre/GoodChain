@@ -37,7 +37,7 @@ class Wallet
 	{
 		if ( this.balance( address ) < amount )
 		{
-			throw new Error( "Insufficient balance" );
+			throw new Error( "Insufficient balance", { cause: { address, amount } });
 		}
 		return this.wallets[address].balance -= amount;
 	}
