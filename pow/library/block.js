@@ -4,11 +4,11 @@ const _ = require( "lodash" );
 
 class Block
 {
-	constructor ({	index, chainName, nonce, previousHash, transactions, hash, miner, difficulty })
+	constructor ({	index, chainName, timestamp, nonce, previousHash, transactions, hash, miner, difficulty })
 	{
 		this.index = index;
 		this.chainName = chainName;
-		this.timestamp = Date.now();
+		this.timestamp = timestamp || Date.now();
 		this.transactions = transactions;
 		this.previousHash = previousHash || "";
 		this.hash = hash;

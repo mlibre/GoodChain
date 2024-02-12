@@ -182,13 +182,14 @@ class Blockchain
 
 	addBlock ( block )
 	{
-		Block.verify( block, this.latestBlock )
-		this.simulateTransactions( block.transactions )
-		this.performTransactions( block.transactions );
+		const newBlock = new Block( block );
+		Block.verify( newBlock, this.latestBlock )
+		this.simulateTransactions( newBlock.transactions )
+		this.performTransactions( newBlock.transactions );
 		this.transactionPool = [];
-		this.chain.push( block.all )
+		this.chain.push( newBlock.all )
 		updateFile( this.filePath, this.chain )
-		return block
+		return newBlock
 	}
 
 	addBlocks ( blocks )
