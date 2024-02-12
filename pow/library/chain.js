@@ -198,6 +198,11 @@ class Blockchain
 		return this.chain[blockNumber]
 	}
 
+	getBlocks ( from, to )
+	{
+		return this.chain.slice( from, to )
+	}
+
 	get latestBlock ()
 	{
 		return this.chain[this.chain.length - 1]
