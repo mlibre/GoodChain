@@ -9,7 +9,7 @@ router.get( "/", function ( req, res )
 
 router.post( "/", function ( req, res, next )
 {
-	const block = blockchain.verifyAndAddBlock( req.body );
+	const block = blockchain.addBlock( req.body );
 	res.send( block );
 });
 

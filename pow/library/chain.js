@@ -39,7 +39,7 @@ class Blockchain
 			difficulty: self.difficulty
 		});
 		block.mine();
-		self.verifyAndAddBlock( block );
+		self.addBlock( block );
 		return block;
 	}
 
@@ -182,15 +182,10 @@ class Blockchain
 		return newTransactionPool
 	}
 
-	verifyAndAddBlock ( block )
+	addBlock ( block )
 	{
 		Block.verify( block, this.latestBlock )
 		this.simulateTransactions( block.transactions )
-		return this.addBlock( block )
-	}
-
-	addBlock ( block )
-	{
 		this.performTransactions( block.transactions );
 		this.transactionPool = [];
 		this.chain.push( block )
