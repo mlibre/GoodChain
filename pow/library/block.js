@@ -20,6 +20,11 @@ class Block
 	{
 		return Block.pickData( this );
 	}
+	get all ()
+	{
+		const self = this
+		return { ...Block.pickData( this ), hash: self.hash };
+	}
 	mine ( )
 	{
 		this.nonce = 0;

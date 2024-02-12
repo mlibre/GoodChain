@@ -27,9 +27,9 @@ class Blockchain
 	mineNewBlock ()
 	{
 		const self = this
+		self.cleanupTransactionPool()
 		const coinbaseTrx = self.genCoinbaseTransaction();
 		self.addTransaction( coinbaseTrx )
-		self.cleanupTransactionPool()
 		const block = new Block({
 			index: self.chainLength,
 			chainName: self.chainName,
@@ -70,7 +70,7 @@ class Blockchain
 		return this.chainLength
 	}
 
-	addBulkTransaction ( transactions )
+	addTransactions ( transactions )
 	{
 		const results = []
 		for ( const transaction of transactions )
@@ -160,8 +160,6 @@ class Blockchain
 				const trx = new Transaction( tmpTrx );
 				if ( trx.isCoinBase( ) )
 				{
-					clonedWallet.addBalance( trx.to, trx.amount );
-					newTransactionPool.push( trx.data );
 					continue
 				}
 				if ( trx.transaction_number <= clonedWallet.transactionNumber( trx.from ) )
@@ -188,9 +186,18 @@ class Blockchain
 		this.simulateTransactions( block.transactions )
 		this.performTransactions( block.transactions );
 		this.transactionPool = [];
-		this.chain.push( block )
+		this.chain.push( block.all )
 		updateFile( this.filePath, this.chain )
 		return block
+	}
+
+	addBlocks ( blocks )
+	{
+		for ( const block of blocks )
+		{
+			this.addBlock( block )
+		}
+		return blocks
 	}
 
 	getBlock ( blockNumber )

@@ -1,10 +1,12 @@
 const express = require( "express" );
+const axios = require( "axios" );
 const router = express.Router();
 const blockchain = require( "../blockchain" );
+const nodes = require( "../nodes" );
 
 router.get( "/", function ( req, res )
 {
-	const { index, from, to } = req.query;
+	let { index, from, to } = req.query;
 	if ( !index && !from && !to )
 	{
 		res.json( blockchain.latestBlock );
@@ -12,12 +14,15 @@ router.get( "/", function ( req, res )
 	}
 	else if ( index )
 	{
-		res.json( blockchain.getBlock( Number( index ) ) );
+		index = Number( index ) || undefined
+		res.json( blockchain.getBlock( index ) );
 		return;
 	}
-	else if ( from && to )
+	else if ( from || to )
 	{
-		const blocks = blockchain.getBlocks( Number( from ), Number( to ) + 1 );
+		from = Number( from ) || undefined
+		to = Number( to ) || undefined
+		const blocks = blockchain.getBlocks( from, to );
 		res.json( blocks );
 		return;
 	}
@@ -29,6 +34,26 @@ router.post( "/", function ( req, res, next )
 	res.send( block );
 });
 
+router.post( "/update", async function ( req, res, next )
+{
+	const currentIndex = blockchain.latestBlock.index;
+	for ( const node of nodes.list )
+	{
+		try
+		{
+			const response = await axios.get( `${node}/block`, {
+				params: {
+					from: blockchain.latestBlock.index
+				} });
+			blockchain.addBlocks( response.data );
+		}
+		catch ( error )
+		{
+			console.error( `Error fetching data from node ${node}:`, error.message );
+		}
+	}
+	res.send( blockchain.getBlocks( currentIndex ) );
+});
 
 
 module.exports = router;
