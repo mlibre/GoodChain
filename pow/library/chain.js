@@ -185,7 +185,21 @@ class Blockchain
 	addBlock ( block )
 	{
 		const newBlock = new Block( block );
-		Block.verify( newBlock, this.latestBlock )
+		try
+		{
+			Block.verify( newBlock, this.latestBlock )
+		}
+		catch ( error )
+		{
+			// if ( error.message == "Invalid previous hash" )
+			// {
+			// 	console.log( "running consensus" );
+			// 	blockchain.consensus( error.cause.block )
+			// }
+			// else {
+			// 	throw error
+			// }
+		}
 		this.simulateTransactions( newBlock.transactions )
 		this.performTransactions( newBlock.transactions );
 		this.chain.push( newBlock.all )
