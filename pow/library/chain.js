@@ -160,11 +160,13 @@ class Blockchain
 				const trx = new Transaction( tmpTrx );
 				if ( trx.isCoinBase( ) )
 				{
+					console.log( "Dropping coinbase transaction" );
 					continue
 				}
 				if ( trx.transaction_number <= clonedWallet.transactionNumber( trx.from ) )
 				{
-					throw new Error( "Transaction number is less than wallet transaction number" );
+					console.log( "Dropping transaction with transaction number less than wallet transaction number" );
+					continue
 				}
 				clonedWallet.minusBalance( trx.from, trx.amount + trx.fee );
 				clonedWallet.incrementTN( trx.from );
@@ -186,8 +188,8 @@ class Blockchain
 		Block.verify( newBlock, this.latestBlock )
 		this.simulateTransactions( newBlock.transactions )
 		this.performTransactions( newBlock.transactions );
-		this.transactionPool = [];
 		this.chain.push( newBlock.all )
+		this.transactionPool = [];
 		updateFile( this.filePath, this.chain )
 		return newBlock
 	}
