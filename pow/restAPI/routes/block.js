@@ -49,6 +49,11 @@ router.post( "/update", async function ( req, res, next )
 		}
 		catch ( error )
 		{
+			// if ( error.message == "Invalid block hash" )
+			// {
+			// 	console.log( "running consensus" );
+			// 	blockchain.consensus( error.cause.block )
+			// }
 			console.error( `Error fetching data from node ${node}:`, error );
 		}
 	}
