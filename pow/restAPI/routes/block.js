@@ -55,5 +55,23 @@ router.post( "/update", async function ( req, res, next )
 	res.send( blockchain.getBlocks( currentIndex + 1 ) );
 });
 
+router.get( "/broadcast", async function ( req, res, next )
+{
+	for ( const node of nodes.list )
+	{
+		try
+		{
+			await axios.post( `${node}/block`, {
+				...blockchain.latestBlock
+			});
+		}
+		catch ( error )
+		{
+			console.error( `Error broadcasting to node ${node}:`, error.message );
+		}
+	}
+	res.send( "Broadcasted to all nodes" );
+})
+
 
 module.exports = router;

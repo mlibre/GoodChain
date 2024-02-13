@@ -43,6 +43,10 @@ class Block
 	static verify ( block, previousBlock )
 	{
 		const normalizedBlock = Block.pickData( block )
+		if ( normalizedBlock.index !== previousBlock.index + 1 )
+		{
+			throw new Error( "Invalid index" );
+		}
 		if ( block.hash !== hashDataObject( normalizedBlock ) )
 		{
 			throw new Error( "Invalid block hash" );
