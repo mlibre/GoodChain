@@ -205,6 +205,10 @@ class Blockchain
 
 	getBlock ( blockNumber )
 	{
+		if ( blockNumber >= this.chainLength )
+		{
+			throw new Error( "Block number is greater than chain length" );
+		}
 		return this.chain[blockNumber]
 	}
 

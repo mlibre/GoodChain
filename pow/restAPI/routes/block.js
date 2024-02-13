@@ -43,13 +43,13 @@ router.post( "/update", async function ( req, res, next )
 		{
 			const response = await axios.get( `${node}/block`, {
 				params: {
-					from: currentIndex + 1
+					index: currentIndex + 1
 				} });
-			blockchain.addBlocks( response.data );
+			blockchain.addBlock( response.data );
 		}
 		catch ( error )
 		{
-			console.error( `Error fetching data from node ${node}:`, error.message );
+			console.error( `Error fetching data from node ${node}:`, error );
 		}
 	}
 	res.send( blockchain.getBlocks( currentIndex + 1 ) );

@@ -43,6 +43,10 @@ class Block
 	static verify ( block, previousBlock )
 	{
 		const normalizedBlock = Block.pickData( block )
+		if ( normalizedBlock.chainName !== previousBlock.chainName )
+		{
+			throw new Error( "Invalid chain name" );
+		}
 		if ( normalizedBlock.index !== previousBlock.index + 1 )
 		{
 			throw new Error( "Invalid index" );
