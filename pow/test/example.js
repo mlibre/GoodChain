@@ -1,5 +1,8 @@
 const Blockchain = require( "../library/chain" );
 const Transaction = require( "../library/transactions" )
+const Consensus = require( "../library/pow-consensus" );
+const consensus = new Consensus()
+
 const { deleteFile, initJsonFile, createKeyPair } = require( "../library/utils" )
 deleteFile( "./db/blockchain.json" );
 deleteFile( "./db/wallets.json" );
@@ -8,7 +11,13 @@ deleteFile( "./keys/user.json" );
 
 const userKeys = initJsonFile( "./keys/user.json", createKeyPair() );
 const minerKeys = initJsonFile( "./keys/miner.json", createKeyPair() );
-const blockchain = new Blockchain( "./db/blockchain.json", "./db/wallets.json", "GoodChain", minerKeys );
+const blockchain = new Blockchain({
+	chainFilePath: "./db/blockchain.json",
+	walletFilePath: "./db/wallets.json",
+	chainName: "GoodChain",
+	minerKeys,
+	consensus
+});
 blockchain.mineNewBlock();
 
 const trx = new Transaction({

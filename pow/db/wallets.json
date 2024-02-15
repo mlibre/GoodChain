@@ -1,9 +1,9 @@
 {
-	"-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAhTn+r01Fdd9HspCFPZ/tk6Y0bdi/kvWrjA9LH/Lrq/4=\n-----END PUBLIC KEY-----\n": {
+	"-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAmAqdn6WJ88qhDfGQM8GMslmAZbA2RKB70R4tLq+P2bs=\n-----END PUBLIC KEY-----\n": {
 		"balance": 350.3,
 		"transaction_number": 1
 	},
-	"-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAMaFPzLR3U7d8X3HUwBCeMYxwCGTQWLq+BFjG6MWVQtU=\n-----END PUBLIC KEY-----\n": {
+	"-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAYw3bMH65+21YA+bc+SfmmgVyBdEEe90hyEOyk1nT/T8=\n-----END PUBLIC KEY-----\n": {
 		"balance": 44.7,
 		"transaction_number": 1
 	},

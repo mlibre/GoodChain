@@ -2,103 +2,107 @@
 	{
 		"index": 0,
 		"chainName": "GoodChain",
-		"timestamp": 1707854772804,
+		"timestamp": 1707999097004,
 		"transactions": [
 			{
 				"from": null,
-				"to": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAhTn+r01Fdd9HspCFPZ/tk6Y0bdi/kvWrjA9LH/Lrq/4=\n-----END PUBLIC KEY-----\n",
+				"to": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAmAqdn6WJ88qhDfGQM8GMslmAZbA2RKB70R4tLq+P2bs=\n-----END PUBLIC KEY-----\n",
 				"amount": 100,
 				"fee": 0,
 				"transaction_number": 0,
 				"signature": null,
-				"id": "d447e878-68a4-4164-a560-1055cb0e2684"
+				"id": "42815d28-42f0-4f89-bdb1-571b258b4552"
 			}
 		],
 		"previousHash": "",
-		"nonce": 1196,
-		"miner": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAhTn+r01Fdd9HspCFPZ/tk6Y0bdi/kvWrjA9LH/Lrq/4=\n-----END PUBLIC KEY-----\n",
-		"difficulty": "000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
-		"hash": "0005b0bff5a46a99c3f9e9067a46da49750626cca06319902451dc660cb16259"
+		"hash": "0003ae6b471d587e642e9e8ad54e57ef5085bdd5d65006ff7e593033eb1377c1",
+		"nonce": 685,
+		"miner": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAmAqdn6WJ88qhDfGQM8GMslmAZbA2RKB70R4tLq+P2bs=\n-----END PUBLIC KEY-----\n",
+		"consensusDifficulty": "000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+		"consensusName": "pow"
 	},
 	{
 		"index": 1,
 		"chainName": "GoodChain",
-		"timestamp": 1707854773282,
+		"timestamp": 1707999097019,
 		"transactions": [
 			{
 				"from": null,
-				"to": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAhTn+r01Fdd9HspCFPZ/tk6Y0bdi/kvWrjA9LH/Lrq/4=\n-----END PUBLIC KEY-----\n",
+				"to": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAmAqdn6WJ88qhDfGQM8GMslmAZbA2RKB70R4tLq+P2bs=\n-----END PUBLIC KEY-----\n",
 				"amount": 100,
 				"fee": 0,
 				"transaction_number": 0,
 				"signature": null,
-				"id": "09182243-5d08-48c7-8608-31b51d8d38d4"
+				"id": "437823ae-de4c-481c-894b-3e647b7f36d0"
 			}
 		],
-		"previousHash": "0005b0bff5a46a99c3f9e9067a46da49750626cca06319902451dc660cb16259",
-		"nonce": 11136,
-		"miner": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAhTn+r01Fdd9HspCFPZ/tk6Y0bdi/kvWrjA9LH/Lrq/4=\n-----END PUBLIC KEY-----\n",
-		"difficulty": "000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
-		"hash": "0000b803db0b0e0dff29874dace6778a830ac97944e0f9d57a2be64ccc8db534"
+		"previousHash": "0003ae6b471d587e642e9e8ad54e57ef5085bdd5d65006ff7e593033eb1377c1",
+		"hash": "00015a6d5aebc8fab1fa3ede856d915d13e5be2ead6ccad63184a59e2a042549",
+		"nonce": 6425,
+		"miner": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAmAqdn6WJ88qhDfGQM8GMslmAZbA2RKB70R4tLq+P2bs=\n-----END PUBLIC KEY-----\n",
+		"consensusDifficulty": "000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+		"consensusName": "pow"
 	},
 	{
 		"index": 2,
 		"chainName": "GoodChain",
-		"timestamp": 1707854776057,
+		"timestamp": 1707999097058,
 		"transactions": [
 			{
-				"from": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAhTn+r01Fdd9HspCFPZ/tk6Y0bdi/kvWrjA9LH/Lrq/4=\n-----END PUBLIC KEY-----\n",
-				"to": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAMaFPzLR3U7d8X3HUwBCeMYxwCGTQWLq+BFjG6MWVQtU=\n-----END PUBLIC KEY-----\n",
+				"from": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAmAqdn6WJ88qhDfGQM8GMslmAZbA2RKB70R4tLq+P2bs=\n-----END PUBLIC KEY-----\n",
+				"to": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAYw3bMH65+21YA+bc+SfmmgVyBdEEe90hyEOyk1nT/T8=\n-----END PUBLIC KEY-----\n",
 				"amount": 50,
 				"fee": 0,
 				"transaction_number": 1,
-				"signature": "7bda1be66e69193a4024a26907f3df52f725e62d0ae234b5e78503f6fc636ffa78ce6154d1fe67170846768974b1374b19ac803a496c64e1cefabc519b4c6002",
-				"id": "c2622947-1c8d-4990-bbe8-f798b573c225"
+				"signature": "580526193f8d2f974ca86f04415aa11d11024b61887cd4e78ac48206938e3c12509439be0513dc22305fcf1b8cd701f76b6ce62101549381e475310317f45b05",
+				"id": "a17316b7-685d-4220-baac-0d00042d94e3"
 			},
 			{
 				"from": null,
-				"to": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAhTn+r01Fdd9HspCFPZ/tk6Y0bdi/kvWrjA9LH/Lrq/4=\n-----END PUBLIC KEY-----\n",
+				"to": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAmAqdn6WJ88qhDfGQM8GMslmAZbA2RKB70R4tLq+P2bs=\n-----END PUBLIC KEY-----\n",
 				"amount": 100,
 				"fee": 0,
 				"transaction_number": 0,
 				"signature": null,
-				"id": "855a7e23-b9b1-4105-8b1f-554669f2b5c2"
+				"id": "86d0a628-850d-4280-9031-0fe48858701a"
 			}
 		],
-		"previousHash": "0000b803db0b0e0dff29874dace6778a830ac97944e0f9d57a2be64ccc8db534",
-		"nonce": 18484,
-		"miner": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAhTn+r01Fdd9HspCFPZ/tk6Y0bdi/kvWrjA9LH/Lrq/4=\n-----END PUBLIC KEY-----\n",
-		"difficulty": "000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
-		"hash": "000c15217a40f6e22cf18a8649155db80f4d4d5c2d6f80f9d7e760d5b5ad90ce"
+		"previousHash": "00015a6d5aebc8fab1fa3ede856d915d13e5be2ead6ccad63184a59e2a042549",
+		"hash": "000b314bf763dd18a4f0145aab75475dd6d64a44a3210a1dce0b4c3c98226818",
+		"nonce": 7797,
+		"miner": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAmAqdn6WJ88qhDfGQM8GMslmAZbA2RKB70R4tLq+P2bs=\n-----END PUBLIC KEY-----\n",
+		"consensusDifficulty": "000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+		"consensusName": "pow"
 	},
 	{
 		"index": 3,
 		"chainName": "GoodChain",
-		"timestamp": 1707854777909,
+		"timestamp": 1707999097102,
 		"transactions": [
 			{
-				"from": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAMaFPzLR3U7d8X3HUwBCeMYxwCGTQWLq+BFjG6MWVQtU=\n-----END PUBLIC KEY-----\n",
+				"from": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAYw3bMH65+21YA+bc+SfmmgVyBdEEe90hyEOyk1nT/T8=\n-----END PUBLIC KEY-----\n",
 				"to": "user3",
 				"amount": 5,
 				"fee": 0.3,
 				"transaction_number": 1,
-				"signature": "fd5a21634627a14355144e191e20c988661ff1f6809183203d0b2d5b2bcba861561c0fc0257fffbe22e37b109ab88f21f0cb72d3c7889bea3e86d13c7243290c",
-				"id": "9c710873-431f-483d-ae01-f1a1b9ec21fd"
+				"signature": "20985ccdfade31803e6bf6089d0b447dc5754d12e56af63e99fe92003ef8477e5d1e06bff77a50ef2e4c08f3e1af41cc7a9e58141c739e73d204180c613de60b",
+				"id": "3f2736c7-f905-4552-96d5-ce58cc55b288"
 			},
 			{
 				"from": null,
-				"to": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAhTn+r01Fdd9HspCFPZ/tk6Y0bdi/kvWrjA9LH/Lrq/4=\n-----END PUBLIC KEY-----\n",
+				"to": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAmAqdn6WJ88qhDfGQM8GMslmAZbA2RKB70R4tLq+P2bs=\n-----END PUBLIC KEY-----\n",
 				"amount": 100.3,
 				"fee": 0,
 				"transaction_number": 0,
 				"signature": null,
-				"id": "aea61d74-d4c3-491f-a59f-01edc29145d5"
+				"id": "fef484a3-0e31-4d63-b6cc-cc45ad5af7fb"
 			}
 		],
-		"previousHash": "000c15217a40f6e22cf18a8649155db80f4d4d5c2d6f80f9d7e760d5b5ad90ce",
-		"nonce": 1816,
-		"miner": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAhTn+r01Fdd9HspCFPZ/tk6Y0bdi/kvWrjA9LH/Lrq/4=\n-----END PUBLIC KEY-----\n",
-		"difficulty": "000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
-		"hash": "00094a90bcb9e61e0848efa33c3527687697167ac36bfa7e1714ca5d0f25842e"
+		"previousHash": "000b314bf763dd18a4f0145aab75475dd6d64a44a3210a1dce0b4c3c98226818",
+		"hash": "000e06de7820d914a6af6336e0e21a8ce67f329856279b68d1f01ac5c453b365",
+		"nonce": 194,
+		"miner": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAmAqdn6WJ88qhDfGQM8GMslmAZbA2RKB70R4tLq+P2bs=\n-----END PUBLIC KEY-----\n",
+		"consensusDifficulty": "000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+		"consensusName": "pow"
 	}
 ]

@@ -37,6 +37,11 @@ exports.hashDataObject = function ( data )
 	.digest( "hex" );
 }
 
+exports.objectify = function ( data )
+{
+	return JSON.parse( JSON.stringify( data ) );
+}
+
 exports.deleteFile = function ( filePath )
 {
 	try

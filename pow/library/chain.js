@@ -1,13 +1,14 @@
 const _ = require( "lodash" );
-const { initJsonFile, updateFile, calculateMiningFee } = require( "./utils" )
+const { initJsonFile, updateFile, calculateMiningFee, objectify } = require( "./utils" )
 const Wallet = require( "./wallet" )
 const Block = require( "./block" )
 const Transaction = require( "./transactions" )
 
 class Blockchain
 {
-	constructor ( chainFilePath, walletFilePath, chainName, minerKeys )
+	constructor ({ chainFilePath, walletFilePath, chainName, minerKeys, consensus })
 	{
+		this.consensus = consensus;
 		this.chainName = chainName;
 		this.minerKeys = minerKeys;
 		this.filePath = chainFilePath;
@@ -15,13 +16,14 @@ class Blockchain
 		this.wallet = new Wallet( walletFilePath );
 		this.transactionPool = [];
 		this.transactionPoolSize = 100;
-		this.difficulty = "000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff";
 		this.miningReward = 100;
 
 		if ( this.chain.length === 0 )
 		{
 			this.mineNewBlock()
 		}
+
+		this.consensus.setValues( this.latestBlock );
 	}
 
 	mineNewBlock ()
@@ -36,9 +38,10 @@ class Blockchain
 			transactions: self.transactionPool,
 			previousHash: self.latestBlock?.hash,
 			miner: self.minerKeys.publicKey,
-			difficulty: self.difficulty
+			consensusFields: self.consensus.getDefaultBlockFields()
 		});
 		block.mine();
+		// this.consensus
 		self.addBlock( block );
 		return block;
 	}
@@ -184,25 +187,11 @@ class Blockchain
 
 	addBlock ( block )
 	{
-		const newBlock = new Block( block );
-		try
-		{
-			Block.verify( newBlock, this.latestBlock )
-		}
-		catch ( error )
-		{
-			// if ( error.message == "Invalid previous hash" )
-			// {
-			// 	console.log( "running consensus" );
-			// 	blockchain.consensus( error.cause.block )
-			// }
-			// else {
-			// 	throw error
-			// }
-		}
+		const newBlock = objectify( block );
+		Block.verify( newBlock, this.latestBlock )
 		this.simulateTransactions( newBlock.transactions )
 		this.performTransactions( newBlock.transactions );
-		this.chain.push( newBlock.all )
+		this.chain.push( newBlock )
 		this.transactionPool = [];
 		updateFile( this.filePath, this.chain )
 		return newBlock
@@ -216,6 +205,19 @@ class Blockchain
 		}
 		return blocks
 	}
+
+	// replaceBlock ( block )
+	// {
+	// 	const newBlock = new Block( block );
+	// 	Block.verify( newBlock, this.getBlock( newBlock.index - 1 ) )
+	// 	// re calcuate wallet
+	// 	this.simulateTransactions( newBlock.transactions )
+	// 	this.performTransactions( newBlock.transactions );
+	// 	this.chain[newBlock.index] = newBlock.all
+	// 	this.chain = this.chain.slice( 0, newBlock.index + 1 )
+	// 	updateFile( this.filePath, this.chain )
+	// 	return newBlock
+	// }
 
 	getBlock ( blockNumber )
 	{

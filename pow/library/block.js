@@ -1,48 +1,49 @@
-const { hashDataObject } = require( "./utils" )
+const { hashDataObject, objectify } = require( "./utils" )
 const Transaction = require( "./transactions" )
 const _ = require( "lodash" );
 
 class Block
 {
-	constructor ({	index, chainName, timestamp, nonce, previousHash, transactions, hash, miner, difficulty })
+	constructor ({	index, chainName, timestamp, nonce, previousHash, transactions, hash, miner, consensusFields })
 	{
-		this.index = index;
-		this.chainName = chainName;
-		this.timestamp = timestamp || Date.now();
-		this.transactions = transactions;
-		this.previousHash = previousHash || "";
-		this.hash = hash;
-		this.nonce = nonce;
-		this.miner = miner;
-		this.difficulty = difficulty;
+		const self = this
+		self.index = index;
+		self.chainName = chainName;
+		self.timestamp = timestamp || Date.now();
+		self.transactions = transactions;
+		self.previousHash = previousHash || "";
+		self.hash = hash;
+		self.nonce = nonce;
+		self.miner = miner;
+		for ( const key in consensusFields )
+		{
+			const element = consensusFields[key];
+			self[key] = element;
+		}
 	}
 	get data ()
 	{
-		return Block.pickData( this );
+		return _.omit( this, [ "hash" ] );
 	}
 	get all ()
 	{
-		const self = this
-		return { ...Block.pickData( this ), hash: self.hash };
+		return objectify( this )
 	}
 	mine ( )
 	{
 		this.nonce = 0;
 		this.hash = hashDataObject( this.data );
-		while ( this.hash.localeCompare( this.difficulty ) != -1 )
+		while ( this.hash.localeCompare( this.consensusDifficulty ) != -1 )
 		{
 			this.nonce++;
 			this.hash = hashDataObject( this.data );
 		}
 		return this.nonce
 	}
-	static pickData ( block )
-	{
-		return _.pick( block, [ "index", "chainName", "timestamp", "transactions", "previousHash", "nonce", "miner", "difficulty" ] );
-	}
+
 	static verify ( block, previousBlock )
 	{
-		const normalizedBlock = Block.pickData( block )
+		const normalizedBlock = _.omit( block, [ "hash" ] );
 		if ( block.hash !== hashDataObject( normalizedBlock ) )
 		{
 			throw new Error( "Invalid block hash" );

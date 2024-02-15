@@ -23,9 +23,18 @@ npm start
 ## Example
 
 ```javascript
+const Consensus = require( "./library/pow-consensus" );
+const consensus = new Consensus()
+const Blockchain = require( "../library/chain" );
 const userKeys = initJsonFile( "./keys/user.json", createKeyPair() );
 const minerKeys = initJsonFile( "./keys/miner.json", createKeyPair() );
-const blockchain = new Blockchain( "./db/blockchain.json", "./db/wallets.json", "GoodChain", minerKeys );
+const blockchain = new Blockchain( {
+ chainFilePath: "./db/blockchain.json",
+ walletFilePath: "./db/wallets.json",
+ chainName: "GoodChain",
+ minerKeys,
+ consensus
+} );
 blockchain.mineNewBlock();
 
 const trx = new Transaction({
@@ -39,6 +48,10 @@ trx.sign( minerKeys.privateKey );
 
 const blockNumber = blockchain.addTransaction( trx.data );
 blockchain.mineNewBlock();
+```
+
+```js
+npm start -- --url "http://localhost:3000" --nodes "http://localhost:3001" --blockchainFile "./db/blockchain.json" --walletsFile "./db/wallets.json" --minerKeysFile "./keys/miner.json" --blockchainName "GoodChain" --nodes "http://localhost:3001"
 ```
 
 ## RESTful API
