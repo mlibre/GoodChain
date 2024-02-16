@@ -4,31 +4,30 @@ const _ = require( "lodash" );
 
 class Block
 {
-	constructor ({	index, chainName, timestamp, nonce, previousHash, transactions, hash, miner })
+	constructor ({	index, chainName, timestamp, previousHash, transactions, hash, miner })
 	{
-		const self = this
-		self.index = index;
-		self.chainName = chainName;
-		self.timestamp = timestamp || Date.now();
-		self.transactions = transactions;
-		self.previousHash = previousHash || "";
-		self.hash = hash;
-		self.nonce = nonce;
-		self.miner = miner;
+		// const self = this
+		// self.index = index;
+		// self.chainName = chainName;
+		// self.timestamp = timestamp || Date.now();
+		// self.transactions = transactions;
+		// self.previousHash = previousHash || "";
+		// self.hash = hash;
+		// self.miner = miner;
 	}
-	get data ()
-	{
-		return _.omit( this, [ "hash" ] );
-	}
-	get all ()
-	{
-		return objectify( this )
-	}
-	hashIt ( )
-	{
-		this.hash = hashDataObject( this.data );
-		return this.hash
-	}
+	// get data ()
+	// {
+	// 	return _.omit( this, [ "hash" ] );
+	// }
+	// get all ()
+	// {
+	// 	return objectify( this )
+	// }
+	// hashIt ( )
+	// {
+	// 	this.hash = hashDataObject( this.data );
+	// 	return this.hash
+	// }
 
 	static verify ( block, previousBlock )
 	{

@@ -15,16 +15,16 @@ module.exports = class pow
 	{
 		block.consensusName = this.name
 		block.consensusDifficulty = this.difficulty
-		block.nonce = 0;
-		block.hash = hashDataObject( block );
-		while ( block.hash.localeCompare( this.difficulty ) != -1 )
+		block.consensusNonce = 0;
+		block.consensusHash = hashDataObject( block );
+		while ( block.consensusHash.localeCompare( this.difficulty ) != -1 )
 		{
-			block.nonce++;
-			block.hash = hashDataObject( block );
+			block.consensusNonce++;
+			block.consensusHash = hashDataObject( block );
 		}
 		if ( block.index === 0 )
 		{
-			block.totalDifficulty = block.consensusDifficulty
+			block.consensusTotalDifficulty = block.consensusDifficulty
 		}
 		else
 		{
@@ -32,11 +32,11 @@ module.exports = class pow
 			const num2 = parseInt( previousBlock.consensusDifficulty, 16 );
 			const sum = num1 + num2;
 			const sumHex = sum.toString( 16 );
-			block.totalDifficulty = sumHex
+			block.consensusTotalDifficulty = sumHex
 		}
-		return block.nonce
+		return block.consensusNonce
 	}
-	validate ( block )
+	validate ( block, previousBlock )
 	{
 		if ( block.consensusName !== this.name )
 		{
@@ -45,6 +45,13 @@ module.exports = class pow
 		if ( block.consensusDifficulty !== this.difficulty )
 		{
 			throw new Error( "Invalid difficulty" );
+		}
+		if ( block.index !== 0 )
+		{
+			if ( block.consensusHash.localeCompare( block.consensusDifficulty ) !== -1 )
+			{
+				throw new Error( "Invalid hash" );
+			}
 		}
 	}
 }

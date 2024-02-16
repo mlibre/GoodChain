@@ -1,5 +1,5 @@
 const _ = require( "lodash" );
-const { initJsonFile, updateFile, calculateMiningFee, objectify } = require( "./utils" )
+const { initJsonFile, updateFile, calculateMiningFee, objectify, hashDataObject } = require( "./utils" )
 const Wallet = require( "./wallet" )
 const Block = require( "./block" )
 const Transaction = require( "./transactions" )
@@ -32,15 +32,16 @@ class Blockchain
 		self.cleanupTransactionPool()
 		const coinbaseTrx = self.genCoinbaseTransaction();
 		self.addTransaction( coinbaseTrx )
-		const block = new Block({
+		const block = {
 			index: self.chainLength,
 			chainName: self.chainName,
+			timestamp: Date.now(),
 			transactions: self.transactionPool,
-			previousHash: self.latestBlock?.hash,
+			previousHash: self.latestBlock?.hash || "",
 			miner: self.minerKeys.publicKey
-		});
+		};
 		this.consensus.apply( block, self.getBlock( block.index - 1 ) );
-		block.hashIt();
+		block.hash = hashDataObject( block );
 		self.addBlock( block );
 		return block;
 	}
@@ -49,6 +50,7 @@ class Blockchain
 	{
 		const newBlock = objectify( block );
 		Block.verify( newBlock, this.latestBlock )
+		this.consensus.validate( newBlock, this.latestBlock );
 		this.simulateTransactions( newBlock.transactions )
 		this.performTransactions( newBlock.transactions );
 		this.chain.push( newBlock )

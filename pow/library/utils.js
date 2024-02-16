@@ -30,6 +30,7 @@ exports.calculateMiningFee = function calculateMiningFee ( transactionPool )
 
 exports.hashDataObject = function ( data )
 {
+	// the sha256 hash generates fixed length output of 32 bytes, 64 characters
 	const stringData = JSON.stringify( data )
 	return crypto
 	.createHash( "sha256" )
