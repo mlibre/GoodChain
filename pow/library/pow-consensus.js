@@ -11,7 +11,7 @@ module.exports = class pow
 	{
 		this.difficulty = block.difficulty || this.difficulty;
 	}
-	apply ( block )
+	apply ( block, previousBlock )
 	{
 		block.consensusName = this.name
 		block.consensusDifficulty = this.difficulty
@@ -21,6 +21,18 @@ module.exports = class pow
 		{
 			block.nonce++;
 			block.hash = hashDataObject( block );
+		}
+		if ( block.index === 0 )
+		{
+			block.totalDifficulty = block.consensusDifficulty
+		}
+		else
+		{
+			const num1 = parseInt( block.consensusDifficulty, 16 );
+			const num2 = parseInt( previousBlock.consensusDifficulty, 16 );
+			const sum = num1 + num2;
+			const sumHex = sum.toString( 16 );
+			block.totalDifficulty = sumHex
 		}
 		return block.nonce
 	}

@@ -39,7 +39,7 @@ class Blockchain
 			previousHash: self.latestBlock?.hash,
 			miner: self.minerKeys.publicKey
 		});
-		this.consensus.apply( block );
+		this.consensus.apply( block, self.latestBlock );
 		block.hashIt();
 		self.addBlock( block );
 		return block;
