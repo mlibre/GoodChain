@@ -1,3 +1,5 @@
+const { hashDataObject } = require( "./utils" );
+
 module.exports = class pow
 {
 	constructor ()
@@ -13,14 +15,14 @@ module.exports = class pow
 	{
 		block.consensusName = this.name
 		block.consensusDifficulty = this.difficulty
-		// this.nonce = 0;
-		// this.hash = hashDataObject( this.data );
-		// while ( this.hash.localeCompare( this.consensusDifficulty ) != -1 )
-		// {
-		// 	this.nonce++;
-		// 	this.hash = hashDataObject( this.data );
-		// }
-		// return this.nonce
+		block.nonce = 0;
+		block.hash = hashDataObject( block );
+		while ( block.hash.localeCompare( this.difficulty ) != -1 )
+		{
+			block.nonce++;
+			block.hash = hashDataObject( block );
+		}
+		return block.nonce
 	}
 	validate ( block )
 	{

@@ -26,14 +26,8 @@ class Block
 	}
 	mine ( )
 	{
-		this.nonce = 0;
 		this.hash = hashDataObject( this.data );
-		while ( this.hash.localeCompare( this.consensusDifficulty ) != -1 )
-		{
-			this.nonce++;
-			this.hash = hashDataObject( this.data );
-		}
-		return this.nonce
+		return this.hash
 	}
 
 	static verify ( block, previousBlock )

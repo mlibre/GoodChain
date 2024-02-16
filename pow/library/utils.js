@@ -49,7 +49,7 @@ exports.deleteFile = function ( filePath )
 		if ( fs.existsSync( filePath ) )
 		{
 			fs.unlinkSync( filePath );
-			console.log( `Deleted ${filePath}` );
+			console.log( `File ${filePath} Deleted` );
 		}
 		else
 		{

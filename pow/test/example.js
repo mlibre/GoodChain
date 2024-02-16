@@ -45,6 +45,6 @@ trx2.sign( userKeys.privateKey );
 blockchain.addTransaction( trx2.data );
 blockchain.mineNewBlock();
 
-console.log( blockchain.validateChain() );
+console.log( "chain validation:", blockchain.validateChain() );
 console.log( "Latest Block :", blockchain.latestBlock );
 console.log( "Wallets : ", blockchain.wallet );
