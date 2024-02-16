@@ -45,6 +45,18 @@ class Blockchain
 		return block;
 	}
 
+	addBlock ( block )
+	{
+		const newBlock = objectify( block );
+		Block.verify( newBlock, this.latestBlock )
+		this.simulateTransactions( newBlock.transactions )
+		this.performTransactions( newBlock.transactions );
+		this.chain.push( newBlock )
+		this.transactionPool = [];
+		updateFile( this.filePath, this.chain )
+		return newBlock
+	}
+
 	genCoinbaseTransaction ( )
 	{
 		return {
@@ -182,18 +194,6 @@ class Blockchain
 		}
 		this.transactionPool = newTransactionPool;
 		return newTransactionPool
-	}
-
-	addBlock ( block )
-	{
-		const newBlock = objectify( block );
-		Block.verify( newBlock, this.latestBlock )
-		this.simulateTransactions( newBlock.transactions )
-		this.performTransactions( newBlock.transactions );
-		this.chain.push( newBlock )
-		this.transactionPool = [];
-		updateFile( this.filePath, this.chain )
-		return newBlock
 	}
 
 	addBlocks ( blocks )
