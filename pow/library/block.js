@@ -4,7 +4,7 @@ const _ = require( "lodash" );
 
 class Block
 {
-	constructor ({	index, chainName, timestamp, nonce, previousHash, transactions, hash, miner, consensusFields })
+	constructor ({	index, chainName, timestamp, nonce, previousHash, transactions, hash, miner })
 	{
 		const self = this
 		self.index = index;
@@ -15,11 +15,6 @@ class Block
 		self.hash = hash;
 		self.nonce = nonce;
 		self.miner = miner;
-		for ( const key in consensusFields )
-		{
-			const element = consensusFields[key];
-			self[key] = element;
-		}
 	}
 	get data ()
 	{

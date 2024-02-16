@@ -9,11 +9,28 @@ module.exports = class pow
 	{
 		this.difficulty = block.difficulty || this.difficulty;
 	}
-	getDefaultBlockFields ()
+	apply ( block )
 	{
-		return {
-			consensusDifficulty: this.difficulty,
-			consensusName: this.name
-		};
+		block.consensusName = this.name
+		block.consensusDifficulty = this.difficulty
+		// this.nonce = 0;
+		// this.hash = hashDataObject( this.data );
+		// while ( this.hash.localeCompare( this.consensusDifficulty ) != -1 )
+		// {
+		// 	this.nonce++;
+		// 	this.hash = hashDataObject( this.data );
+		// }
+		// return this.nonce
+	}
+	validate ( block )
+	{
+		if ( block.consensusName !== this.name )
+		{
+			throw new Error( "Invalid consensus name" );
+		}
+		if ( block.consensusDifficulty !== this.difficulty )
+		{
+			throw new Error( "Invalid difficulty" );
+		}
 	}
 }

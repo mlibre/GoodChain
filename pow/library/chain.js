@@ -37,11 +37,10 @@ class Blockchain
 			chainName: self.chainName,
 			transactions: self.transactionPool,
 			previousHash: self.latestBlock?.hash,
-			miner: self.minerKeys.publicKey,
-			consensusFields: self.consensus.getDefaultBlockFields()
+			miner: self.minerKeys.publicKey
 		});
+		this.consensus.apply( block );
 		block.mine();
-		// this.consensus
 		self.addBlock( block );
 		return block;
 	}
