@@ -24,7 +24,7 @@ class Block
 	{
 		return objectify( this )
 	}
-	mine ( )
+	hashIt ( )
 	{
 		this.hash = hashDataObject( this.data );
 		return this.hash

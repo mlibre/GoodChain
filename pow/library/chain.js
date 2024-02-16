@@ -40,7 +40,7 @@ class Blockchain
 			miner: self.minerKeys.publicKey
 		});
 		this.consensus.apply( block );
-		block.mine();
+		block.hashIt();
 		self.addBlock( block );
 		return block;
 	}
