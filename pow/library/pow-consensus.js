@@ -38,7 +38,7 @@ module.exports = class pow
 		}
 		block.consensusHash = hash;
 
-		return block.consensusNonce
+		return block
 	}
 	validate ( block, previousBlock )
 	{
@@ -63,7 +63,6 @@ module.exports = class pow
 			{
 				throw new Error( "Invalid hash" );
 			}
-
 		}
 	}
 }
