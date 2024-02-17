@@ -1,4 +1,5 @@
 const { hashDataObject } = require( "./utils" );
+const _ = require( "lodash" );
 
 module.exports = class pow
 {
@@ -16,12 +17,6 @@ module.exports = class pow
 		block.consensusName = this.name
 		block.consensusDifficulty = this.difficulty
 		block.consensusNonce = 0;
-		block.consensusHash = hashDataObject( block );
-		while ( block.consensusHash.localeCompare( this.difficulty ) != -1 )
-		{
-			block.consensusNonce++;
-			block.consensusHash = hashDataObject( block );
-		}
 		if ( block.index === 0 )
 		{
 			block.consensusTotalDifficulty = block.consensusDifficulty
@@ -34,6 +29,15 @@ module.exports = class pow
 			const sumHex = sum.toString( 16 );
 			block.consensusTotalDifficulty = sumHex
 		}
+
+		let hash = hashDataObject( block )
+		while ( hash.localeCompare( this.difficulty ) != -1 )
+		{
+			block.consensusNonce++;
+			hash = hashDataObject( block );
+		}
+		block.consensusHash = hash;
+
 		return block.consensusNonce
 	}
 	validate ( block, previousBlock )
@@ -46,12 +50,20 @@ module.exports = class pow
 		{
 			throw new Error( "Invalid difficulty" );
 		}
+		// check if hash is calculated right
+		const pureObject = _.omit( block, [ "consensusHash", "hash" ] );
+		const hash = hashDataObject( pureObject );
+		if ( block.consensusHash.localeCompare( hash ) !== 0 )
+		{
+			throw new Error( "Invalid hash" );
+		}
 		if ( block.index !== 0 )
 		{
 			if ( block.consensusHash.localeCompare( block.consensusDifficulty ) !== -1 )
 			{
 				throw new Error( "Invalid hash" );
 			}
+
 		}
 	}
 }
