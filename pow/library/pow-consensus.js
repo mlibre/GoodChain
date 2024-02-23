@@ -42,11 +42,11 @@ module.exports = class pow
 	}
 	validate ( block, previousBlock )
 	{
-		if ( block.consensusName !== this.name )
+		if ( block.consensusName !== previousBlock.consensusName )
 		{
 			throw new Error( "Invalid consensus name" );
 		}
-		if ( block.consensusDifficulty !== this.difficulty )
+		if ( block.consensusDifficulty !== previousBlock.consensusDifficulty )
 		{
 			throw new Error( "Invalid difficulty" );
 		}
