@@ -59,6 +59,20 @@ class Blockchain
 		return newBlock
 	}
 
+	// replaceBlock ( block )
+	// {
+	// 	const newBlock = objectify( block );
+	// 	Block.verify( newBlock, this.latestBlock )
+	// 	this.consensus.validate( newBlock, this.latestBlock );
+	// 	this.simulateTransactions( newBlock.transactions )
+	// 	this.performTransactions( newBlock.transactions );
+	// 	this.chain[newBlock.index] = newBlock.all
+	// 	this.chain = this.chain.slice( 0, newBlock.index + 1 )
+	// 	this.transactionPool = [];
+	// 	updateFile( this.filePath, this.chain )
+	// 	return newBlock
+	// }
+
 	genCoinbaseTransaction ( )
 	{
 		return {
@@ -206,19 +220,6 @@ class Blockchain
 		}
 		return blocks
 	}
-
-	// replaceBlock ( block )
-	// {
-	// 	const newBlock = new Block( block );
-	// 	Block.verify( newBlock, this.getBlock( newBlock.index - 1 ) )
-	// 	// re calcuate wallet
-	// 	this.simulateTransactions( newBlock.transactions )
-	// 	this.performTransactions( newBlock.transactions );
-	// 	this.chain[newBlock.index] = newBlock.all
-	// 	this.chain = this.chain.slice( 0, newBlock.index + 1 )
-	// 	updateFile( this.filePath, this.chain )
-	// 	return newBlock
-	// }
 
 	getBlock ( blockNumber )
 	{
