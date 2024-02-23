@@ -69,9 +69,7 @@ router.get( "/broadcast", async function ( req, res, next )
 	{
 		try
 		{
-			await axios.post( `${node}/block`, {
-				...blockchain.latestBlock
-			});
+			await axios.post( `${node}/block`, blockchain.latestBlock );
 		}
 		catch ( error )
 		{
