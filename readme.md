@@ -127,7 +127,7 @@ node main.js
 | `/block`              | POST   | Adds a new block to the blockchain                                                             |
 | `/block/broadcast`    | GET    | Broadcasts the latest block to all nodes in the network                                        |
 | `/chain`              | GET    | Retrieves the entire blockchain                                                                |
-| `/chain/update`       | POST   | Updates the local blockchain by reaching consensus with other nodes                            |
+| `/chain/update`       | POST   | Updates the local blockchain by fetching blocks from other nodes                               |
 | `/mine`               | GET    | Mines a new block and adds it to the blockchain                                                |
 | `/node`               | GET    | Retrieves information about all nodes in the network                                           |
 | `/node`               | POST   | Adds a new node to the network                                                                 |
