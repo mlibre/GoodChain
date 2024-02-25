@@ -49,7 +49,9 @@ npm run 3002
 
 Each node will have its own blockchain data, wallets, and nodes list, but they can communicate and synchronize with each other to maintain a consistent state.
 
-### Example Usage
+### Running the blockchain without the RESTful API
+
+If you want to run the blockchain without the RESTful API, you can use the `Blockchain` class directly. For example:
 
 ```javascript
 const Blockchain = require( "./library/chain" );
