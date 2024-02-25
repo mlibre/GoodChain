@@ -70,4 +70,8 @@ module.exports = class pow
 			}
 		}
 	}
+	chooseBlock ( blocks )
+	{
+		return _.maxBy( blocks, "consensusTotalDifficulty" );
+	}
 }

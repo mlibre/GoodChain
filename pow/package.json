@@ -9,7 +9,8 @@
   "scripts": {
     "start": "node ./restAPI/app.js",
     "3000": "node ./restAPI/app.js --url 'http://127.0.0.1:3000' --nodes 'http://127.0.0.1:3001' --blockchainFile './db/blockchain.json' --walletsFile './db/wallets.json' --minerKeysFile './keys/miner.json' --blockchainName 'GoodChain'",
-    "3001": "node ./restAPI/app.js --url 'http://127.0.0.1:3001' --nodes 'http://127.0.0.1:3000' --blockchainFile './db/blockchain.json' --walletsFile './db/wallets.json' --minerKeysFile './keys/miner.json' --blockchainName 'GoodChain'"
+    "3001": "node ./restAPI/app.js --url 'http://127.0.0.1:3001' --nodes 'http://127.0.0.1:3000' --blockchainFile './db/blockchain.json' --walletsFile './db/wallets.json' --minerKeysFile './keys/miner.json' --blockchainName 'GoodChain'",
+    "3002": "node ./restAPI/app.js --url 'http://127.0.0.1:3002' --nodes 'http://127.0.0.1:3000' --blockchainFile './db/blockchain.json' --walletsFile './db/wallets.json' --minerKeysFile './keys/miner.json' --blockchainName 'GoodChain'"
   },
   "author": "",
   "license": "ISC",

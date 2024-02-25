@@ -49,14 +49,21 @@ class Blockchain
 	addBlock ( block )
 	{
 		const newBlock = objectify( block );
-		Block.verify( newBlock, this.latestBlock )
-		this.consensus.validate( newBlock, this.latestBlock );
+		this.verifyCondidateBlock( newBlock );
 		this.simulateTransactions( newBlock.transactions )
 		this.performTransactions( newBlock.transactions );
 		this.chain.push( newBlock )
 		this.transactionPool = [];
 		updateFile( this.filePath, this.chain )
 		return newBlock
+	}
+
+	verifyCondidateBlock ( block )
+	{
+		Block.verify( block, this.latestBlock )
+		this.consensus.validate( block, this.latestBlock );
+		this.simulateTransactions( block.transactions )
+		return true
 	}
 
 	// replaceBlock ( block )

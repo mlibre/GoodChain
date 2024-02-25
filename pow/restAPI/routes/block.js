@@ -34,27 +34,6 @@ router.post( "/", function ( req, res, next )
 	res.send( block );
 });
 
-router.post( "/update", async function ( req, res, next )
-{
-	const currentIndex = blockchain.latestBlock.index;
-	for ( const node of nodes.list )
-	{
-		try
-		{
-			const response = await axios.get( `${node}/block`, {
-				params: {
-					index: currentIndex + 1
-				} });
-			blockchain.addBlock( response.data );
-		}
-		catch ( error )
-		{
-			console.error( `Error fetching data from node ${node}:`, error );
-		}
-	}
-	res.send( blockchain.getBlocks( currentIndex + 1 ) );
-});
-
 router.get( "/broadcast", async function ( req, res, next )
 {
 	for ( const node of nodes.list )
