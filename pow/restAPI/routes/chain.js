@@ -11,28 +11,34 @@ router.get( "/", function ( req, res, next )
 
 router.post( "/update", async function ( req, res, next )
 {
-	const currentIndex = blockchain.latestBlock.index;
-	const nodesLatestBlocks = [];
-	for ( const node of nodes.list )
+	let chosenBlock = true
+	while ( chosenBlock )
 	{
-		try
+		const currentIndex = blockchain.latestBlock.index;
+		const nodesLatestBlocks = [];
+		for ( const node of nodes.list )
 		{
-			const response = await axios.get( `${node}/block`, {
-				params: {
-					index: currentIndex + 1
-				} });
-			blockchain.verifyCondidateBlock( response.data );
-			nodesLatestBlocks.push( response.data );
+			try
+			{
+				const response = await axios.get( `${node}/block`, {
+					params: {
+						index: currentIndex + 1
+					}
+				});
+				blockchain.verifyCondidateBlock( response.data );
+				nodesLatestBlocks.push( response.data );
+			}
+			catch ( error )
+			{
+				console.error( `Error fetching data from node ${node}:`, error );
+			}
 		}
-		catch ( error )
+
+		chosenBlock = blockchain.consensus.chooseBlock( nodesLatestBlocks );
+		if ( chosenBlock )
 		{
-			console.error( `Error fetching data from node ${node}:`, error );
+			blockchain.addBlock( chosenBlock );
 		}
-	}
-	const chosenBlock = blockchain.consensus.chooseBlock( nodesLatestBlocks );
-	if ( chosenBlock )
-	{
-		blockchain.addBlock( chosenBlock );
 	}
 	res.send( blockchain.latestBlock );
 });
