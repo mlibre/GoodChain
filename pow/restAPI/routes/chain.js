@@ -12,7 +12,7 @@ router.get( "/", function ( req, res, next )
 router.post( "/update", async function ( req, res, next )
 {
 	const currentIndex = blockchain.latestBlock.index;
-	let nodesLatestBlocks;
+	const nodesLatestBlocks = [];
 	for ( const node of nodes.list )
 	{
 		try

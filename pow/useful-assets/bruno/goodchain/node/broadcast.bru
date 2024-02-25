@@ -1,0 +1,17 @@
+meta {
+  name: broadcast
+  type: http
+  seq: 3
+}
+
+get {
+  url: http://{{host}}:{{port}}/nodes/broadcast
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "url": "http://localhost:3001"
+  }
+}
