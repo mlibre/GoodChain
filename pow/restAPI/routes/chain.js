@@ -30,7 +30,7 @@ router.post( "/update", async function ( req, res, next )
 			}
 			catch ( error )
 			{
-				console.error( `Error fetching data from node ${node}:`, error );
+				console.error( `Error fetching data from node ${node}:`, error.code, error.message, error?.response?.data );
 			}
 		}
 
