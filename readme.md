@@ -15,7 +15,7 @@ To get started with GoodChain, clone the repository and install the necessary de
 
 ```bash
 git clone https://github.com/mlibre/GoodChain.git
-cd GoodChain/pow
+cd GoodChain
 npm install
 npm start
 ```
