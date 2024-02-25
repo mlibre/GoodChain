@@ -139,6 +139,8 @@ node main.js
 | `/transaction/sign`   | POST   | Signs a transaction with a private key                                                         |
 | `/wallet`             | GET    | Retrieves information about wallets in the blockchain                                          |
 
+There is also a **Bruno** collection, you can find in `useful-assets` folder.
+
 ## License
 
 This project is licensed under the `GPL` License
