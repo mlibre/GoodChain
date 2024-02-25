@@ -139,12 +139,6 @@ node main.js
 | `/transaction/sign`   | POST   | Signs a transaction with a private key                                                         |
 | `/wallet`             | GET    | Retrieves information about wallets in the blockchain                                          |
 
-### Run RESTful API
-
-```bash
-npm start -- --url "http://localhost:3000" --nodes "http://localhost:3001" --blockchainFile "./db/blockchain.json" --walletsFile "./db/wallets.json" --minerKeysFile "./keys/miner.json" --blockchainName "GoodChain" --nodes "http://localhost:3001"
-```
-
 ## License
 
 This project is licensed under the `GPL` License
