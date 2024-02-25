@@ -3,10 +3,11 @@ const { initJsonFile, updateFile, calculateMiningFee, objectify, hashDataObject 
 const Wallet = require( "./wallet" )
 const Block = require( "./block" )
 const Transaction = require( "./transactions" )
+const Nodes = require( "./nodes" )
 
 class Blockchain
 {
-	constructor ({ chainFilePath, walletFilePath, chainName, minerKeys, consensus })
+	constructor ({ chainFilePath, walletFilePath, nodes, chainName, minerKeys, consensus })
 	{
 		this.consensus = consensus;
 		this.chainName = chainName;
@@ -14,6 +15,7 @@ class Blockchain
 		this.filePath = chainFilePath;
 		this.chain = initJsonFile( chainFilePath, [] );
 		this.wallet = new Wallet( walletFilePath );
+		this.nodes = new Nodes( nodes );
 		this.transactionPool = [];
 		this.transactionPoolSize = 100;
 		this.miningReward = 100;
@@ -182,7 +184,7 @@ class Blockchain
 			this.wallet.incrementTN( trx.from );
 			this.wallet.addBalance( trx.to, trx.amount );
 		}
-		updateFile( this.wallet.filePath, this.wallet.wallets );
+		this.wallet.updateDB()
 		return transactionList;
 	}
 

@@ -1,7 +1,6 @@
 const express = require( "express" );
 const router = express.Router();
 const blockchain = require( "../blockchain" );
-const nodes = require( "../nodes" );
 const axios = require( "axios" );
 
 router.get( "/", function ( req, res, next )
@@ -16,7 +15,7 @@ router.post( "/update", async function ( req, res, next )
 	{
 		const currentIndex = blockchain.latestBlock.index;
 		const nodesLatestBlocks = [];
-		for ( const node of nodes.list )
+		for ( const node of blockchain.nodes.list )
 		{
 			try
 			{

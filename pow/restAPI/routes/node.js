@@ -1,45 +1,45 @@
 const express = require( "express" );
 const router = express.Router();
-const nodes = require( "../nodes" );
+const blockchain = require( "../blockchain" );
 const axios = require( "axios" );
 
 router.get( "/", function ( req, res, next )
 {
-	res.send( nodes.all );
+	res.send( blockchain.nodes.all );
 });
 
 router.post( "/", function ( req, res, next )
 {
-	const result = nodes.add( req.body.url )
+	const result = blockchain.nodes.add( req.body.url )
 	res.send( result );
 });
 
 
 router.post( "/update", async function ( req, res, next )
 {
-	for ( const node of nodes.list )
+	for ( const node of blockchain.nodes.list )
 	{
 		try
 		{
 			const response = await axios.get( `${node}/nodes` );
-			nodes.addBulk( response.data );
+			blockchain.nodes.addBulk( response.data );
 		}
 		catch ( error )
 		{
 			console.error( `Error fetching data from node ${node}:`, error.message );
 		}
 	}
-	res.send( nodes.all );
+	res.send( blockchain.nodes.all );
 });
 
 router.get( "/broadcast", async function ( req, res, next )
 {
-	for ( const node of nodes.list )
+	for ( const node of blockchain.nodes.list )
 	{
 		try
 		{
 			await axios.post( `${node}/nodes`, {
-				url: nodes.hosturl
+				url: blockchain.nodes.hosturl
 			});
 		}
 		catch ( error )

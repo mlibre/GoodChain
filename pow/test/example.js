@@ -6,6 +6,7 @@ const consensus = new Consensus()
 const { deleteFile, initJsonFile, createKeyPair } = require( "../library/utils" )
 deleteFile( "./db/blockchain.json" );
 deleteFile( "./db/wallets.json" );
+deleteFile( "./db/nodes.json" );
 deleteFile( "./keys/miner.json" );
 deleteFile( "./keys/user.json" );
 
@@ -14,6 +15,11 @@ const minerKeys = initJsonFile( "./keys/miner.json", createKeyPair() );
 const blockchain = new Blockchain({
 	chainFilePath: "./db/blockchain.json",
 	walletFilePath: "./db/wallets.json",
+	nodes: {
+		filePath: "./db/nodes.json",
+		list: [ "http://127.0.0.1:3001" ],
+		hostUrl: "http://127.0.0.1:3000"
+	},
 	chainName: "GoodChain",
 	minerKeys,
 	consensus

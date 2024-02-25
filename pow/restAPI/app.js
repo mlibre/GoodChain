@@ -6,7 +6,6 @@ const { port, host } = require( "./config" );
 
 
 require( "./blockchain" )
-require( "./nodes" )
 
 const chainRouter = require( "./routes/chain" );
 const blockRouter = require( "./routes/block" );

@@ -1,5 +1,3 @@
-// config.js
-
 const parseArgs = require( "minimist" );
 
 // Parse command line arguments
@@ -8,8 +6,10 @@ const args = parseArgs( process.argv.slice( 2 ) );
 // Define default values or fallbacks
 const url = args.url || process.env.url || "http://127.0.0.1:3000";
 const { host, port } = parseUrl( url );
-let nodes = args.nodes || process.env.NODES || [];
-nodes = Array.isArray( nodes ) ? nodes : [ nodes ];
+
+let nodesList = args.nodes || process.env.NODES || [];
+nodesList = Array.isArray( nodesList ) ? nodesList : [ nodesList ];
+const nodesFile = args.nodesFile || process.env.NODES_FILE || "./db/nodes.json";
 const blockchainFile = args.blockchainFile || process.env.BLOCKCHAIN_FILE || "./db/blockchain.json";
 const walletsFile = args.walletsFile || process.env.WALLETS_FILE || "./db/wallets.json";
 const minerKeysFile = args.minerKeysFile || process.env.MINER_KEYS_FILE || "./keys/miner.json";
@@ -19,7 +19,8 @@ module.exports = {
 	url,
 	host,
 	port,
-	nodes,
+	nodesList,
+	nodesFile,
 	blockchainFile,
 	walletsFile,
 	minerKeysFile,

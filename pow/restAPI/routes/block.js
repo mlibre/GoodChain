@@ -2,7 +2,6 @@ const express = require( "express" );
 const axios = require( "axios" );
 const router = express.Router();
 const blockchain = require( "../blockchain" );
-const nodes = require( "../nodes" );
 
 router.get( "/", function ( req, res )
 {
@@ -36,7 +35,7 @@ router.post( "/", function ( req, res, next )
 
 router.get( "/broadcast", async function ( req, res, next )
 {
-	for ( const node of nodes.list )
+	for ( const node of blockchain.nodes.list )
 	{
 		try
 		{

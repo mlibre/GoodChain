@@ -1,11 +1,11 @@
-const { initJsonFile } = require( "./utils" )
+const { initJsonFile, updateFile } = require( "./utils" )
 
 class Wallet
 {
 	constructor ( filePath, wallets )
 	{
 		this.filePath = filePath;
-		this.wallets = structuredClone( wallets ) || initJsonFile( filePath );
+		this.wallets = structuredClone( wallets ) || initJsonFile( filePath, {});
 	}
 	get list ()
 	{
@@ -54,6 +54,11 @@ class Wallet
 			this.wallets[address] = this.wallets[address] || { balance: 0, transaction_number: 0 };
 		}
 	}
+	updateDB ( )
+	{
+		updateFile( this.filePath, this.wallets );
+	}
+
 }
 
 

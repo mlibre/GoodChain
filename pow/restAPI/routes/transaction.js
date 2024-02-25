@@ -2,7 +2,6 @@ const express = require( "express" );
 const router = express.Router();
 const blockchain = require( "../blockchain" );
 const Transaction = require( "../../library/transactions" )
-const nodes = require( "../nodes" );
 const axios = require( "axios" );
 
 router.get( "/", function ( req, res )
@@ -20,7 +19,7 @@ router.get( "/update", async function ( req, res, next )
 {
 	try
 	{
-		for ( const node of nodes.list )
+		for ( const node of blockchain.nodes.list )
 		{
 			const response = await axios.get( `${node}/transaction` );
 			blockchain.addTransactions( response.data );
