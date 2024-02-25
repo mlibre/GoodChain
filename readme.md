@@ -119,16 +119,23 @@ node main.js
 
 `GoodChain` provides a **RESTful API** for interacting with the blockchain. Some example endpoints include:
 
-- **Add Node** `/nodes`
-- **Get Node List** `/nodes`
-- **Add Transaction** `/transaction`
-- **Get Chain** `/chain`
-- **Get Transactions Pool** `/transaction`
-- **Get Wallet** `/wallet`
-- **Mine Block** `/mine`
-- **Signing Transaction** `/transaction/sign`
-- **Update Transactions Pool** `/transaction/update`
-- ...
+| Endpoint              | Method | Description                                                                                    |
+| --------------------- | ------ | ---------------------------------------------------------------------------------------------- |
+| `/block`              | GET    | Retrieves information about a specific block or the latest block if no parameters are provided |
+| `/block`              | POST   | Adds a new block to the blockchain                                                             |
+| `/block/broadcast`    | GET    | Broadcasts the latest block to all nodes in the network                                        |
+| `/chain`              | GET    | Retrieves the entire blockchain                                                                |
+| `/chain/update`       | POST   | Updates the local blockchain by reaching consensus with other nodes                            |
+| `/mine`               | GET    | Mines a new block and adds it to the blockchain                                                |
+| `/node`               | GET    | Retrieves information about all nodes in the network                                           |
+| `/node`               | POST   | Adds a new node to the network                                                                 |
+| `/node/update`        | POST   | Updates the local node's knowledge of the network by fetching data from other nodes            |
+| `/node/broadcast`     | GET    | Introduces the local node to all other nodes in the network                                    |
+| `/transaction`        | GET    | Retrieves pending transactions                                                                 |
+| `/transaction`        | POST   | Adds a new transaction to the transaction pool                                                 |
+| `/transaction/update` | GET    | Updates the local transaction pool by fetching transactions from other nodes                   |
+| `/transaction/sign`   | POST   | Signs a transaction with a private key                                                         |
+| `/wallet`             | GET    | Retrieves information about wallets in the blockchain                                          |
 
 ### Run RESTful API
 
