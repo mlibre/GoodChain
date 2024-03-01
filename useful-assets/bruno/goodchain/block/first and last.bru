@@ -1,13 +1,17 @@
 meta {
-  name: latest block
+  name: first and last
   type: http
-  seq: 4
+  seq: 5
 }
 
 get {
-  url: http://{{host}}:{{port}}/block
+  url: http://{{host}}:{{port}}/block?list=0,3
   body: json
   auth: none
+}
+
+query {
+  list: 0,3
 }
 
 body:json {

@@ -5,8 +5,8 @@ const blockchain = require( "../blockchain" );
 
 router.get( "/", function ( req, res )
 {
-	let { index, from, to } = req.query;
-	if ( !index && !from && !to )
+	let { index, from, to, list, firstAndLast } = req.query;
+	if ( !index && !from && !to && !list && !firstAndLast )
 	{
 		res.json( blockchain.latestBlock );
 		return
@@ -22,6 +22,25 @@ router.get( "/", function ( req, res )
 		from = Number( from ) || undefined
 		to = Number( to ) || undefined
 		const blocks = blockchain.getBlocks( from, to );
+		res.json( blocks );
+		return;
+	}
+	else if ( list )
+	{
+		list = list.split( "," )
+		const blocks = [];
+		for ( const blcokIndex of list )
+		{
+			blocks.push( blockchain.getBlock( blcokIndex ) );
+		}
+		res.json( blocks );
+		return;
+	}
+	else if ( firstAndLast )
+	{
+		const blocks = []
+		blocks.push( blockchain.getBlock( 0 ) );
+		blocks.push( blockchain.latestBlock );
 		res.json( blocks );
 		return;
 	}

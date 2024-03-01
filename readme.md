@@ -2,13 +2,14 @@
 
 Welcome to **GoodChain**  where blockchain meets simplicity and flexibility!  
 Whether you're a seasoned developer or just starting to explore the world of blockchain technology, GoodChain is here to make your journey exciting and rewarding.  
-**GoodChain** features a basic `proof-of-work (PoW)` consensus. You can also plug your own consensus mechanisms like `Proof of Stake (PoS)` or any other custom consensus mechanism you may have in mind.
+**GoodChain** is a distributed ledger that allows you to initiate transactions securely. These transactions are irreversible once confirmed, ensuring the integrity of your data and assets. This is achieved by using a `peer-to-peer` network of nodes, which are connected to each other through a network of nodes.  
+**GoodChain** It is written in `nodejs` and uses `git`(not yet,soon) as its database. It features a basic `proof-of-work (PoW)` consensus. You can also plug your own consensus mechanisms like `Proof of Stake (PoS)` or any other custom consensus mechanism you may have in mind.
 
 ## Key Features 🚀
 
 - **Pluginable Consensus**: Have fun experimenting with different consensus algorithms or stick with the default Simple PoW implementation
-- **Wallet Management**: Efficiently manage digital wallets, track balances, and handle transactions
 - **RESTful API**: Integrate with external systems through a RESTful API, enabling seamless interaction with the blockchain
+- **Wallet Management**: Efficiently manage digital wallets, track balances, and handle transactions
 - **Node Discovery and Synchronization**: Discover and sync with other nodes in the network to maintain a consistent state across the blockchain
 - **Transaction Pool**: Maintain a pool of pending transactions to be included in new blocks
 - **Chain Validation**: Verify the integrity of the blockchain by validating blocks and transactions
@@ -50,7 +51,7 @@ npm run 3002
 
 Each node will have its own blockchain data, wallets, and nodes list, but they can communicate and synchronize with each other to maintain a consistent state.
 
-### Running the blockchain without the RESTful API 🏃‍♂️
+### Using the blockchain without the RESTful API 🏃‍♂️
 
 Want to dive deeper into the blockchain mechanics? Use the Blockchain class directly for a hands-on experience
 
@@ -120,7 +121,7 @@ node main.js
 
 ## RESTful API Endpoints 🛣️
 
-`GoodChain` provides a treasure trove of **RESTful API** endpoints for your blockchain interactions. Explore, experiment, and have fun building amazing applications!
+`GoodChain` provides a treasure trove of **http API** endpoints for your blockchain interactions. Explore, experiment, and have fun building amazing applications!
 
 | Endpoint              | Method | Description                                                                                    |
 | --------------------- | ------ | ---------------------------------------------------------------------------------------------- |
