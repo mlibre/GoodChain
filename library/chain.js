@@ -68,19 +68,12 @@ class Blockchain
 		return true
 	}
 
-	// replaceBlock ( block )
-	// {
-	// 	const newBlock = objectify( block );
-	// 	Block.verify( newBlock, this.latestBlock )
-	// 	this.consensus.validate( newBlock, this.latestBlock );
-	// 	this.simulateTransactions( newBlock.transactions )
-	// 	this.performTransactions( newBlock.transactions );
-	// 	this.chain[newBlock.index] = newBlock.all
-	// 	this.chain = this.chain.slice( 0, newBlock.index + 1 )
-	// 	this.transactionPool = [];
-	// 	updateFile( this.filePath, this.chain )
-	// 	return newBlock
-	// }
+	// write a functrion that takes a block and check if it is the dame geneiss block
+	isGenesisBlock ( block )
+	{
+		const genesisBlock = this.chain[0];
+		return _.isEqual( block, genesisBlock );
+	}
 
 	genCoinbaseTransaction ( )
 	{

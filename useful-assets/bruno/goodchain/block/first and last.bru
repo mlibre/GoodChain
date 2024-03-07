@@ -5,13 +5,13 @@ meta {
 }
 
 get {
-  url: http://{{host}}:{{port}}/block?list=0,3
+  url: http://{{host}}:{{port}}/block?firstAndLast=true
   body: json
   auth: none
 }
 
 query {
-  list: 0,3
+  firstAndLast: true
 }
 
 body:json {

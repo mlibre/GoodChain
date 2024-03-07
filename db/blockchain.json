@@ -112,5 +112,53 @@
 		"consensusNonce": 726,
 		"consensusHash": "00011d2c2e4d2203e0b5d5f6b886568eb0ccfa149aa86879ee850826386f47ca",
 		"hash": "667016dfc165238b172fccf10400358ad3eadbc50f4c6b9587a368b9ea3d5d60"
+	},
+	{
+		"index": 4,
+		"chainName": "GoodChain",
+		"timestamp": 1709824899968,
+		"transactions": [
+			{
+				"from": null,
+				"to": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAw1DBnlT9IDBCU6UFJ4rX/VSK6Ab2XWPmiLHeRmwz+ls=\n-----END PUBLIC KEY-----\n",
+				"amount": 100,
+				"fee": 0,
+				"transaction_number": 0,
+				"signature": null,
+				"id": "9a86719a-33cc-4758-8602-2adcd63085e7"
+			}
+		],
+		"previousHash": "667016dfc165238b172fccf10400358ad3eadbc50f4c6b9587a368b9ea3d5d60",
+		"miner": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAw1DBnlT9IDBCU6UFJ4rX/VSK6Ab2XWPmiLHeRmwz+ls=\n-----END PUBLIC KEY-----\n",
+		"consensusName": "pow",
+		"consensusDifficulty": "000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+		"consensusTotalDifficulty": "50000000000000000000000000000000000000000000000000000000000000",
+		"consensusNonce": 2367,
+		"consensusHash": "00074b3413a226fc276cef2494df2d8375053a2953353fab36361091ac39c057",
+		"hash": "8cd695ae62b846885bfb7f5c8920ec19548847f6d4d3349fff996ee9b233fefb"
+	},
+	{
+		"index": 5,
+		"chainName": "GoodChain",
+		"timestamp": 1709824917244,
+		"transactions": [
+			{
+				"from": null,
+				"to": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAw1DBnlT9IDBCU6UFJ4rX/VSK6Ab2XWPmiLHeRmwz+ls=\n-----END PUBLIC KEY-----\n",
+				"amount": 100,
+				"fee": 0,
+				"transaction_number": 0,
+				"signature": null,
+				"id": "73f85649-a875-4a44-98d6-556755e5d2af"
+			}
+		],
+		"previousHash": "8cd695ae62b846885bfb7f5c8920ec19548847f6d4d3349fff996ee9b233fefb",
+		"miner": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAw1DBnlT9IDBCU6UFJ4rX/VSK6Ab2XWPmiLHeRmwz+ls=\n-----END PUBLIC KEY-----\n",
+		"consensusName": "pow",
+		"consensusDifficulty": "000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+		"consensusTotalDifficulty": "60000000000000000000000000000000000000000000000000000000000000",
+		"consensusNonce": 6587,
+		"consensusHash": "00009bcdcc85129f88f336d9e2c1e50be0626196b889cd585134d798ff18a46e",
+		"hash": "53ace3a9a1c460e1ae7ea0a2734382d1237994f0f1c685a334b8b653ab2a7476"
 	}
 ]

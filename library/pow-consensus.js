@@ -74,4 +74,15 @@ module.exports = class pow
 	{
 		return _.maxBy( blocks, "consensusTotalDifficulty" );
 	}
+
+	chooseChain ( blocks )
+	{
+		const indexedBlocks = blocks.map( ( block, index ) => { return { block, index } });
+		const maxBlockWithIndex = _.maxBy( indexedBlocks, "block.consensusTotalDifficulty" );
+		return {
+			block: maxBlockWithIndex.block,
+			index: maxBlockWithIndex.index
+		};
+	}
+
 }
