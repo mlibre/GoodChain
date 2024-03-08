@@ -86,19 +86,19 @@ const Consensus = require( "./library/pow-consensus" );
 const consensus = new Consensus()
 
 const { deleteFile, initJsonFile, createKeyPair } = require( "./library/utils" )
-deleteFile( "./db/blockchain.json" );
-deleteFile( "./db/wallets.json" );
-deleteFile( "./db/nodes.json" );
-deleteFile( "./keys/miner.json" );
-deleteFile( "./keys/user.json" );
+deleteFile( "./assets/db/blockchain.json" );
+deleteFile( "./assets/db/wallets.json" );
+deleteFile( "./assets/db/nodes.json" );
+deleteFile( "./assets/keys/miner.json" );
+deleteFile( "./assets/keys/user.json" );
 
-const userKeys = initJsonFile( "./keys/user.json", createKeyPair() );
-const minerKeys = initJsonFile( "./keys/miner.json", createKeyPair() );
+const userKeys = initJsonFile( "./assets/keys/user.json", createKeyPair() );
+const minerKeys = initJsonFile( "./assets/keys/miner.json", createKeyPair() );
 const blockchain = new Blockchain({
- chainFilePath: "./db/blockchain.json",
- walletFilePath: "./db/wallets.json",
+ chainFilePath: "./assets/db/blockchain.json",
+ walletFilePath: "./assets/db/wallets.json",
  nodes: {
-  filePath: "./db/nodes.json",
+  filePath: "./assets/db/nodes.json",
   list: [ "http://127.0.0.1:3001" ],
   hostUrl: "http://127.0.0.1:3000"
  },

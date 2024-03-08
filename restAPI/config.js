@@ -9,10 +9,10 @@ const { host, port } = parseUrl( url );
 
 let nodesList = args.nodes || process.env.NODES || [];
 nodesList = Array.isArray( nodesList ) ? nodesList : [ nodesList ];
-const nodesFile = args.nodesFile || process.env.NODES_FILE || "./db/nodes.json";
-const blockchainFile = args.blockchainFile || process.env.BLOCKCHAIN_FILE || "./db/blockchain.json";
-const walletsFile = args.walletsFile || process.env.WALLETS_FILE || "./db/wallets.json";
-const minerKeysFile = args.minerKeysFile || process.env.MINER_KEYS_FILE || "./keys/miner.json";
+const nodesFile = args.nodesFile || process.env.NODES_FILE || "./assets/db/nodes.json";
+const blockchainFile = args.blockchainFile || process.env.BLOCKCHAIN_FILE || "./assets/db/blockchain.json";
+const walletsFile = args.walletsFile || process.env.WALLETS_FILE || "./assets/db/wallets.json";
+const minerKeysFile = args.minerKeysFile || process.env.MINER_KEYS_FILE || "./assets/keys/miner.json";
 const blockchainName = args.blockchainName || process.env.BLOCKCHAIN_NAME || "GoodChain";
 
 module.exports = {
