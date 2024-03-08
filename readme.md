@@ -51,7 +51,31 @@ npm run 3002
 
 Each node will have its own blockchain data, wallets, and nodes list, but they can communicate and synchronize with each other to maintain a consistent state.
 
-### Using the blockchain without the RESTful API 🏃‍♂️
+## RESTful API Endpoints 🛣️
+
+`GoodChain` provides a treasure trove of **http API** endpoints for your blockchain interactions. Explore, experiment, and have fun building amazing applications!
+
+| Endpoint              | Method | Description                                                                                    |
+| --------------------- | ------ | ---------------------------------------------------------------------------------------------- |
+| `/block`              | GET    | Retrieves information about a specific block or the latest block if no parameters are provided |
+| `/block`              | POST   | Adds a new block to the blockchain                                                             |
+| `/block/broadcast`    | GET    | Broadcasts the latest block to all nodes in the network                                        |
+| `/chain`              | GET    | Retrieves the entire blockchain                                                                |
+| `/chain/update`       | POST   | Updates the local blockchain by fetching blocks from other nodes                               |
+| `/mine`               | GET    | Mines a new block and adds it to the blockchain                                                |
+| `/node`               | GET    | Retrieves information about all nodes in the network                                           |
+| `/node`               | POST   | Adds a new node to the network                                                                 |
+| `/node/update`        | POST   | Updates the local node's knowledge of the network by fetching data from other nodes            |
+| `/node/broadcast`     | GET    | Introduces the local node to all other nodes in the network                                    |
+| `/transaction`        | GET    | Retrieves pending transactions                                                                 |
+| `/transaction`        | POST   | Adds a new transaction to the transaction pool                                                 |
+| `/transaction/update` | GET    | Updates the local transaction pool by fetching transactions from other nodes                   |
+| `/transaction/sign`   | POST   | Signs a transaction with a private key                                                         |
+| `/wallet`             | GET    | Retrieves information about wallets in the blockchain                                          |
+
+Check out the **Bruno collection** in the `useful-assets` folder for a quick start with API requests.
+
+### Using Goodchain without the RESTful API 🏃‍♂️
 
 Want to dive deeper into the blockchain mechanics? Use the Blockchain class directly for a hands-on experience
 
@@ -118,30 +142,6 @@ console.log( "Wallets : ", blockchain.wallet );
 ```js
 node main.js
 ```
-
-## RESTful API Endpoints 🛣️
-
-`GoodChain` provides a treasure trove of **http API** endpoints for your blockchain interactions. Explore, experiment, and have fun building amazing applications!
-
-| Endpoint              | Method | Description                                                                                    |
-| --------------------- | ------ | ---------------------------------------------------------------------------------------------- |
-| `/block`              | GET    | Retrieves information about a specific block or the latest block if no parameters are provided |
-| `/block`              | POST   | Adds a new block to the blockchain                                                             |
-| `/block/broadcast`    | GET    | Broadcasts the latest block to all nodes in the network                                        |
-| `/chain`              | GET    | Retrieves the entire blockchain                                                                |
-| `/chain/update`       | POST   | Updates the local blockchain by fetching blocks from other nodes                               |
-| `/mine`               | GET    | Mines a new block and adds it to the blockchain                                                |
-| `/node`               | GET    | Retrieves information about all nodes in the network                                           |
-| `/node`               | POST   | Adds a new node to the network                                                                 |
-| `/node/update`        | POST   | Updates the local node's knowledge of the network by fetching data from other nodes            |
-| `/node/broadcast`     | GET    | Introduces the local node to all other nodes in the network                                    |
-| `/transaction`        | GET    | Retrieves pending transactions                                                                 |
-| `/transaction`        | POST   | Adds a new transaction to the transaction pool                                                 |
-| `/transaction/update` | GET    | Updates the local transaction pool by fetching transactions from other nodes                   |
-| `/transaction/sign`   | POST   | Signs a transaction with a private key                                                         |
-| `/wallet`             | GET    | Retrieves information about wallets in the blockchain                                          |
-
-Check out the **Bruno collection** in the `useful-assets` folder for a quick start with API requests.
 
 ## License 📜
 
