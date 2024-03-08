@@ -4,11 +4,12 @@ const parseArgs = require( "minimist" );
 const args = parseArgs( process.argv.slice( 2 ) );
 
 // Define default values or fallbacks
-const url = args.url || process.env.url || "http://127.0.0.1:3000";
+const url = args.url || process.env.URL || "http://127.0.0.1:3000";
 const { host, port } = parseUrl( url );
 
-let nodesList = args.nodes || process.env.NODES || [];
+let nodesList = args.nodes || process.env.NODES || "http://127.0.0.1:3001";
 nodesList = Array.isArray( nodesList ) ? nodesList : [ nodesList ];
+
 const nodesFile = args.nodesFile || process.env.NODES_FILE || "./assets/db/nodes.json";
 const blockchainFile = args.blockchainFile || process.env.BLOCKCHAIN_FILE || "./assets/db/blockchain.json";
 const walletsFile = args.walletsFile || process.env.WALLETS_FILE || "./assets/db/wallets.json";
