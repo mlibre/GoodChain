@@ -7,11 +7,11 @@ const { deleteFile, initJsonFile, createKeyPair } = require( "./library/utils" )
 deleteFile( "./assets/db/blockchain.json" );
 deleteFile( "./assets/db/wallets.json" );
 deleteFile( "./assets/db/nodes.json" );
-deleteFile( "./keys/miner.json" );
-deleteFile( "./keys/user.json" );
+deleteFile( "./assets/keys/miner.json" );
+deleteFile( "./assets/keys/user.json" );
 
-const userKeys = initJsonFile( "./keys/user.json", createKeyPair() );
-const minerKeys = initJsonFile( "./keys/miner.json", createKeyPair() );
+const userKeys = initJsonFile( "./assets/keys/user.json", createKeyPair() );
+const minerKeys = initJsonFile( "./assets/keys/miner.json", createKeyPair() );
 const blockchain = new Blockchain({
 	chainFilePath: "./assets/db/blockchain.json",
 	walletFilePath: "./assets/db/wallets.json",

@@ -1,0 +1,5 @@
+{
+	"publicKey": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAM5Lp4d2SamIPHcY7vk5MM5wiEfv28NT5DkIA+0ZQbiU=\n-----END PUBLIC KEY-----\n",
+	"privateKey": "-----BEGIN PRIVATE KEY-----\nMC4CAQAwBQYDK2VwBCIEIH+wUcGin04Wn3Fd0xJc7iw3lXpG5Ty+9W0UzJ6NASoV\n-----END PRIVATE KEY-----\n",
+	"publicKeyString": "MCowBQYDK2VwAyEAM5Lp4d2SamIPHcY7vk5MM5wiEfv28NT5DkIA+0ZQbiU=\n"
+}
