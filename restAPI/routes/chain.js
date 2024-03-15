@@ -45,17 +45,16 @@ router.post( "/update", async function ( req, res, next )
 
 router.put( "/sync", async function ( req, res, next )
 {
-	const nodesLastBlocks = [];
-
+	const myLastestBlock = blockchain.latestBlock;
+	const otherNodesLastestBlocks = [];
 	for ( const node of blockchain.nodes.list )
 	{
 		try
 		{
 			const [ firstBlock, lastBlock ] = ( await axios.get( `${node}/block`, { params: { firstAndLast: true } }) ).data;
-			const isSameGenesis = blockchain.isGenesisBlock( firstBlock );
-			if ( isSameGenesis )
+			if ( blockchain.isEqualGenesisBlock( firstBlock ) && !blockchain.isEqualBlock( myLastestBlock, lastBlock ) )
 			{
-				nodesLastBlocks.push({ block: lastBlock, node });
+				otherNodesLastestBlocks.push({ block: lastBlock, node });
 			}
 		}
 		catch ( error )
@@ -63,10 +62,10 @@ router.put( "/sync", async function ( req, res, next )
 			console.error( `Error fetching data from node ${node}:`, error );
 		}
 	}
-
-	const lastBlocks = _.map( nodesLastBlocks, "block" );
-	const { index, block } = blockchain.consensus.chooseChain( lastBlocks );
-	// blockchain.replaceChain( block );
+	const allNodesLastBlocks = [ ...otherNodesLastestBlocks, { block: blockchain.latestBlock, node: blockchain.nodes.hostUrl } ];
+	const chosenNodeBlock = blockchain.consensus.chooseChain( allNodesLastBlocks );
+	const chosenChain = await axios.get( `${chosenNodeBlock.node}/chain` );
+	blockchain.replaceChain( chosenChain.data );
 	res.send( "ok" );
 });
 

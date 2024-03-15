@@ -7,6 +7,7 @@ module.exports = class pow
 	{
 		this.name = "pow";
 		this.difficulty = "000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+		this.minDifficulty = "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
 	}
 	setValues ( block )
 	{
@@ -19,14 +20,14 @@ module.exports = class pow
 		{
 			block.consensusName = this.name;
 			block.consensusDifficulty = this.difficulty;
-			block.consensusTotalDifficulty = block.consensusDifficulty
+			block.consensusTotalDifficulty = 0
 			targetDifficulty = this.difficulty;
 		}
 		else
 		{
 			block.consensusName = previousBlock.consensusName;
 			block.consensusDifficulty = previousBlock.consensusDifficulty;
-			const num1 = parseInt( block.consensusDifficulty, 16 );
+			const num1 = parseInt( this.minDifficulty, 16 ) - parseInt( previousBlock.consensusHash, 16 );
 			const num2 = parseInt( previousBlock.consensusTotalDifficulty, 16 );
 			const sum = num1 + num2;
 			const sumHex = sum.toString( 16 );
@@ -70,19 +71,26 @@ module.exports = class pow
 			}
 		}
 	}
+
 	chooseBlock ( blocks )
 	{
-		return _.maxBy( blocks, "consensusTotalDifficulty" );
+		const self = this
+		return _.maxBy( blocks, block =>
+		{
+			const blockDifficulty = parseInt( self.minDifficulty, 16 ) - parseInt( block.consensusHash, 16 );
+			return parseInt( block.consensusTotalDifficulty, 16 ) + blockDifficulty;
+		});
 	}
 
-	chooseChain ( blocks )
+	chooseChain ( nodesBlocks )
 	{
-		const indexedBlocks = blocks.map( ( block, index ) => { return { block, index } });
-		const maxBlockWithIndex = _.maxBy( indexedBlocks, "block.consensusTotalDifficulty" );
-		return {
-			block: maxBlockWithIndex.block,
-			index: maxBlockWithIndex.index
-		};
+		const self = this;
+		return _.maxBy( nodesBlocks, nodeBlock =>
+		{
+			const { block } = nodeBlock;
+			const blockDifficulty = parseInt( self.minDifficulty, 16 ) - parseInt( block.consensusHash, 16 );
+			return parseInt( block.consensusTotalDifficulty, 16 ) + blockDifficulty;
+		});
 	}
 
 }

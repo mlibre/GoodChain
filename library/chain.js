@@ -60,6 +60,15 @@ class Blockchain
 		return newBlock
 	}
 
+	replaceChain ( newChain )
+	{
+		this.chain = newChain;
+		updateFile( this.filePath, this.chain )
+		this.reCalculateWallet()
+		return newChain
+
+	}
+
 	verifyCondidateBlock ( block )
 	{
 		Block.verify( block, this.latestBlock )
@@ -68,11 +77,15 @@ class Blockchain
 		return true
 	}
 
-	// write a functrion that takes a block and check if it is the dame geneiss block
-	isGenesisBlock ( block )
+	isEqualGenesisBlock ( block )
 	{
-		const genesisBlock = this.chain[0];
+		const [ genesisBlock ] = this.chain;
 		return _.isEqual( block, genesisBlock );
+	}
+
+	isEqualBlock ( block1, block2 )
+	{
+		return _.isEqual( block1, block2 );
 	}
 
 	genCoinbaseTransaction ( )
@@ -179,6 +192,15 @@ class Blockchain
 		}
 		this.wallet.updateDB()
 		return transactionList;
+	}
+
+	reCalculateWallet ( )
+	{
+		this.wallet.wipe()
+		for ( const block of this.chain )
+		{
+			this.performTransactions( block.transactions );
+		}
 	}
 
 	cleanupTransactionPool ( )

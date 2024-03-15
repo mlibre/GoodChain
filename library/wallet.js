@@ -54,9 +54,16 @@ class Wallet
 			this.wallets[address] = this.wallets[address] || { balance: 0, transaction_number: 0 };
 		}
 	}
+
 	updateDB ( )
 	{
 		updateFile( this.filePath, this.wallets );
+	}
+
+	wipe ()
+	{
+		this.wallets = {};
+		this.updateDB( )
 	}
 
 }

@@ -42,7 +42,6 @@ class Block
 				transaction.validate( )
 			}
 		}
-
 	}
 }
 
