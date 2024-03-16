@@ -2,6 +2,7 @@
 
 Welcome to **GoodChain**  where blockchain meets simplicity and flexibility!  
 Whether you're a seasoned developer or just starting to explore the world of blockchain technology, GoodChain is here to make your journey exciting and rewarding.  
+
 **GoodChain** is a distributed ledger that allows you to initiate transactions securely. These transactions are irreversible once confirmed, ensuring the integrity of your data and assets. This is achieved by using a `peer-to-peer` network of nodes, which are connected to each other through a network of nodes.  
 **GoodChain** It is written in `nodejs` and uses `git`(not yet,soon) as its database. It features a basic `proof-of-work (PoW)` consensus. You can also plug your own consensus mechanisms like `Proof of Stake (PoS)` or any other custom consensus mechanism you may have in mind.
 
