@@ -27,7 +27,7 @@ class GitDatabase
 	{
 		try
 		{
-			const output = execSync( "git init .", { cwd: folderPath, stdio: "inherit" });
+			const output = execSync( "git init .", { cwd: folderPath }).toString();
 			console.log( "Git repository initialized ", output );
 		}
 		catch ( error )
