@@ -148,6 +148,10 @@ node main.js
 
 This project is licensed under the `GPL` License
 
+## Version 1
+
+The first version of `GoodChain` was built in 2024. It was a simple blockchain implementation that was used to learn about the blockchain technology. It was simply using `json` files to store the blockchain data. You can check out the [realases](https://github.com/mlibre/GoodChain/releases/tag/1.0.5) to see the code.
+
 ## Donate 💖
 
 ETH:
