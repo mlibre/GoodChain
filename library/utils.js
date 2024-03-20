@@ -1,19 +1,27 @@
 const fs = require( "fs" );
+const path = require( "path" );
 const crypto = require( "crypto" );
 const { v4: uuidv4 } = require( "uuid" );
 
-exports.initJsonFile = function initJsonFile ( path, defaultData = {})
+exports.initJsonFile = function initJsonFile ( filePath, defaultData = {})
 {
-	if ( fs.existsSync( path ) )
+	const folderPath = path.dirname( filePath );
+	if ( !fs.existsSync( folderPath ) )
 	{
-		return JSON.parse( fs.readFileSync( path ) );
+		fs.mkdirSync( folderPath, { recursive: true });
+	}
+
+	if ( fs.existsSync( filePath ) )
+	{
+		return JSON.parse( fs.readFileSync( filePath ) );
 	}
 	else
 	{
-		fs.writeFileSync( path, JSON.stringify( defaultData, null, "\t" ) );
-		return defaultData
+		fs.writeFileSync( filePath, JSON.stringify( defaultData, null, "\t" ) );
+		return defaultData;
 	}
 }
+
 
 exports.updateFile = function updateFile ( path, data )
 {
