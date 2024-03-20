@@ -6,7 +6,7 @@ class Wallet
 	constructor ( filePath, wallet )
 	{
 		this.filePath = filePath;
-		this.wallet = structuredClone( wallet ) || initJsonFile( filePath, { blockNumber: 0 });
+		this.wallet = structuredClone( wallet ) || initJsonFile( filePath, {});
 	}
 
 	get list ()

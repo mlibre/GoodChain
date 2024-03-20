@@ -1,7 +1,7 @@
 {
-	"blockNumber": 0,
-	"-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEA11KUqufiqYucBwxT8L1uTwWBDQImbvHccdNJpu62Z9w=\n-----END PUBLIC KEY-----\n": {
+	"-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAWT7+7scVhAdz4mTDn6UX9bgv4vjwRZpGiyiwl3UYDDs=\n-----END PUBLIC KEY-----\n": {
 		"balance": 100,
 		"transaction_number": 0
-	}
+	},
+	"blockNumber": 0
 }

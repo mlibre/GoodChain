@@ -1,24 +1,24 @@
 {
 	"index": 0,
 	"chainName": "GoodChain",
-	"timestamp": 1710964915326,
+	"timestamp": 1710965035425,
 	"transactions": [
 		{
 			"from": null,
-			"to": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEA11KUqufiqYucBwxT8L1uTwWBDQImbvHccdNJpu62Z9w=\n-----END PUBLIC KEY-----\n",
+			"to": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAWT7+7scVhAdz4mTDn6UX9bgv4vjwRZpGiyiwl3UYDDs=\n-----END PUBLIC KEY-----\n",
 			"amount": 100,
 			"fee": 0,
 			"transaction_number": 0,
 			"signature": null,
-			"id": "b3222781-d899-4eab-b5f8-0620ff2a7714"
+			"id": "1207c6f3-e7ec-44e3-88ab-4dba9ad52947"
 		}
 	],
 	"previousHash": "",
-	"miner": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEA11KUqufiqYucBwxT8L1uTwWBDQImbvHccdNJpu62Z9w=\n-----END PUBLIC KEY-----\n",
+	"miner": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAWT7+7scVhAdz4mTDn6UX9bgv4vjwRZpGiyiwl3UYDDs=\n-----END PUBLIC KEY-----\n",
 	"consensusName": "pow",
 	"consensusDifficulty": "000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
 	"consensusTotalDifficulty": 0,
-	"consensusNonce": 1446,
-	"consensusHash": "0002091ba7681c84ff854a51b6795b5a4d6554b99ec0ce89a098d9965394b511",
-	"hash": "1bbc7c9a393a4625c01728d307b23e018fa06305cba8588e0229fb5dfab82ebd"
+	"consensusNonce": 1831,
+	"consensusHash": "000ed5ea4dceccbf3201b204a857bb6b2df6060fd32b38624465bbc3a264b360",
+	"hash": "fceb240531b71a295c05af048a61064d645cdf29b1ae62e536694634264811af"
 }

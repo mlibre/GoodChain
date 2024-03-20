@@ -1,5 +1,5 @@
 {
-	"publicKey": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEA11KUqufiqYucBwxT8L1uTwWBDQImbvHccdNJpu62Z9w=\n-----END PUBLIC KEY-----\n",
-	"privateKey": "-----BEGIN PRIVATE KEY-----\nMC4CAQAwBQYDK2VwBCIEIKjtRwg4wUf31joUdQD1eaDbhwmr1RnGXf/uhnVmZ0/g\n-----END PRIVATE KEY-----\n",
-	"publicKeyString": "MCowBQYDK2VwAyEA11KUqufiqYucBwxT8L1uTwWBDQImbvHccdNJpu62Z9w=\n"
+	"publicKey": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAWT7+7scVhAdz4mTDn6UX9bgv4vjwRZpGiyiwl3UYDDs=\n-----END PUBLIC KEY-----\n",
+	"privateKey": "-----BEGIN PRIVATE KEY-----\nMC4CAQAwBQYDK2VwBCIEIPBYqIP1LxAESRRZEgnLiVySPOZkBIHpPSISlTd85HsQ\n-----END PRIVATE KEY-----\n",
+	"publicKeyString": "MCowBQYDK2VwAyEAWT7+7scVhAdz4mTDn6UX9bgv4vjwRZpGiyiwl3UYDDs=\n"
 }
