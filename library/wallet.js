@@ -1,36 +1,58 @@
 const { initJsonFile, updateFile } = require( "./utils" )
+const Transaction = require( "./transactions" )
 
 class Wallet
 {
-	constructor ( filePath, wallets )
+	constructor ( filePath, wallet )
 	{
 		this.filePath = filePath;
-		this.wallets = structuredClone( wallets ) || initJsonFile( filePath, {});
+		this.wallet = structuredClone( wallet ) || initJsonFile( filePath, { blockNumber: 0 });
 	}
+
 	get list ()
 	{
-		return this.wallets;
+		return this.wallet;
 	}
+
 	get ( address )
 	{
-		return this.wallets[address];
+		return this.wallet[address];
+	}
+
+	performTransactions ( transactionList )
+	{
+		for ( const tmpTrx of transactionList )
+		{
+			const trx = new Transaction( tmpTrx );
+			if ( trx.isCoinBase( ) )
+			{
+				this.wallet.addBalance( trx.to, trx.amount );
+				continue
+			}
+			this.wallet.minusBalance( trx.from, trx.amount + trx.fee );
+			this.wallet.incrementTN( trx.from );
+			this.wallet.addBalance( trx.to, trx.amount );
+		}
+		this.wallet.blockNumber = this.wallet.blockNumber + 1
+		this.wallet.updateDB()
+		return transactionList;
 	}
 
 	incrementTN ( address )
 	{
 		this.validateAddress( address )
-		return ++this.wallets[address].transaction_number;
+		return ++this.wallet[address].transaction_number;
 	}
 
 	balance ( address )
 	{
-		return this.wallets[address].balance
+		return this.wallet[address].balance
 	}
 
 	addBalance ( address, amount )
 	{
 		this.validateAddress( address )
-		return this.wallets[address].balance += amount;
+		return this.wallet[address].balance += amount;
 	}
 
 	minusBalance ( address, amount )
@@ -39,31 +61,45 @@ class Wallet
 		{
 			throw new Error( "Insufficient balance", { cause: { address, amount } });
 		}
-		return this.wallets[address].balance -= amount;
+		return this.wallet[address].balance -= amount;
 	}
 
 	transactionNumber ( address )
 	{
-		return this.wallets[address].transaction_number;
+		return this.wallet[address].transaction_number;
 	}
 
 	validateAddress ( address )
 	{
 		if ( address )
 		{
-			this.wallets[address] = this.wallets[address] || { balance: 0, transaction_number: 0 };
+			this.wallet[address] = this.wallet[address] || { balance: 0, transaction_number: 0 };
 		}
 	}
 
 	updateDB ( )
 	{
-		updateFile( this.filePath, this.wallets );
+		updateFile( this.filePath, this.wallet );
 	}
 
 	wipe ()
 	{
-		this.wallets = {};
+		this.wallet = {};
 		this.updateDB( )
+	}
+
+	checkDB ( proposedBlock )
+	{
+		this.reloadDB()
+		if ( this.wallet.blockNumber !== proposedBlock.index )
+		{
+			throw new Error( "Block number mismatch", { cause: { proposedBlock, wallet: this.wallet } });
+		}
+	}
+
+	reloadDB ( )
+	{
+		this.wallet = initJsonFile( this.filePath, { blockNumber: 0 });
 	}
 
 }

@@ -1,4 +1,4 @@
-const Blockchain = require( "./library/chain" );
+const Blockchain = require( "./library/main" );
 const Transaction = require( "./library/transactions" )
 const Consensus = require( "./library/pow-consensus" );
 const consensus = new Consensus()
@@ -13,10 +13,11 @@ deleteFile( "./assets/keys/user.json" );
 const userKeys = initJsonFile( "./assets/keys/user.json", createKeyPair() );
 const minerKeys = initJsonFile( "./assets/keys/miner.json", createKeyPair() );
 const blockchain = new Blockchain({
-	chainFilePath: "./assets/db/blockchain.json",
-	walletFilePath: "./assets/db/wallets.json",
+	dbFolderPath: "./assets/db/",
+	chainFolderPath: "./assets/db/chain/chain.json",
+	walletFilePath: "./assets/db/wallet/wallet.json",
 	nodes: {
-		filePath: "./assets/db/nodes.json",
+		filePath: "./assets/db/nodes/nodes.json",
 		list: [ "http://127.0.0.1:3001" ],
 		hostUrl: "http://127.0.0.1:3000"
 	},

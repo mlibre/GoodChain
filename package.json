@@ -4,13 +4,13 @@
   "description": "Welcome to GoodChains. A project to explore the blockchain technology",
   "main": "index.js",
   "engines": {
-    "node": ">=20"
+    "node": ">=18"
   },
   "scripts": {
-    "start": "node ./restAPI/app.js",
     "3000": "node ./restAPI/app.js --url 'http://127.0.0.1:3000' --nodes 'http://127.0.0.1:3001' --blockchainFile './assets/db/blockchain.json' --walletsFile './assets/db/wallets.json' --nodesFile './assets/db/nodes.json' --minerKeysFile './assets/keys/miner.json' --blockchainName 'GoodChain'",
     "3001": "node ./restAPI/app.js --url 'http://127.0.0.1:3001' --nodes 'http://127.0.0.1:3000' --blockchainFile './assets/db/blockchain.json' --walletsFile './assets/db/wallets.json' --nodesFile './assets/db/nodes.json' --minerKeysFile './assets/keys/miner.json' --blockchainName 'GoodChain'",
-    "3002": "node ./restAPI/app.js --url 'http://127.0.0.1:3002' --nodes 'http://127.0.0.1:3000' --blockchainFile './assets/db/blockchain.json' --walletsFile './assets/db/wallets.json' --nodesFile './assets/db/nodes.json' --minerKeysFile './assets/keys/miner.json' --blockchainName 'GoodChain'"
+    "3002": "node ./restAPI/app.js --url 'http://127.0.0.1:3002' --nodes 'http://127.0.0.1:3000' --blockchainFile './assets/db/blockchain.json' --walletsFile './assets/db/wallets.json' --nodesFile './assets/db/nodes.json' --minerKeysFile './assets/keys/miner.json' --blockchainName 'GoodChain'",
+    "start": "node ./restAPI/app.js"
   },
   "author": "",
   "license": "ISC",
@@ -22,6 +22,7 @@
     "lodash": "^4.17.21",
     "minimist": "^1.2.8",
     "morgan": "~1.9.1",
+    "simple-git": "^3.23.0",
     "uuid": "^9.0.1"
   }
 }
