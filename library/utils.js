@@ -63,6 +63,31 @@ exports.deleteFile = function ( filePath )
 	}
 }
 
+exports.recreateFolder = function ( folderPath )
+{
+	if ( fs.existsSync( folderPath ) )
+	{
+		fs.rmdirSync( folderPath, { recursive: true });
+		console.log( `Folder ${folderPath} Deleted` );
+	}
+	fs.mkdirSync( folderPath );
+	console.log( `Folder ${folderPath} Created` );
+}
+
+exports.createFolder = function ( folderPath )
+{
+	if ( !fs.existsSync( folderPath ) )
+	{
+		fs.mkdirSync( folderPath );
+		console.log( `Folder ${folderPath} Created` );
+	}
+	else
+	{
+		console.log( `Folder ${folderPath} already exists` );
+		return false;
+	}
+}
+
 exports.uuid = function ()
 {
 	return uuidv4();

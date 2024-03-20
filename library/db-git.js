@@ -5,6 +5,7 @@
 
 
 const { execSync } = require( "child_process" );
+const { createFolder } = require( "./utils" );
 
 class GitDatabase
 {
@@ -20,21 +21,16 @@ class GitDatabase
 		// };
 		// this.git = simpleGit( options );
 		// this.git.clean( simpleGit.CleanOptions.FORCE )
+		this.repoPath = repoPath;
 		this.initGitRepo( repoPath );
 	}
 
-	initGitRepo ( folderPath )
+	initGitRepo ( )
 	{
-		try
-		{
-			const output = execSync( "git init .", { cwd: folderPath }).toString();
-			console.log( "Git repository initialized ", output );
-		}
-		catch ( error )
-		{
-			console.error( `Failed to initialize Git repository in ${folderPath}:`, error );
-		}
-	  }
+		createFolder( this.repoPath );
+		const output = execSync( "git init .", { cwd: this.repoPath }).toString();
+		console.log( "Git repository initialized ", output );
+	}
 
 	async commit ( blockNumber )
 	{

@@ -26,15 +26,15 @@ class Wallet
 			const trx = new Transaction( tmpTrx );
 			if ( trx.isCoinBase( ) )
 			{
-				this.wallet.addBalance( trx.to, trx.amount );
+				this.addBalance( trx.to, trx.amount );
 				continue
 			}
-			this.wallet.minusBalance( trx.from, trx.amount + trx.fee );
-			this.wallet.incrementTN( trx.from );
-			this.wallet.addBalance( trx.to, trx.amount );
+			this.minusBalance( trx.from, trx.amount + trx.fee );
+			this.incrementTN( trx.from );
+			this.addBalance( trx.to, trx.amount );
 		}
-		this.wallet.blockNumber = this.wallet.blockNumber + 1
-		this.wallet.updateDB()
+		this.wallet.blockNumber = ( this.wallet.blockNumber || -1 ) + 1
+		this.updateDB()
 		return transactionList;
 	}
 

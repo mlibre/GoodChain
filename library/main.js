@@ -67,7 +67,6 @@ class Blockchain
 	{
 		Block.verify( block, this.latestBlock )
 		this.consensus.validate( block, this.latestBlock );
-		this.simulateTransactions( block.transactions )
 		return true
 	}
 

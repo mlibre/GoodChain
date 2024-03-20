@@ -15,6 +15,11 @@ class ChainStore
 		fs.writeFileSync( this.folderPath + block.index, JSON.stringify( block, null, "\t" ) );
 	}
 
+	get length ()
+	{
+		return fs.readdirSync( this.folderPath ).length;
+	}
+
 	checkDB ( proposedBlock )
 	{
 		const [ lastBlock, secondLastBlock ] = [ this.get( proposedBlock.index - 1 ), this.get( proposedBlock.index - 2 ) ];
@@ -36,6 +41,12 @@ class ChainStore
 		return JSON.parse( fs.readFileSync( this.blockFilePath( blockNumber ) ) );
 	}
 
+	lastBlock ()
+	{
+		const files = fs.readdirSync( this.folderPath );
+		const lastFile = files.sort().pop();
+		return JSON.parse( fs.readFileSync( this.blockFilePath( lastFile ) ) );
+	}
 	lastTwoBlocks ()
 	{
 		const files = fs.readdirSync( this.folderPath );
