@@ -27,7 +27,7 @@ class Blockchain
 			this.mineNewBlock()
 		}
 
-		this.consensus.setValues( this.latestBlock );
+		this.consensus.setValues( this.chain.latestBlock() );
 	}
 
 	mineNewBlock ()

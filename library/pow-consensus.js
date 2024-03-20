@@ -9,10 +9,12 @@ module.exports = class pow
 		this.difficulty = "000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
 		this.minDifficulty = "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
 	}
+
 	setValues ( block )
 	{
-		this.difficulty = block.difficulty || this.difficulty;
+		this.difficulty = block.consensusDifficulty || this.difficulty;
 	}
+
 	apply ( block, previousBlock )
 	{
 		let targetDifficulty;

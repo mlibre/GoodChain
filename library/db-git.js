@@ -35,11 +35,15 @@ class GitDatabase
 		console.log( "Git repository cleaned ", cleanOutput );
 	}
 
-	async commit ( blockNumber )
+	commit ( blockNumber )
 	{
-		await this.git.add( "." );
-		await this.git.commit( `${blockNumber}` );
-		console.log( `Committed block ${blockNumber}` );
+		const addOutput = execSync( "git add --all", { cwd: this.repoPath }).toString();
+		console.log( "Git repository commited ", addOutput );
+
+		const commitOutput = execSync( `git commit -m "${blockNumber}"`, { cwd: this.repoPath }).toString();
+		console.log( "Git repository commited ", commitOutput );
+
+
 	}
 
 	async cleanRepo ()
