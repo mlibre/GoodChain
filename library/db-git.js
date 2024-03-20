@@ -28,8 +28,11 @@ class GitDatabase
 	initGitRepo ( )
 	{
 		createFolder( this.repoPath );
-		const output = execSync( "git init .", { cwd: this.repoPath }).toString();
-		console.log( "Git repository initialized ", output );
+		const initOutput = execSync( "git init .", { cwd: this.repoPath }).toString();
+		console.log( "Git repository initialized ", initOutput );
+
+		const cleanOutput = execSync( "git clean -d -x -f", { cwd: this.repoPath }).toString();
+		console.log( "Git repository cleaned ", cleanOutput );
 	}
 
 	async commit ( blockNumber )

@@ -2,17 +2,19 @@ const Block = require( "./block" )
 const fs = require( "fs" );
 const path = require( "path" );
 const _ = require( "lodash" );
+const { createFolder } = require( "./utils" );
 
 class ChainStore
 {
 	constructor ( folderPath )
 	{
 		this.folderPath = folderPath;
+		createFolder( folderPath );
 	}
 
 	push ( block )
 	{
-		fs.writeFileSync( this.folderPath + block.index, JSON.stringify( block, null, "\t" ) );
+		fs.writeFileSync( `${this.blockFilePath( block.index )}.json`, JSON.stringify( block, null, "\t" ) );
 	}
 
 	get length ()
@@ -22,6 +24,16 @@ class ChainStore
 
 	checkDB ( proposedBlock )
 	{
+		if ( proposedBlock.index === 0 )
+		{
+			const lastBlock = this.lastBlock();
+			Block.verify( lastBlock, null );
+			if ( !_.isEqual( lastBlock, proposedBlock ) )
+			{
+				throw new Error( "Invalid chain" );
+			}
+			return true
+		}
 		const [ lastBlock, secondLastBlock ] = [ this.get( proposedBlock.index - 1 ), this.get( proposedBlock.index - 2 ) ];
 		Block.verify( lastBlock, secondLastBlock )
 		if ( !_.isEqual( lastBlock, proposedBlock ) )
@@ -38,7 +50,7 @@ class ChainStore
 
 	get ( blockNumber )
 	{
-		return JSON.parse( fs.readFileSync( this.blockFilePath( blockNumber ) ) );
+		return JSON.parse( fs.readFileSync( `${this.blockFilePath( blockNumber ) }.json` ) );
 	}
 
 	lastBlock ()
@@ -58,7 +70,7 @@ class ChainStore
 
 	blockFilePath ( index )
 	{
-		return path.join( this.folderPath, index );
+		return path.join( this.folderPath, index.toString() );
 	}
 }
 
