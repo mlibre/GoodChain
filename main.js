@@ -3,11 +3,8 @@ const Transaction = require( "./library/transactions" )
 const Consensus = require( "./library/pow-consensus" );
 const consensus = new Consensus()
 
-const { deleteFile, recreateFolder, deleteFoler, initJsonFile, createKeyPair } = require( "./library/utils" )
-deleteFoler( "assets/db/.git" )
-recreateFolder( "./assets/db/chain/" );
-deleteFile( "./assets/db/wallet/wallet.json" );
-deleteFile( "./assets/db/nodes/nodes.json" );
+const { deleteFile, deleteFoler, initJsonFile, createKeyPair } = require( "./library/utils" )
+deleteFoler( "assets/db/" )
 deleteFile( "./assets/keys/miner.json" );
 deleteFile( "./assets/keys/user.json" );
 
@@ -15,8 +12,6 @@ const userKeys = initJsonFile( "./assets/keys/user.json", createKeyPair() );
 const minerKeys = initJsonFile( "./assets/keys/miner.json", createKeyPair() );
 const blockchain = new Blockchain({
 	dbFolderPath: "./assets/db/",
-	chainFolderPath: "./assets/db/chain/",
-	walletFilePath: "./assets/db/wallet/wallet.json",
 	nodes: {
 		filePath: "./assets/db/nodes/nodes.json",
 		list: [ "http://127.0.0.1:3001" ],

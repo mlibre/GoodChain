@@ -8,8 +8,8 @@ class ChainStore
 {
 	constructor ( folderPath )
 	{
-		this.folderPath = folderPath;
-		createFolder( folderPath );
+		this.folderPath = this.makeFilePath( folderPath, "chain" );
+		createFolder( this.folderPath );
 	}
 
 	push ( block )
@@ -78,6 +78,11 @@ class ChainStore
 	blockFilePath ( index )
 	{
 		return path.join( this.folderPath, index.toString() );
+	}
+
+	makeFilePath ( folderPath, fileName )
+	{
+		return path.join( folderPath, fileName );
 	}
 }
 

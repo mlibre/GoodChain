@@ -9,14 +9,14 @@ const Nodes = require( "./nodes" )
 
 class Blockchain
 {
-	constructor ({ dbFolderPath, chainFolderPath, walletFilePath, nodes, chainName, minerKeys, consensus })
+	constructor ({ dbFolderPath, nodes, chainName, minerKeys, consensus })
 	{
 		this.consensus = consensus;
 		this.chainName = chainName;
 		this.minerKeys = minerKeys;
 		this.db = new Database( dbFolderPath );
-		this.chain = new ChainStore( chainFolderPath );
-		this.wallet = new Wallet( walletFilePath );
+		this.chain = new ChainStore( dbFolderPath );
+		this.wallet = new Wallet( dbFolderPath );
 		this.nodes = new Nodes( nodes );
 		this.transactionPool = [];
 		this.transactionPoolSize = 100;
@@ -152,7 +152,6 @@ class Blockchain
 
 	cleanupTransactionPool ( )
 	{
-		const clonedWallet = new Wallet( null, this.wallet.list );
 		const newTransactionPool = []
 		for ( const tmpTrx of this.transactionPool )
 		{
@@ -164,14 +163,14 @@ class Blockchain
 					console.log( "Dropping coinbase transaction" );
 					continue
 				}
-				if ( trx.transaction_number <= clonedWallet.transactionNumber( trx.from ) )
+				if ( trx.transaction_number <= this.wallet.transactionNumber( trx.from ) )
 				{
 					console.log( "Dropping transaction with transaction number less than wallet transaction number" );
 					continue
 				}
-				clonedWallet.minusBalance( trx.from, trx.amount + trx.fee );
-				clonedWallet.incrementTN( trx.from );
-				clonedWallet.addBalance( trx.to, trx.amount );
+				this.wallet.minusBalance( trx.from, trx.amount + trx.fee );
+				this.wallet.incrementTN( trx.from );
+				this.wallet.addBalance( trx.to, trx.amount );
 				newTransactionPool.push( trx.data );
 			}
 			catch ( error )
@@ -180,6 +179,7 @@ class Blockchain
 			}
 		}
 		this.transactionPool = newTransactionPool;
+		this.wallet.reloadDB()
 		return newTransactionPool
 	}
 

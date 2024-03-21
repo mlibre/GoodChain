@@ -1,12 +1,13 @@
+const path = require( "path" );
 const { initJsonFile, updateFile } = require( "./utils" )
 const Transaction = require( "./transactions" )
 
 class Wallet
 {
-	constructor ( filePath, wallet )
+	constructor ( filePath )
 	{
-		this.filePath = filePath;
-		this.wallet = structuredClone( wallet ) || initJsonFile( filePath, { blockNumber: -1 });
+		this.filePath = this.makeFilePath( filePath, "wallet", "wallet.json" );
+		this.wallet = initJsonFile( this.filePath, { blockNumber: -1 });
 	}
 
 	get list ()
@@ -100,6 +101,11 @@ class Wallet
 	reloadDB ( )
 	{
 		this.wallet = initJsonFile( this.filePath, { blockNumber: 0 });
+	}
+
+	makeFilePath ( folderPath, ...params )
+	{
+		return path.join( folderPath, ...params );
 	}
 
 }

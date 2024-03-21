@@ -22,7 +22,6 @@ exports.initJsonFile = function initJsonFile ( filePath, defaultData = {})
 	}
 }
 
-
 exports.updateFile = function updateFile ( path, data )
 {
 	fs.writeFileSync( path, JSON.stringify( data, null, "\t" ) );
