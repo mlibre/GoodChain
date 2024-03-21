@@ -71,6 +71,14 @@ exports.deleteFile = function ( filePath )
 	}
 }
 
+exports.deleteFoler = function ( folderPath )
+{
+	if ( fs.existsSync( folderPath ) )
+	{
+		fs.rmdirSync( folderPath, { recursive: true });
+	}
+}
+
 exports.recreateFolder = function ( folderPath )
 {
 	if ( fs.existsSync( folderPath ) )

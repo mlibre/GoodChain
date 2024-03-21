@@ -1,10 +1,10 @@
 {
 	"blockNumber": 3,
-	"-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEA052CS8jzrwyFCTkF6K2tvSlZ1828/j9CNxz1xliOeQY=\n-----END PUBLIC KEY-----\n": {
+	"-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAKX6hUiyndtOStoS9aV9I9oqAa8tEjoW3cMZlTTN8BZI=\n-----END PUBLIC KEY-----\n": {
 		"balance": 350.3,
 		"transaction_number": 1
 	},
-	"-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAmsGrysB/YK3SWvJdCB1JMmmy3QHTgutPhAgYoyMW0SY=\n-----END PUBLIC KEY-----\n": {
+	"-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAz0qD95z8bSIZWtqyNEEii0S5A131WsHGVAH0R615WQI=\n-----END PUBLIC KEY-----\n": {
 		"balance": 44.7,
 		"transaction_number": 1
 	},

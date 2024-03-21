@@ -3,7 +3,8 @@ const Transaction = require( "./library/transactions" )
 const Consensus = require( "./library/pow-consensus" );
 const consensus = new Consensus()
 
-const { deleteFile, recreateFolder, initJsonFile, createKeyPair } = require( "./library/utils" )
+const { deleteFile, recreateFolder, deleteFoler, initJsonFile, createKeyPair } = require( "./library/utils" )
+deleteFoler( "assets/db/.git" )
 recreateFolder( "./assets/db/chain/" );
 deleteFile( "./assets/db/wallet/wallet.json" );
 deleteFile( "./assets/db/nodes/nodes.json" );
