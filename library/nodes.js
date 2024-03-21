@@ -39,7 +39,6 @@ module.exports = class Nodes
 
 	isDuplicate ( url )
 	{
-		// use indexof
 		return this.all.indexOf( url ) !== -1;
 	}
 
