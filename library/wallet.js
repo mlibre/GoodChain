@@ -6,7 +6,7 @@ class Wallet
 	constructor ( filePath, wallet )
 	{
 		this.filePath = filePath;
-		this.wallet = structuredClone( wallet ) || initJsonFile( filePath, {});
+		this.wallet = structuredClone( wallet ) || initJsonFile( filePath, { blockNumber: -1 });
 	}
 
 	get list ()
@@ -33,7 +33,7 @@ class Wallet
 			this.incrementTN( trx.from );
 			this.addBalance( trx.to, trx.amount );
 		}
-		this.wallet.blockNumber = ( this.wallet.blockNumber || -1 ) + 1
+		this.wallet.blockNumber = this.wallet.blockNumber + 1
 		this.updateDB()
 		return transactionList;
 	}

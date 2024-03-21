@@ -38,7 +38,7 @@ trx.sign( minerKeys.privateKey );
 
 const blockNumber = blockchain.addTransaction( trx.data );
 blockchain.mineNewBlock();
-console.log( "Mined block :", blockNumber, blockchain.latestBlock );
+console.log( "Mined block :", blockNumber, blockchain.chain.latestBlock() );
 
 const trx2 = new Transaction({
 	from: userKeys.publicKey,
@@ -53,5 +53,5 @@ blockchain.addTransaction( trx2.data );
 blockchain.mineNewBlock();
 
 console.log( "chain validation:", blockchain.validateChain() );
-console.log( "Latest Block :", blockchain.latestBlock );
+console.log( "Latest Block :", blockchain.chain.latestBlock() );
 console.log( "Wallets : ", blockchain.wallet );

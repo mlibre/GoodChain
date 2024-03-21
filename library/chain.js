@@ -34,7 +34,7 @@ class ChainStore
 			}
 			return true
 		}
-		const [ lastBlock, secondLastBlock ] = [ this.get( proposedBlock.index - 1 ), this.get( proposedBlock.index - 2 ) ];
+		const [ lastBlock, secondLastBlock ] = [ this.get( proposedBlock.index ), this.get( proposedBlock.index - 1 ) ];
 		Block.verify( lastBlock, secondLastBlock )
 		if ( !_.isEqual( lastBlock, proposedBlock ) )
 		{
@@ -50,12 +50,20 @@ class ChainStore
 
 	get ( blockNumber )
 	{
+		if ( blockNumber == -1 )
+		{
+			return null
+		}
 		return JSON.parse( fs.readFileSync( `${this.blockFilePath( blockNumber ) }.json` ) );
 	}
 
 	latestBlock ()
 	{
 		const files = fs.readdirSync( this.folderPath );
+		if ( files.length === 0 )
+		{
+			return null
+		}
 		const lastFile = files.sort().pop();
 		return JSON.parse( fs.readFileSync( this.blockFilePath( lastFile ) ) );
 	}

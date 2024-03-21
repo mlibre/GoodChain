@@ -8,7 +8,7 @@ router.get( "/", function ( req, res )
 	let { index, from, to, list, firstAndLast } = req.query;
 	if ( !index && !from && !to && !list && !firstAndLast )
 	{
-		res.json( blockchain.latestBlock );
+		res.json( blockchain.chain.latestBlock() );
 		return
 	}
 	else if ( index )
@@ -40,7 +40,7 @@ router.get( "/", function ( req, res )
 	{
 		const blocks = []
 		blocks.push( blockchain.getBlock( 0 ) );
-		blocks.push( blockchain.latestBlock );
+		blocks.push( blockchain.chain.latestBlock() );
 		res.json( blocks );
 		return;
 	}
@@ -58,7 +58,7 @@ router.get( "/broadcast", async function ( req, res, next )
 	{
 		try
 		{
-			await axios.post( `${node}/block`, blockchain.latestBlock );
+			await axios.post( `${node}/block`, blockchain.chain.latestBlock() );
 		}
 		catch ( error )
 		{
