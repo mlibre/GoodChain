@@ -13,7 +13,6 @@ const minerKeys = initJsonFile( "./assets/keys/miner.json", createKeyPair() );
 const blockchain = new Blockchain({
 	dbFolderPath: "./assets/db/",
 	nodes: {
-		filePath: "./assets/db/nodes/nodes.json",
 		list: [ "http://127.0.0.1:3001" ],
 		hostUrl: "http://127.0.0.1:3000"
 	},
@@ -48,6 +47,6 @@ trx2.sign( userKeys.privateKey );
 blockchain.addTransaction( trx2.data );
 blockchain.mineNewBlock();
 
-console.log( "chain validation:", blockchain.validateChain() );
 console.log( "Latest Block :", blockchain.chain.latestBlock() );
 console.log( "Wallets : ", blockchain.wallet );
+console.log( "chain validation:", blockchain.validateChain() );

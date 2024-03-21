@@ -17,7 +17,7 @@ class Blockchain
 		this.db = new Database( dbFolderPath );
 		this.chain = new ChainStore( dbFolderPath );
 		this.wallet = new Wallet( dbFolderPath );
-		this.nodes = new Nodes( nodes );
+		this.nodes = new Nodes( dbFolderPath, nodes );
 		this.transactionPool = [];
 		this.transactionPoolSize = 100;
 		this.miningReward = 100;

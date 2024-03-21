@@ -4,9 +4,9 @@ const Transaction = require( "./transactions" )
 
 class Wallet
 {
-	constructor ( filePath )
+	constructor ( folderPath )
 	{
-		this.filePath = this.makeFilePath( filePath, "wallet", "wallet.json" );
+		this.filePath = this.makeFilePath( folderPath, "wallet", "wallet.json" );
 		this.wallet = initJsonFile( this.filePath, { blockNumber: -1 });
 	}
 
