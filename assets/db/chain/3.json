@@ -1,33 +1,33 @@
 {
 	"index": 3,
 	"chainName": "GoodChain",
-	"timestamp": 1711111887195,
+	"timestamp": 1711131186944,
 	"transactions": [
 		{
-			"from": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAcqOxNDXYFdooI0JsncSlhbjpiKjFgSmb3xocH0FFUH4=\n-----END PUBLIC KEY-----\n",
+			"from": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEA4ZwsUPErH+BUZ23Hux4QbGtUBsBuen8Cy9JSGXvSOyY=\n-----END PUBLIC KEY-----\n",
 			"to": "user3",
 			"amount": 5,
 			"fee": 0.3,
 			"transaction_number": 1,
-			"signature": "9311f3332d72de99e40b76b3d8be0ef35e98ee57cacffa7a7e4bba72075f16e8a01c50c285392e0b778a53be6d1f71f8dc7f2b5fd0b3000157dea65b4d18760c",
-			"id": "eea7879e-02d3-4d45-8709-ba3611f2c1b7"
+			"signature": "28b27844f82fb3c5657e39c7badcc601a786697ffc6ebbf3e396216631b27e1c7443d5ffe5d31072d855c807e68752c58d839d9ce33b9e6200fc504f7add990a",
+			"id": "ce769d2e-ee5c-4f38-b47d-66b3b52da446"
 		},
 		{
 			"from": null,
-			"to": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEA1IC6uE5sJw9LXRp2XQe/PdKxgGT86rw6YDFUYVpNTt4=\n-----END PUBLIC KEY-----\n",
+			"to": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAx/ge+7e+zggVTT9oyU2afndBWi44E0w1zVBVKvw4o6I=\n-----END PUBLIC KEY-----\n",
 			"amount": 100.3,
 			"fee": 0,
 			"transaction_number": 0,
 			"signature": null,
-			"id": "a431b125-9d6c-400c-afc7-ac2cf1b103c8"
+			"id": "a8801858-c811-43fc-8588-027c8835e6b4"
 		}
 	],
-	"previousHash": "dd0602442638afa51121b37667a31e50c99d3115a1e1a67eabe7d4634cb6a1ba",
-	"miner": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEA1IC6uE5sJw9LXRp2XQe/PdKxgGT86rw6YDFUYVpNTt4=\n-----END PUBLIC KEY-----\n",
+	"previousHash": "161b1a84631e07fc4afc5bdabda559c432b32d62d8a43fb9badf5dc7b07b69f7",
+	"miner": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAx/ge+7e+zggVTT9oyU2afndBWi44E0w1zVBVKvw4o6I=\n-----END PUBLIC KEY-----\n",
 	"consensusName": "pow",
 	"consensusDifficulty": "000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
-	"consensusTotalDifficulty": "2ffe180a32b0f0000000000000000000000000000000000000000000000000000",
-	"consensusNonce": 572,
-	"consensusHash": "000c98d08663eb3e3f919d665088c585424f278ee9694a5b2b186c3401a770a8",
-	"hash": "5ea9602b73f59a085ed94cf9aa282667df364f2bc35cbe20aeff094b5ae6510e"
+	"consensusTotalDifficulty": "2ffe2debcf5910000000000000000000000000000000000000000000000000000",
+	"consensusNonce": 12986,
+	"consensusHash": "000c6a4f89003b48ea3b151860bdb8a0eb58959f62c37f97798a96dcce2ede41",
+	"hash": "0496ee8d07b335b3f41f4f1e659b9b37948bff2a63eddf02eedf2dda0ad7ca21"
 }

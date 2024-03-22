@@ -133,3 +133,8 @@ exports.addPublicKeyHeaders = function ( publicKey )
 {
 	return `-----BEGIN PUBLIC KEY-----\n${publicKey}-----END PUBLIC KEY-----`;
 }
+
+exports.makeFilePath = function ( folderPath, ...params )
+{
+	return path.join( folderPath, ...params );
+}

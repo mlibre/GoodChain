@@ -1,12 +1,12 @@
 const path = require( "path" );
-const { initJsonFile, updateFile } = require( "./utils" )
+const { initJsonFile, updateFile, makeFilePath } = require( "./utils" )
 const Transaction = require( "./transactions" )
 
 class Wallet
 {
 	constructor ( folderPath )
 	{
-		this.filePath = this.makeFilePath( folderPath, "wallet", "wallet.json" );
+		this.filePath = makeFilePath( folderPath, "wallet", "wallet.json" );
 		this.wallet = initJsonFile( this.filePath, { blockNumber: -1 });
 	}
 
@@ -121,6 +121,20 @@ class Wallet
 		this.updateDB( )
 	}
 
+	reloadDB ( )
+	{
+		this.wallet = initJsonFile( this.filePath, { blockNumber: 0 });
+	}
+
+	reCalculateWallet ( chain )
+	{
+		this.wipe()
+		for ( const block of chain )
+		{
+			this.performTransactions( block.transactions );
+		}
+	}
+
 	checkDB ( proposedBlock )
 	{
 		this.reloadDB()
@@ -129,17 +143,6 @@ class Wallet
 			throw new Error( "Block number mismatch", { cause: { proposedBlock, wallet: this.wallet } });
 		}
 	}
-
-	reloadDB ( )
-	{
-		this.wallet = initJsonFile( this.filePath, { blockNumber: 0 });
-	}
-
-	makeFilePath ( folderPath, ...params )
-	{
-		return path.join( folderPath, ...params );
-	}
-
 }
 
 

@@ -7,7 +7,6 @@ class Block
 	constructor ()
 	{
 		// const self = this
-
 	}
 
 	static verify ( block, previousBlock )

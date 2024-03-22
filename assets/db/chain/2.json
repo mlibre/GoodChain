@@ -1,33 +1,33 @@
 {
 	"index": 2,
 	"chainName": "GoodChain",
-	"timestamp": 1711111887154,
+	"timestamp": 1711131186844,
 	"transactions": [
 		{
-			"from": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEA1IC6uE5sJw9LXRp2XQe/PdKxgGT86rw6YDFUYVpNTt4=\n-----END PUBLIC KEY-----\n",
-			"to": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAcqOxNDXYFdooI0JsncSlhbjpiKjFgSmb3xocH0FFUH4=\n-----END PUBLIC KEY-----\n",
+			"from": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAx/ge+7e+zggVTT9oyU2afndBWi44E0w1zVBVKvw4o6I=\n-----END PUBLIC KEY-----\n",
+			"to": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEA4ZwsUPErH+BUZ23Hux4QbGtUBsBuen8Cy9JSGXvSOyY=\n-----END PUBLIC KEY-----\n",
 			"amount": 50,
 			"fee": 0,
 			"transaction_number": 1,
-			"signature": "722fd35ca1905147d37a61a89c80e72d368c34ca8e9e15623328f1c4d1f28c006cddfcc79f91a68d358977f28c2bb9d109db5580cfce70b75a9f2dfb642b6d00",
-			"id": "951f51e2-0a3c-4d0f-9821-9479d1e363e0"
+			"signature": "638561c7d1454bb22a5dc59aefdd02af2f32549eb7d6235db5afb445de97b6400ce032dbccac300c8a30349112abb220fdaa454cf490314d058d4cb83c8fa509",
+			"id": "46eb465a-6540-44d3-af84-73a594eb26f2"
 		},
 		{
 			"from": null,
-			"to": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEA1IC6uE5sJw9LXRp2XQe/PdKxgGT86rw6YDFUYVpNTt4=\n-----END PUBLIC KEY-----\n",
+			"to": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAx/ge+7e+zggVTT9oyU2afndBWi44E0w1zVBVKvw4o6I=\n-----END PUBLIC KEY-----\n",
 			"amount": 100,
 			"fee": 0,
 			"transaction_number": 0,
 			"signature": null,
-			"id": "a6959ba8-c877-4752-90c4-082c17a9cfa8"
+			"id": "9748c8d7-964c-4494-8203-99542863d9e1"
 		}
 	],
-	"previousHash": "125e4124da26c91534b0d2c48457aea10bfc042907af26ca3e146d5fd15010d9",
-	"miner": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEA1IC6uE5sJw9LXRp2XQe/PdKxgGT86rw6YDFUYVpNTt4=\n-----END PUBLIC KEY-----\n",
+	"previousHash": "e71f805e13d9766e7d380cd0d9faaa9f9a2abae5cd1ac63bded89c68d0b3a339",
+	"miner": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAx/ge+7e+zggVTT9oyU2afndBWi44E0w1zVBVKvw4o6I=\n-----END PUBLIC KEY-----\n",
 	"consensusName": "pow",
 	"consensusDifficulty": "000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
-	"consensusTotalDifficulty": "1ffeb9eab45a25000000000000000000000000000000000000000000000000000",
-	"consensusNonce": 682,
-	"consensusHash": "000a1e081a9341eedc38b48de930315a38ef34b36ba4f32789de7a526c4a0ee0",
-	"hash": "dd0602442638afa51121b37667a31e50c99d3115a1e1a67eabe7d4634cb6a1ba"
+	"consensusTotalDifficulty": "1ffebc822d7084000000000000000000000000000000000000000000000000000",
+	"consensusNonce": 1776,
+	"consensusHash": "0008e965e17742f3f6aa15d836bebde49af83c0960bac094c2c7d344e5552e54",
+	"hash": "161b1a84631e07fc4afc5bdabda559c432b32d62d8a43fb9badf5dc7b07b69f7"
 }

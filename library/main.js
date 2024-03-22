@@ -151,22 +151,12 @@ class Blockchain
 		}
 	}
 
-	reCalculateWallet ( )
-	{
-		this.wallet.wipe()
-		for ( const block of this.chain )
-		{
-			this.performTransactions( block.transactions );
-		}
-	}
-
 	replaceChain ( newChain )
 	{
 		this.chain = newChain;
 		updateFile( this.filePath, this.chain )
-		this.reCalculateWallet()
+		this.wallet.reCalculateWallet( this.chain )
 		return newChain
-
 	}
 
 	addBlocks ( blocks )

@@ -2,13 +2,13 @@ const Block = require( "./block" )
 const fs = require( "fs" );
 const path = require( "path" );
 const _ = require( "lodash" );
-const { createFolder } = require( "./utils" );
+const { createFolder, makeFilePath } = require( "./utils" );
 
 class ChainStore
 {
 	constructor ( folderPath )
 	{
-		this.folderPath = this.makeFilePath( folderPath, "chain" );
+		this.folderPath = makeFilePath( folderPath, "chain" );
 		createFolder( this.folderPath );
 	}
 
@@ -83,11 +83,6 @@ class ChainStore
 	blockFilePath ( index )
 	{
 		return path.join( this.folderPath, index.toString() );
-	}
-
-	makeFilePath ( folderPath, fileName )
-	{
-		return path.join( folderPath, fileName );
 	}
 }
 
