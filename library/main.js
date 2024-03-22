@@ -37,10 +37,11 @@ class Blockchain
 		const self = this
 		self.cleanupTransactionPool()
 		self.db.reset()
+		self.wallet.reloadDB()
 		const coinbaseTrx = self.genCoinbaseTransaction();
 		self.addTransaction( coinbaseTrx )
 		const block = {
-			index: self.chainLength,
+			index: self.chain.length,
 			chainName: self.chainName,
 			timestamp: Date.now(),
 			transactions: self.transactionPool,
@@ -98,17 +99,18 @@ class Blockchain
 
 	addTransaction ( transaction )
 	{
+		this.checkTransactionsPoolSize( );
+
 		const trx = new Transaction( transaction );
 		this.wallet.validateAddress( trx.from );
 		this.wallet.validateAddress( trx.to );
 
 		trx.validate( );
-		this.checkTransactionsPoolSize( );
 		this.isTransactionDuplicate( trx.data );
 
 		this.transactionPool.push( trx.data );
 		this.transactionPool.sort( ( a, b ) => { return b.fee - a.fee });
-		return this.chainLength
+		return this.chain.length
 	}
 
 	addTransactions ( transactions )
@@ -212,7 +214,7 @@ class Blockchain
 
 	getBlock ( blockNumber )
 	{
-		if ( blockNumber >= this.chainLength )
+		if ( blockNumber >= this.chain.length )
 		{
 			throw new Error( "Block number is greater than chain length" );
 		}
@@ -224,18 +226,13 @@ class Blockchain
 		return this.chain.slice( from, to )
 	}
 
-	get chainLength ()
-	{
-		return this.chain.length
-	}
-
 	validateChain ()
 	{
-		if ( this.chainLength === 0 )
+		if ( this.chain.length === 0 )
 		{
 			return true;
 		}
-		for ( let i = 0; i < this.chainLength; i++ )
+		for ( let i = 0; i < this.chain.length; i++ )
 		{
 			Block.verify( this.chain.get( i ), this.chain.get( i - 1 ) )
 		}
