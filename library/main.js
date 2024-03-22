@@ -38,9 +38,8 @@ class Blockchain
 		const self = this
 		try
 		{
-			self.cleanupTransactionPool()
+			self.transactionPool = self.wallet.cleanupTransactions( self.transactionPool );
 			self.db.reset()
-			self.wallet.reloadDB()
 			const coinbaseTrx = self.genCoinbaseTransaction();
 			self.addTransaction( coinbaseTrx )
 			const block = {
@@ -150,38 +149,6 @@ class Blockchain
 		{
 			throw new Error( "Duplicate transaction" );
 		}
-	}
-
-	cleanupTransactionPool ( )
-	{
-		const newTransactionPool = []
-		for ( const tmpTrx of this.transactionPool )
-		{
-			try
-			{
-				const trx = new Transaction( tmpTrx );
-				if ( trx.isCoinBase( ) )
-				{
-					console.log( "Dropping coinbase transaction" );
-					continue
-				}
-				if ( trx.transaction_number <= this.wallet.transactionNumber( trx.from ) )
-				{
-					console.log( "Dropping transaction with transaction number less than wallet transaction number" );
-					continue
-				}
-				this.wallet.minusBalance( trx.from, trx.amount + trx.fee );
-				this.wallet.incrementTN( trx.from );
-				this.wallet.addBalance( trx.to, trx.amount );
-				newTransactionPool.push( trx.data );
-			}
-			catch ( error )
-			{
-				console.log( error );
-			}
-		}
-		this.transactionPool = newTransactionPool;
-		return newTransactionPool
 	}
 
 	reCalculateWallet ( )

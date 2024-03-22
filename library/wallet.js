@@ -39,6 +39,38 @@ class Wallet
 		return transactionList;
 	}
 
+	cleanupTransactions ( transactions )
+	{
+		const newTransactions = []
+		for ( const tmpTrx of transactions )
+		{
+			try
+			{
+				const trx = new Transaction( tmpTrx );
+				if ( trx.isCoinBase( ) )
+				{
+					console.log( "Dropping coinbase transaction" );
+					continue
+				}
+				if ( trx.transaction_number <= this.transactionNumber( trx.from ) )
+				{
+					console.log( "Dropping transaction with transaction number less than wallet transaction number" );
+					continue
+				}
+				this.minusBalance( trx.from, trx.amount + trx.fee );
+				this.incrementTN( trx.from );
+				this.addBalance( trx.to, trx.amount );
+				newTransactions.push( trx.data );
+			}
+			catch ( error )
+			{
+				console.log( error );
+			}
+		}
+		this.reloadDB()
+		return newTransactions
+	}
+
 	incrementTN ( address )
 	{
 		this.validateAddress( address )
