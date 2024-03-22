@@ -18,6 +18,7 @@ class Blockchain
 		this.chain = new ChainStore( dbFolderPath );
 		this.wallet = new Wallet( dbFolderPath );
 		this.nodes = new Nodes( dbFolderPath, nodes );
+		this.db.commit( "-1" )
 		this.transactionPool = [];
 		this.transactionPoolSize = 100;
 		this.miningReward = 100;
@@ -35,23 +36,32 @@ class Blockchain
 	mineNewBlock ()
 	{
 		const self = this
-		self.cleanupTransactionPool()
-		self.db.reset()
-		self.wallet.reloadDB()
-		const coinbaseTrx = self.genCoinbaseTransaction();
-		self.addTransaction( coinbaseTrx )
-		const block = {
-			index: self.chain.length,
-			chainName: self.chainName,
-			timestamp: Date.now(),
-			transactions: self.transactionPool,
-			previousHash: self.chain.latestBlock?.hash || "",
-			miner: self.minerKeys.publicKey
-		};
-		this.consensus.apply( block, self.chain.get( block.index - 1 ) );
-		block.hash = hashDataObject( block );
-		self.addBlock( block );
-		return block;
+		try
+		{
+			self.cleanupTransactionPool()
+			self.db.reset()
+			self.wallet.reloadDB()
+			const coinbaseTrx = self.genCoinbaseTransaction();
+			self.addTransaction( coinbaseTrx )
+			const block = {
+				index: self.chain.length,
+				chainName: self.chainName,
+				timestamp: Date.now(),
+				transactions: self.transactionPool,
+				previousHash: self.chain.latestBlock?.hash || "",
+				miner: self.minerKeys.publicKey
+			};
+			this.consensus.apply( block, self.chain.get( block.index - 1 ) );
+			block.hash = hashDataObject( block );
+			self.addBlock( block );
+			return block;
+		}
+		catch ( error )
+		{
+			self.db.reset()
+			self.wallet.reloadDB()
+			throw error
+		}
 	}
 
 	addBlock ( block )

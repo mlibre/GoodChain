@@ -3,29 +3,6 @@ const path = require( "path" );
 const crypto = require( "crypto" );
 const { v4: uuidv4 } = require( "uuid" );
 
-exports.initJsonFile = function initJsonFile ( filePath, defaultData = {})
-{
-	const folderPath = path.dirname( filePath );
-	if ( !fs.existsSync( folderPath ) )
-	{
-		fs.mkdirSync( folderPath, { recursive: true });
-	}
-
-	if ( fs.existsSync( filePath ) )
-	{
-		return JSON.parse( fs.readFileSync( filePath ) );
-	}
-	else
-	{
-		fs.writeFileSync( filePath, JSON.stringify( defaultData, null, "\t" ) );
-		return defaultData;
-	}
-}
-
-exports.updateFile = function updateFile ( path, data )
-{
-	fs.writeFileSync( path, JSON.stringify( data, null, "\t" ) );
-}
 
 exports.calculateMiningFee = function calculateMiningFee ( transactionPool )
 {
@@ -48,6 +25,30 @@ exports.hashDataObject = function ( data )
 exports.objectify = function ( data )
 {
 	return JSON.parse( JSON.stringify( data ) );
+}
+
+exports.initJsonFile = function initJsonFile ( filePath, defaultData = {})
+{
+	const folderPath = path.dirname( filePath );
+	if ( !fs.existsSync( folderPath ) )
+	{
+		fs.mkdirSync( folderPath, { recursive: true });
+	}
+
+	if ( fs.existsSync( filePath ) )
+	{
+		return JSON.parse( fs.readFileSync( filePath ) );
+	}
+	else
+	{
+		fs.writeFileSync( filePath, JSON.stringify( defaultData, null, "\t" ) );
+		return defaultData;
+	}
+}
+
+exports.updateFile = function updateFile ( path, data )
+{
+	fs.writeFileSync( path, JSON.stringify( data, null, "\t" ) );
 }
 
 exports.deleteFile = function ( filePath )

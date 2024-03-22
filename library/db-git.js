@@ -12,10 +12,10 @@ class GitDatabase
 	constructor ( repoPath )
 	{
 		this.repoPath = repoPath;
-		this.initRepo( repoPath );
+		this.cleanInit( repoPath );
 	}
 
-	initRepo ( )
+	cleanInit ( )
 	{
 		createFolder( this.repoPath );
 		const initOutput = execSync( "git init .", { cwd: this.repoPath }).toString();
