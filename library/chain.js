@@ -26,7 +26,7 @@ class ChainStore
 	{
 		if ( proposedBlock.index === 0 )
 		{
-			const lastBlock = this.latestBlock();
+			const lastBlock = this.latestBlock;
 			Block.verify( lastBlock, null );
 			if ( !_.isEqual( lastBlock, proposedBlock ) )
 			{
@@ -57,7 +57,7 @@ class ChainStore
 		return JSON.parse( fs.readFileSync( `${this.blockFilePath( blockNumber ) }.json` ) );
 	}
 
-	latestBlock ()
+	get latestBlock ()
 	{
 		const files = fs.readdirSync( this.folderPath );
 		if ( files.length === 0 )
@@ -70,7 +70,7 @@ class ChainStore
 
 	lastTwoBlocks ()
 	{
-		const lastBlock = this.latestBlock()
+		const lastBlock = this.latestBlock
 		const secondLastBlock = this.get( lastBlock.index - 1 )
 		return [ lastBlock, secondLastBlock ];
 	}

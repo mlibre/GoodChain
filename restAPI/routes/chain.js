@@ -14,7 +14,7 @@ router.post( "/update", async function ( req, res, next )
 	let chosenBlock = true
 	while ( chosenBlock )
 	{
-		const currentIndex = blockchain.chain.latestBlock().index;
+		const currentIndex = blockchain.chain.latestBlock.index;
 		const nodesLatestBlocks = [];
 		for ( const node of blockchain.nodes.list )
 		{
@@ -40,12 +40,12 @@ router.post( "/update", async function ( req, res, next )
 			blockchain.addBlock( chosenBlock );
 		}
 	}
-	res.send( blockchain.chain.latestBlock() );
+	res.send( blockchain.chain.latestBlock );
 });
 
 router.put( "/sync", async function ( req, res, next )
 {
-	const myLastestBlock = blockchain.chain.latestBlock();
+	const myLastestBlock = blockchain.chain.latestBlock;
 	const otherNodesLastestBlocks = [];
 	for ( const node of blockchain.nodes.list )
 	{
@@ -62,7 +62,7 @@ router.put( "/sync", async function ( req, res, next )
 			console.error( `Error fetching data from node ${node}:`, error );
 		}
 	}
-	const allNodesLastBlocks = [ ...otherNodesLastestBlocks, { block: blockchain.chain.latestBlock(), node: blockchain.nodes.hostUrl } ];
+	const allNodesLastBlocks = [ ...otherNodesLastestBlocks, { block: blockchain.chain.latestBlock, node: blockchain.nodes.hostUrl } ];
 	const chosenNodeBlock = blockchain.consensus.chooseChain( allNodesLastBlocks );
 	const chosenChain = await axios.get( `${chosenNodeBlock.node}/chain` );
 	blockchain.replaceChain( chosenChain.data );

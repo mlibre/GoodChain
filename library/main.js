@@ -27,7 +27,7 @@ class Blockchain
 			this.mineNewBlock()
 		}
 
-		this.consensus.setValues( this.chain.latestBlock() );
+		this.consensus.setValues( this.chain.latestBlock );
 
 		// check whole block chain itegrity and validitty
 	}
@@ -43,7 +43,7 @@ class Blockchain
 			chainName: self.chainName,
 			timestamp: Date.now(),
 			transactions: self.transactionPool,
-			previousHash: self.chain.latestBlock()?.hash || "",
+			previousHash: self.chain.latestBlock?.hash || "",
 			miner: self.minerKeys.publicKey
 		};
 		this.consensus.apply( block, self.chain.get( block.index - 1 ) );
@@ -67,8 +67,8 @@ class Blockchain
 
 	verifyCondidateBlock ( block )
 	{
-		Block.verify( block, this.chain.latestBlock() )
-		this.consensus.validate( block, this.chain.latestBlock() );
+		Block.verify( block, this.chain.latestBlock )
+		this.consensus.validate( block, this.chain.latestBlock );
 		return true
 	}
 
