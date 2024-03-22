@@ -4,7 +4,7 @@ const blockchain = require( "../blockchain" );
 
 router.get( "/", function ( req, res, next )
 {
-	res.send( blockchain.wallet.list );
+	res.send( blockchain.wallet.allData );
 });
 
 module.exports = router;

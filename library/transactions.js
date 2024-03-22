@@ -36,6 +36,7 @@ module.exports = class Transaction
 			id: this.id
 		}
 	}
+
 	validate ()
 	{
 		if ( this.amount < 0 )

@@ -9,7 +9,7 @@ class Wallet
 		this.wallet = initJsonFile( this.filePath, { blockNumber: -1 });
 	}
 
-	get list ()
+	get allData ()
 	{
 		return this.wallet;
 	}
@@ -109,20 +109,13 @@ class Wallet
 		}
 	}
 
-	updateDB ( )
+	checkFinalDBState ( proposedBlock )
 	{
-		updateFile( this.filePath, this.wallet );
-	}
-
-	wipe ()
-	{
-		this.wallet = {};
-		this.updateDB( )
-	}
-
-	reloadDB ( )
-	{
-		this.wallet = initJsonFile( this.filePath, { blockNumber: 0 });
+		this.reloadDB()
+		if ( this.wallet.blockNumber !== proposedBlock.index )
+		{
+			throw new Error( "Block number mismatch", { cause: { proposedBlock, wallet: this.wallet } });
+		}
 	}
 
 	reCalculateWallet ( chain )
@@ -134,13 +127,20 @@ class Wallet
 		}
 	}
 
-	checkFinalDBState ( proposedBlock )
+	reloadDB ( )
 	{
-		this.reloadDB()
-		if ( this.wallet.blockNumber !== proposedBlock.index )
-		{
-			throw new Error( "Block number mismatch", { cause: { proposedBlock, wallet: this.wallet } });
-		}
+		this.wallet = initJsonFile( this.filePath, { blockNumber: 0 });
+	}
+
+	wipe ()
+	{
+		this.wallet = {};
+		this.updateDB( )
+	}
+
+	updateDB ( )
+	{
+		updateFile( this.filePath, this.wallet );
 	}
 }
 

@@ -79,17 +79,6 @@ exports.deleteFoler = function ( folderPath )
 	}
 }
 
-exports.recreateFolder = function ( folderPath )
-{
-	if ( fs.existsSync( folderPath ) )
-	{
-		fs.rmdirSync( folderPath, { recursive: true });
-		console.log( `Folder ${folderPath} Deleted` );
-	}
-	fs.mkdirSync( folderPath );
-	console.log( `Folder ${folderPath} Created` );
-}
-
 exports.createFolder = function ( folderPath )
 {
 	if ( !fs.existsSync( folderPath ) )
@@ -127,11 +116,6 @@ exports.removePublicKeyHeaders = function ( publicKey )
 
 	const strippedPublicKey = publicKey.replace( headerRegex, "" );
 	return strippedPublicKey.replace( footerRegex, "" );
-}
-
-exports.addPublicKeyHeaders = function ( publicKey )
-{
-	return `-----BEGIN PUBLIC KEY-----\n${publicKey}-----END PUBLIC KEY-----`;
 }
 
 exports.makeFilePath = function ( folderPath, ...params )

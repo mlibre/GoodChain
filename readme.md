@@ -81,25 +81,21 @@ Check out the **Bruno collection** in the `useful-assets` folder for a quick sta
 Want to dive deeper into the blockchain mechanics? Use the Blockchain class directly for a hands-on experience
 
 ```javascript
-const Blockchain = require( "./library/chain" );
+const Blockchain = require( "./library/main" );
 const Transaction = require( "./library/transactions" )
 const Consensus = require( "./library/pow-consensus" );
 const consensus = new Consensus()
 
-const { deleteFile, initJsonFile, createKeyPair } = require( "./library/utils" )
-deleteFile( "./assets/db/blockchain.json" );
-deleteFile( "./assets/db/wallets.json" );
-deleteFile( "./assets/db/nodes.json" );
+const { deleteFile, deleteFoler, initJsonFile, createKeyPair } = require( "./library/utils" )
+deleteFoler( "assets/db/" )
 deleteFile( "./assets/keys/miner.json" );
 deleteFile( "./assets/keys/user.json" );
 
 const userKeys = initJsonFile( "./assets/keys/user.json", createKeyPair() );
 const minerKeys = initJsonFile( "./assets/keys/miner.json", createKeyPair() );
 const blockchain = new Blockchain({
- chainFilePath: "./assets/db/blockchain.json",
- walletFilePath: "./assets/db/wallets.json",
+ dbFolderPath: "./assets/db/",
  nodes: {
-  filePath: "./assets/db/nodes.json",
   list: [ "http://127.0.0.1:3001" ],
   hostUrl: "http://127.0.0.1:3000"
  },
@@ -120,7 +116,7 @@ trx.sign( minerKeys.privateKey );
 
 const blockNumber = blockchain.addTransaction( trx.data );
 blockchain.mineNewBlock();
-console.log( "Mined block :", blockNumber, blockchain.latestBlock );
+console.log( "Mined block :", blockNumber, blockchain.chain.latestBlock );
 
 const trx2 = new Transaction({
  from: userKeys.publicKey,
@@ -134,9 +130,9 @@ trx2.sign( userKeys.privateKey );
 blockchain.addTransaction( trx2.data );
 blockchain.mineNewBlock();
 
-console.log( "chain validation:", blockchain.validateChain() );
-console.log( "Latest Block :", blockchain.latestBlock );
+console.log( "Latest Block :", blockchain.chain.latestBlock );
 console.log( "Wallets : ", blockchain.wallet );
+console.log( "chain validation:", blockchain.chain.validateChain() );
 
 ```
 

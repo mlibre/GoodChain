@@ -1,12 +1,11 @@
-const path = require( "path" );
 const _ = require( "lodash" );
-const { initJsonFile, updateFile } = require( "./utils" )
+const { initJsonFile, updateFile, makeFilePath } = require( "./utils" )
 
 module.exports = class Nodes
 {
 	constructor ( folderPath, nodes )
 	{
-		this.filePath = this.makeFilePath( folderPath, "nodes", "nodes.json" );
+		this.filePath = makeFilePath( folderPath, "nodes", "nodes.json" );
 		const nodesFile = initJsonFile( this.filePath );
 		this.list = _.uniq( nodes.list.concat( nodesFile.list || [] ) );
 		this.hostUrl = nodes.hostUrl || nodesFile.hostUrl;
@@ -56,10 +55,5 @@ module.exports = class Nodes
 			list: this.list,
 			hostUrl: this.hostUrl
 		});
-	}
-
-	makeFilePath ( folderPath, ...params )
-	{
-		return path.join( folderPath, ...params );
 	}
 }

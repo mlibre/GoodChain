@@ -50,7 +50,6 @@ module.exports = class pow
 
 	validate ( block, previousBlock )
 	{
-		// check if hash is calculated right
 		const pureObject = _.omit( block, [ "consensusHash", "hash" ] );
 		const hash = hashDataObject( pureObject );
 		if ( block.consensusHash.localeCompare( hash ) !== 0 )
