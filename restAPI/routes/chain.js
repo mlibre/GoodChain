@@ -2,7 +2,7 @@ const express = require( "express" );
 const router = express.Router();
 const blockchain = require( "../blockchain" );
 const axios = require( "axios" );
-const _ = require( "lodash" );
+const { isEqualBlock } = require( "../utils" )
 
 router.get( "/", function ( req, res, next )
 {
@@ -52,7 +52,7 @@ router.put( "/sync", async function ( req, res, next )
 		try
 		{
 			const [ firstBlock, lastBlock ] = ( await axios.get( `${node}/block`, { params: { firstAndLast: true } }) ).data;
-			if ( blockchain.isEqualGenesisBlock( firstBlock ) && !blockchain.isEqualBlock( myLastestBlock, lastBlock ) )
+			if ( isEqualBlock( firstBlock, blockchain.chain.genesisBlock ) && !isEqualBlock( myLastestBlock, lastBlock ) )
 			{
 				otherNodesLastestBlocks.push({ block: lastBlock, node });
 			}

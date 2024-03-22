@@ -57,6 +57,11 @@ class ChainStore
 		return JSON.parse( fs.readFileSync( `${this.blockFilePath( blockNumber ) }.json` ) );
 	}
 
+	get genesisBlock ()
+	{
+		return this.get( 0 );
+	}
+
 	get latestBlock ()
 	{
 		const files = fs.readdirSync( this.folderPath );

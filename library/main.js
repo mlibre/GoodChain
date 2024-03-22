@@ -84,17 +84,6 @@ class Blockchain
 		return true
 	}
 
-	isEqualGenesisBlock ( block )
-	{
-		const [ genesisBlock ] = this.chain;
-		return _.isEqual( block, genesisBlock );
-	}
-
-	isEqualBlock ( block1, block2 )
-	{
-		return _.isEqual( block1, block2 );
-	}
-
 	genCoinbaseTransaction ( )
 	{
 		return {
