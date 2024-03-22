@@ -11,21 +11,11 @@ class GitDatabase
 {
 	constructor ( repoPath )
 	{
-		// const options = {
-		// 	baseDir: repoPath,
-		// 	binary: "git",
-		// 	maxConcurrentProcesses: 6,
-		// 	maxConcurrentGitProcesses: 1,
-		// 	timeout: 60000,
-		// 	verbose: true
-		// };
-		// this.git = simpleGit( options );
-		// this.git.clean( simpleGit.CleanOptions.FORCE )
 		this.repoPath = repoPath;
-		this.initGitRepo( repoPath );
+		this.initRepo( repoPath );
 	}
 
-	initGitRepo ( )
+	initRepo ( )
 	{
 		createFolder( this.repoPath );
 		const initOutput = execSync( "git init .", { cwd: this.repoPath }).toString();
@@ -42,83 +32,12 @@ class GitDatabase
 
 		const commitOutput = execSync( `git commit -m "${blockNumber}"`, { cwd: this.repoPath }).toString();
 		console.log( "Git repository commited ", commitOutput );
-
-
 	}
 
-	async cleanRepo ()
+	reset ()
 	{
-		try
-		{
-			const status = await this.git.status();
-			if ( !status.isClean() )
-			{
-				await this.git.checkout( "." );
-				await this.git.clean( "fdx" );
-				console.log( "Repository cleaned" );
-			}
-			else
-			{
-				console.log( "Repository is already clean" );
-			}
-		}
-		catch ( err )
-		{
-			console.error( "Error cleaning repository:", err );
-		}
-	}
-
-	async checkRepo ()
-	{
-		try
-		{
-			const status = await this.git.status();
-			console.log( "Repository status:", status );
-		}
-		catch ( err )
-		{
-			console.error( "Error checking repository status:", err );
-		}
-	}
-
-	async createBranch ( branchName )
-	{
-		try
-		{
-			await this.git.checkoutLocalBranch( branchName );
-			console.log( `Created branch ${branchName}` );
-		}
-		catch ( err )
-		{
-			console.error( "Error creating branch:", err );
-		}
-	}
-
-	async switchBranch ( branchName )
-	{
-		try
-		{
-			await this.git.checkout( branchName );
-			console.log( `Switched to branch ${branchName}` );
-		}
-		catch ( err )
-		{
-			console.error( "Error switching branch:", err );
-		}
-	}
-
-	async mergeBranch ( sourceBranch, targetBranch )
-	{
-		try
-		{
-			await this.git.checkout( targetBranch );
-			await this.git.merge( [ sourceBranch ] );
-			console.log( `Merged ${sourceBranch} into ${targetBranch}` );
-		}
-		catch ( err )
-		{
-			console.error( "Error merging branch:", err );
-		}
+		const resetOutput = execSync( "git reset --hard", { cwd: this.repoPath }).toString()
+		console.log( "Git repository reset", resetOutput )
 	}
 }
 

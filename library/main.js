@@ -36,6 +36,7 @@ class Blockchain
 	{
 		const self = this
 		self.cleanupTransactionPool()
+		self.db.reset()
 		const coinbaseTrx = self.genCoinbaseTransaction();
 		self.addTransaction( coinbaseTrx )
 		const block = {
@@ -179,7 +180,6 @@ class Blockchain
 			}
 		}
 		this.transactionPool = newTransactionPool;
-		this.wallet.reloadDB()
 		return newTransactionPool
 	}
 
