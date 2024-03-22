@@ -1,6 +1,6 @@
-const { hashDataObject } = require( "./utils" )
-const Transaction = require( "./transactions" )
 const _ = require( "lodash" );
+const Transaction = require( "./transactions" )
+const { hashDataObject } = require( "./utils" )
 
 class Block
 {

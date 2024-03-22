@@ -1,7 +1,7 @@
-const Block = require( "./block" )
 const fs = require( "fs" );
 const path = require( "path" );
 const _ = require( "lodash" );
+const Block = require( "./block" )
 const { createFolder, makeFilePath } = require( "./utils" );
 
 class ChainStore
@@ -20,32 +20,6 @@ class ChainStore
 	get length ()
 	{
 		return fs.readdirSync( this.folderPath ).length;
-	}
-
-	checkDB ( proposedBlock )
-	{
-		if ( proposedBlock.index === 0 )
-		{
-			const lastBlock = this.latestBlock;
-			Block.verify( lastBlock, null );
-			if ( !_.isEqual( lastBlock, proposedBlock ) )
-			{
-				throw new Error( "Invalid chain" );
-			}
-			return true
-		}
-		const [ lastBlock, secondLastBlock ] = [ this.get( proposedBlock.index ), this.get( proposedBlock.index - 1 ) ];
-		Block.verify( lastBlock, secondLastBlock )
-		if ( !_.isEqual( lastBlock, proposedBlock ) )
-		{
-			throw new Error( "Invalid chain" );
-		}
-		const [ lastBlockFile, secondLastBlockFile ] = this.lastTwoBlocks();
-		if ( !_.isEqual( lastBlockFile, lastBlock ) || !_.isEqual( secondLastBlockFile, secondLastBlock ) )
-		{
-			throw new Error( "Invalid chain" );
-		}
-		return lastBlock;
 	}
 
 	get ( blockNumber )
@@ -83,6 +57,45 @@ class ChainStore
 	blockFilePath ( index )
 	{
 		return path.join( this.folderPath, index.toString() );
+	}
+
+	checkFinalDBState ( proposedBlock )
+	{
+		if ( proposedBlock.index === 0 )
+		{
+			const lastBlock = this.latestBlock;
+			Block.verify( lastBlock, null );
+			if ( !_.isEqual( lastBlock, proposedBlock ) )
+			{
+				throw new Error( "Invalid chain" );
+			}
+			return true
+		}
+		const [ lastBlock, secondLastBlock ] = [ this.get( proposedBlock.index ), this.get( proposedBlock.index - 1 ) ];
+		Block.verify( lastBlock, secondLastBlock )
+		if ( !_.isEqual( lastBlock, proposedBlock ) )
+		{
+			throw new Error( "Invalid chain" );
+		}
+		const [ lastBlockFile, secondLastBlockFile ] = this.lastTwoBlocks();
+		if ( !_.isEqual( lastBlockFile, lastBlock ) || !_.isEqual( secondLastBlockFile, secondLastBlock ) )
+		{
+			throw new Error( "Invalid chain" );
+		}
+		return lastBlock;
+	}
+
+	validateChain ()
+	{
+		if ( this.length === 0 )
+		{
+			return true;
+		}
+		for ( let i = 0; i < this.length; i++ )
+		{
+			Block.verify( this.get( i ), this.get( i - 1 ) )
+		}
+		return true
 	}
 }
 

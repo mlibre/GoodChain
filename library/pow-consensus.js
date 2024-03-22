@@ -1,5 +1,5 @@
-const { hashDataObject } = require( "./utils" );
 const _ = require( "lodash" );
+const { hashDataObject } = require( "./utils" );
 
 module.exports = class pow
 {

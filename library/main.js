@@ -1,11 +1,11 @@
 const _ = require( "lodash" );
-const { updateFile, calculateMiningFee, objectify, hashDataObject } = require( "./utils" )
 const Database = require( "./db-git" )
 const ChainStore = require( "./chain" )
 const Wallet = require( "./wallet" )
 const Block = require( "./block" )
 const Transaction = require( "./transactions" )
 const Nodes = require( "./nodes" )
+const { updateFile, calculateMiningFee, objectify, hashDataObject } = require( "./utils" )
 
 class Blockchain
 {
@@ -68,9 +68,9 @@ class Blockchain
 		const newBlock = objectify( block );
 		this.verifyCondidateBlock( newBlock );
 		this.wallet.performTransactions( newBlock.transactions );
-		this.wallet.checkDB( newBlock )
+		this.wallet.checkFinalDBState( newBlock )
 		this.chain.push( newBlock )
-		this.chain.checkDB( newBlock )
+		this.chain.checkFinalDBState( newBlock )
 		this.transactionPool = [];
 		this.db.commit( newBlock.index )
 		return newBlock
@@ -111,29 +111,6 @@ class Blockchain
 		return this.chain.length
 	}
 
-	addTransactions ( transactions )
-	{
-		const results = []
-		for ( const transaction of transactions )
-		{
-			try
-			{
-				results.push({
-					id: transaction.id,
-					blockNumber: this.addTransaction( transaction )
-				});
-			}
-			catch ( error )
-			{
-				results.push({
-					id: transaction.id,
-					error
-				});
-			}
-		}
-		return results;
-	}
-
 	checkTransactionsPoolSize ( )
 	{
 		if ( this.transactionPool.length >= this.transactionPoolSize )
@@ -168,6 +145,29 @@ class Blockchain
 		return blocks
 	}
 
+	addTransactions ( transactions )
+	{
+		const results = []
+		for ( const transaction of transactions )
+		{
+			try
+			{
+				results.push({
+					id: transaction.id,
+					blockNumber: this.addTransaction( transaction )
+				});
+			}
+			catch ( error )
+			{
+				results.push({
+					id: transaction.id,
+					error
+				});
+			}
+		}
+		return results;
+	}
+
 	getBlock ( blockNumber )
 	{
 		if ( blockNumber >= this.chain.length )
@@ -180,19 +180,6 @@ class Blockchain
 	getBlocks ( from, to )
 	{
 		return this.chain.slice( from, to )
-	}
-
-	validateChain ()
-	{
-		if ( this.chain.length === 0 )
-		{
-			return true;
-		}
-		for ( let i = 0; i < this.chain.length; i++ )
-		{
-			Block.verify( this.chain.get( i ), this.chain.get( i - 1 ) )
-		}
-		return true
 	}
 }
 

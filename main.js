@@ -49,4 +49,4 @@ blockchain.mineNewBlock();
 
 console.log( "Latest Block :", blockchain.chain.latestBlock );
 console.log( "Wallets : ", blockchain.wallet );
-console.log( "chain validation:", blockchain.validateChain() );
+console.log( "chain validation:", blockchain.chain.validateChain() );

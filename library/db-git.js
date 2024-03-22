@@ -1,9 +1,3 @@
-// each block is a file
-// each block a commit with blokc number as its name
-// an state file that store tha latest infomration about each address (balance data , ....)
-// will be also in git CustomElementRegistry, so commit 4 has 4 blocks in iteratee. each file a block. and a state file that kep the state until block 4
-
-
 const { execSync } = require( "child_process" );
 const { createFolder } = require( "./utils" );
 

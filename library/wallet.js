@@ -1,6 +1,5 @@
-const path = require( "path" );
-const { initJsonFile, updateFile, makeFilePath } = require( "./utils" )
 const Transaction = require( "./transactions" )
+const { initJsonFile, updateFile, makeFilePath } = require( "./utils" )
 
 class Wallet
 {
@@ -135,7 +134,7 @@ class Wallet
 		}
 	}
 
-	checkDB ( proposedBlock )
+	checkFinalDBState ( proposedBlock )
 	{
 		this.reloadDB()
 		if ( this.wallet.blockNumber !== proposedBlock.index )
