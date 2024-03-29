@@ -1,6 +1,6 @@
 {
   "name": "goodchain",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Welcome to GoodChains. A project to explore the blockchain technology",
   "main": "index.js",
   "engines": {
@@ -13,7 +13,7 @@
     "start": "node ./restAPI/app.js"
   },
   "author": "",
-  "license": "ISC",
+  "license": "GPL-3.0-only",
   "dependencies": {
     "axios": "^1.6.7",
     "cookie-parser": "~1.4.4",
