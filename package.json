@@ -1,6 +1,6 @@
 {
   "name": "goodchain",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Welcome to GoodChains. A project to explore the blockchain technology",
   "main": "index.js",
   "engines": {

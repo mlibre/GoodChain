@@ -32,7 +32,7 @@ npm install
 This command will start the `RESTful API` server for the GoodChain project
 
 ```bash
-npm start -- --host "http://localhost:3000" --nodes "http://localhost:3001" --dbPath "./db/blockchain.json" --minerKeysFile "./keys/miner.json" --name "GoodChain"
+npm start -- --host "http://localhost:3000" --nodes "http://localhost:3001" --dbPath "./assets/db/" --minerKeysFile "./keys/miner.json" --name "GoodChain"
 ```
 
 ### Running Multiple Nodes 🌟
