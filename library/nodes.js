@@ -28,11 +28,11 @@ module.exports = class Nodes
 		return false;
 	}
 
-	addBulk ( infos )
+	addBulk ( urls )
 	{
-		for ( const info of infos )
+		for ( const url of urls )
 		{
-			this.add( info );
+			this.add( url );
 		}
 	}
 

@@ -24,12 +24,12 @@ router.get( "/update", async function ( req, res, next )
 			const response = await axios.get( `${node}/transaction` );
 			blockchain.addTransactions( response.data );
 		}
-		res.json( blockchain.transactionPool );
 	}
 	catch ( error )
 	{
-		next( error );
+		console.log( error )
 	}
+	res.json( blockchain.transactionPool );
 });
 
 router.post( "/sign", function ( req, res, next )

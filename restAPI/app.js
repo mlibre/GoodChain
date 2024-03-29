@@ -77,6 +77,12 @@ function errorHandler ( err, req, res, next )
 
 function convertErrorToSimpleObj ( err )
 {
+	// check if it is an axios error
+	if ( err.isAxiosError )
+	{
+		delete err.config
+		delete err.request
+	}
 	const simpleErr = { };
 	if ( err.message )
 	{
@@ -88,7 +94,7 @@ function convertErrorToSimpleObj ( err )
 	}
 	for ( const key of Object.getOwnPropertyNames( err ) )
 	{
-		if ( err[key] instanceof Error || typeof err[key] === "object" )
+		if ( err[key] && ( err[key] instanceof Error || typeof err[key] === "object" ) )
 		{
 			simpleErr[key] = convertErrorToSimpleObj( err[key] );
 		}

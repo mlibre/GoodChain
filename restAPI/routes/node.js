@@ -39,7 +39,7 @@ router.get( "/broadcast", async function ( req, res, next )
 		try
 		{
 			await axios.post( `${node}/nodes`, {
-				url: blockchain.nodes.hosturl
+				url: blockchain.nodes.hostUrl
 			});
 		}
 		catch ( error )
