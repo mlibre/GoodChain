@@ -1,7 +1,7 @@
 {
 	"index": 0,
 	"chainName": "GoodChain",
-	"timestamp": 1711709734203,
+	"timestamp": 1711713663219,
 	"transactions": [
 		{
 			"from": null,
@@ -10,7 +10,7 @@
 			"fee": 0,
 			"transaction_number": 0,
 			"signature": null,
-			"id": "0886fe47-3b43-478e-8d1c-895c4635a584"
+			"id": "acab65a3-e37f-494f-8575-94e3410f22cf"
 		}
 	],
 	"previousHash": "",
@@ -18,7 +18,7 @@
 	"consensusName": "pow",
 	"consensusDifficulty": "000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
 	"consensusTotalDifficulty": 0,
-	"consensusNonce": 2883,
-	"consensusHash": "000885ce7d14635b8563c09e3a1010187d467ea350c2a7e0cac1d5e47e2a600b",
-	"hash": "5fd72fcf207c729982418ad93289b858fb8452f87d683568380bbae32dfc4899"
+	"consensusNonce": 4043,
+	"consensusHash": "000a0b61eca504b937f41c2755e288843d0037e46ffe422a221d4775822ffae1",
+	"hash": "34005e77d010717e5a54cdcc0e37dcce6f5ae7b84bbe54a79be6ffa9f77e2bde"
 }

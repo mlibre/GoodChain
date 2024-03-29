@@ -15,6 +15,9 @@ class GitDatabase
 		const initOutput = execSync( "git init .", { cwd: this.repoPath }).toString();
 		console.log( "Git repository initialized ", initOutput );
 
+		const resetOutput = execSync( "git reset --hard", { cwd: this.repoPath }).toString();
+		console.log( "Git repository reset ", resetOutput );
+
 		const cleanOutput = execSync( "git clean -d -x -f", { cwd: this.repoPath }).toString();
 		console.log( "Git repository cleaned ", cleanOutput );
 	}
