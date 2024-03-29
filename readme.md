@@ -4,7 +4,7 @@ Welcome to **GoodChain**  where blockchain meets simplicity and flexibility!
 Whether you're a seasoned developer or just starting to explore the world of blockchain technology, GoodChain is here to make your journey exciting and rewarding.  
 
 **GoodChain** is a distributed ledger that allows you to initiate transactions securely. These transactions are irreversible once confirmed, ensuring the integrity of your data and assets. This is achieved by using a `peer-to-peer` network of nodes, which are connected to each other through a network of nodes.  
-**GoodChain** It is written in `nodejs` and uses `git`(not yet,soon) as its database. It features a basic `proof-of-work (PoW)` consensus. You can also plug your own consensus mechanisms like `Proof of Stake (PoS)` or any other custom consensus mechanism you may have in mind.
+**GoodChain** It is written in `nodejs` and uses `git` as its database. It features a basic `proof-of-work (PoW)` consensus. You can also plug your own consensus mechanisms like `Proof of Stake (PoS)` or any other custom consensus mechanism you may have in mind.
 
 ## Key Features 🚀
 
@@ -147,6 +147,10 @@ This project is licensed under the `GPL` License
 ## Version 1
 
 The first version of `GoodChain` was built in 2024. It was a simple blockchain implementation that was used to learn about the blockchain technology. It was simply using `json` files to store the blockchain data. You can check out the [realases](https://github.com/mlibre/GoodChain/releases/tag/1.0.5) to see the code.
+
+## Version 2 (latest version)
+
+The second version of `GoodChain` is the successor to the first version. It was built using `Node.js` and `Express.js`, and uses `git` to store the blockchain data.
 
 ## Donate 💖
 
