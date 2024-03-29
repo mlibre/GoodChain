@@ -4,12 +4,12 @@ const blockchain = require( "../blockchain" );
 const axios = require( "axios" );
 const { isEqualBlock } = require( "../utils" )
 
-router.get( "/", function ( req, res, next )
+router.get( "/", function ( req, res )
 {
 	res.send( blockchain.chain.all );
 });
 
-router.post( "/update", async function ( req, res, next )
+router.post( "/update", async function ( req, res )
 {
 	let chosenBlock = true
 	while ( chosenBlock )
@@ -43,7 +43,7 @@ router.post( "/update", async function ( req, res, next )
 	res.send( blockchain.chain.latestBlock );
 });
 
-router.put( "/sync", async function ( req, res, next )
+router.put( "/sync", async function ( req, res )
 {
 	const myLastestBlock = blockchain.chain.latestBlock;
 	const otherNodesLastestBlocks = [];

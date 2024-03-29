@@ -47,13 +47,13 @@ router.get( "/", function ( req, res )
 	}
 });
 
-router.post( "/", function ( req, res, next )
+router.post( "/", function ( req, res )
 {
 	const block = blockchain.addBlock( req.body );
 	res.send( block );
 });
 
-router.get( "/broadcast", async function ( req, res, next )
+router.get( "/broadcast", async function ( req, res )
 {
 	for ( const node of blockchain.nodes.list )
 	{

@@ -3,19 +3,19 @@ const router = express.Router();
 const blockchain = require( "../blockchain" );
 const axios = require( "axios" );
 
-router.get( "/", function ( req, res, next )
+router.get( "/", function ( req, res )
 {
 	res.send( blockchain.nodes.all );
 });
 
-router.post( "/", function ( req, res, next )
+router.post( "/", function ( req, res )
 {
 	const result = blockchain.addNode( req.body.url )
 	res.send( result );
 });
 
 
-router.post( "/update", async function ( req, res, next )
+router.post( "/update", async function ( req, res )
 {
 	for ( const node of blockchain.nodes.list )
 	{
@@ -32,7 +32,7 @@ router.post( "/update", async function ( req, res, next )
 	res.send( blockchain.nodes.all );
 });
 
-router.get( "/broadcast", async function ( req, res, next )
+router.get( "/broadcast", async function ( req, res )
 {
 	for ( const node of blockchain.nodes.list )
 	{
