@@ -6,7 +6,8 @@ const { toNum } = require( "../utils" );
 
 router.get( "/", function ( req, res )
 {
-	let { index, from, to, list, firstAndLast } = req.query;
+	let { index, from, to, list } = req.query;
+	const { firstAndLast } = req.query
 	if ( !index && !from && !to && !list && !firstAndLast )
 	{
 		res.json( blockchain.chain.latestBlock );
