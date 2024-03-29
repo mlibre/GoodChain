@@ -14,11 +14,6 @@ class Wallet
 		return this.wallet;
 	}
 
-	get ( address )
-	{
-		return this.wallet[address];
-	}
-
 	performTransactions ( transactionList )
 	{
 		for ( const tmpTrx of transactionList )
@@ -106,6 +101,14 @@ class Wallet
 		if ( address )
 		{
 			this.wallet[address] = this.wallet[address] || { balance: 0, transaction_number: 0 };
+		}
+	}
+
+	isTransactionNumberCorrect ( address, transaction_number )
+	{
+		if ( transaction_number <= this.transactionNumber( address ) )
+		{
+			throw new Error( "Invalid transaction number", { cause: { address, transaction_number } });
 		}
 	}
 

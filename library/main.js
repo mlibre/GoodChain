@@ -102,9 +102,11 @@ class Blockchain
 		const trx = new Transaction( transaction );
 		this.wallet.validateAddress( trx.from );
 		this.wallet.validateAddress( trx.to );
+		this.wallet.isTransactionNumberCorrect( trx.from, trx.transaction_number );
 
 		trx.validate( );
 		this.isTransactionDuplicate( trx.data );
+
 
 		this.transactionPool.push( trx.data );
 		this.transactionPool.sort( ( a, b ) => { return b.fee - a.fee });
