@@ -2,7 +2,7 @@ const http = require( "http" );
 const express = require( "express" );
 const cookieParser = require( "cookie-parser" );
 const logger = require( "morgan" );
-const { port, host } = require( "./config" );
+const { hostPort, hostAddress } = require( "./config" );
 
 
 require( "./blockchain" )
@@ -19,7 +19,7 @@ app.use( logger( "dev" ) );
 app.use( express.json() );
 app.use( express.urlencoded({ extended: false }) );
 app.use( cookieParser() );
-app.set( "port", port );
+app.set( "port", hostPort );
 
 app.use( "/chain", chainRouter );
 app.use( "/block", blockRouter );
@@ -30,7 +30,7 @@ app.use( "/nodes", nodeRouter );
 app.use( errorHandler )
 
 const server = http.createServer( app );
-server.listen( port, host );
+server.listen( hostPort, hostAddress );
 server.on( "error", onError );
 server.on( "listening", onListening );
 
@@ -42,8 +42,8 @@ function onError ( error )
 	}
 
 	var bind = typeof port === "string" ?
-		`Pipe ${ port}` :
-		`Port ${ port}`;
+		`Pipe ${ hostPort}` :
+		`Port ${ hostPort}`;
 
 	// handle specific listen errors with friendly messages
 	switch ( error.code )

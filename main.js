@@ -11,7 +11,7 @@ deleteFile( "./assets/keys/user.json" );
 const userKeys = initJsonFile( "./assets/keys/user.json", createKeyPair() );
 const minerKeys = initJsonFile( "./assets/keys/miner.json", createKeyPair() );
 const blockchain = new Blockchain({
-	dbFolderPath: "./assets/db/",
+	dbPath: "./assets/db/",
 	nodes: {
 		list: [ "http://127.0.0.1:3001" ],
 		hostUrl: "http://127.0.0.1:3000"

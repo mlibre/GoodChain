@@ -24,8 +24,19 @@ class GitDatabase
 		const addOutput = execSync( "git add --all", { cwd: this.repoPath }).toString();
 		console.log( "Git repository commited ", addOutput );
 
-		const commitOutput = execSync( `git commit -m "${blockNumber}"`, { cwd: this.repoPath }).toString();
-		console.log( "Git repository commited ", commitOutput );
+		try
+		{
+			const commitOutput = execSync( `git commit -m "${blockNumber}"`, { cwd: this.repoPath }).toString();
+			console.log( "Git repository commited ", commitOutput );
+		}
+		catch ( error )
+		{
+			console.log( error.stdout.toString() );
+			if ( error.status != 1 )
+			{
+				throw error
+			}
+		}
 	}
 
 	reset ()

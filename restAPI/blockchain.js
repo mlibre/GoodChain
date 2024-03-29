@@ -1,19 +1,17 @@
-const Blockchain = require( "../library/chain" );
+const Blockchain = require( "../library/main" );
 const Consensus = require( "../library/pow-consensus" );
 const consensus = new Consensus()
 const { initJsonFile, createKeyPair } = require( "../library/utils" )
-const { blockchainName, blockchainFile, walletsFile, minerKeysFile, url, nodesList, nodesFile } = require( "./config" );
+const { name, dbPath, minerKeysFile, hostUrl, nodesList } = require( "./config" );
 
 const minerKeys = initJsonFile( minerKeysFile, createKeyPair() );
 module.exports = new Blockchain({
-	chainFilePath: blockchainFile,
-	walletFilePath: walletsFile,
+	dbPath,
 	nodes: {
-		filePath: nodesFile,
 		list: nodesList,
-		hostUrl: url
+		hostUrl
 	},
-	chainName: blockchainName,
+	chainName: name,
 	minerKeys,
 	consensus
 });

@@ -32,7 +32,7 @@ npm install
 This command will start the `RESTful API` server for the GoodChain project
 
 ```bash
-npm start -- --url "http://localhost:3000" --nodes "http://localhost:3001" --blockchainFile "./db/blockchain.json" --walletsFile "./db/wallets.json" --minerKeysFile "./keys/miner.json" --blockchainName "GoodChain"
+npm start -- --host "http://localhost:3000" --nodes "http://localhost:3001" --dbPath "./db/blockchain.json" --minerKeysFile "./keys/miner.json" --name "GoodChain"
 ```
 
 ### Running Multiple Nodes 🌟
@@ -94,7 +94,7 @@ deleteFile( "./assets/keys/user.json" );
 const userKeys = initJsonFile( "./assets/keys/user.json", createKeyPair() );
 const minerKeys = initJsonFile( "./assets/keys/miner.json", createKeyPair() );
 const blockchain = new Blockchain({
- dbFolderPath: "./assets/db/",
+ dbPath: "./assets/db/",
  nodes: {
   list: [ "http://127.0.0.1:3001" ],
   hostUrl: "http://127.0.0.1:3000"

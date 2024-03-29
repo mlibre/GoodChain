@@ -9,15 +9,15 @@ const { updateFile, calculateMiningFee, objectify, hashDataObject } = require( "
 
 class Blockchain
 {
-	constructor ({ dbFolderPath, nodes, chainName, minerKeys, consensus })
+	constructor ({ dbPath, nodes, chainName, minerKeys, consensus })
 	{
 		this.consensus = consensus;
 		this.chainName = chainName;
 		this.minerKeys = minerKeys;
-		this.db = new Database( dbFolderPath );
-		this.chain = new ChainStore( dbFolderPath );
-		this.wallet = new Wallet( dbFolderPath );
-		this.nodes = new Nodes( dbFolderPath, nodes );
+		this.db = new Database( dbPath );
+		this.chain = new ChainStore( dbPath );
+		this.wallet = new Wallet( dbPath );
+		this.nodes = new Nodes( dbPath, nodes );
 		this.db.commit( "-1" )
 		this.transactionPool = [];
 		this.transactionPoolSize = 100;
