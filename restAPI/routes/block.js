@@ -2,6 +2,7 @@ const express = require( "express" );
 const axios = require( "axios" );
 const router = express.Router();
 const blockchain = require( "../blockchain" );
+const { toNum } = require( "../utils" );
 
 router.get( "/", function ( req, res )
 {
@@ -13,14 +14,14 @@ router.get( "/", function ( req, res )
 	}
 	else if ( index )
 	{
-		index = Number( index ) || undefined
+		index = toNum( index )
 		res.json( blockchain.getBlock( index ) );
 		return;
 	}
 	else if ( from || to )
 	{
-		from = Number( from ) || undefined
-		to = Number( to ) || undefined
+		from = toNum( from )
+		to = toNum( to )
 		const blocks = blockchain.getBlocks( from, to );
 		res.json( blocks );
 		return;

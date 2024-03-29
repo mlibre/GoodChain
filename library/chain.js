@@ -31,6 +31,17 @@ class ChainStore
 		return JSON.parse( fs.readFileSync( `${this.blockFilePath( blockNumber ) }.json` ) );
 	}
 
+	getRange ( from, to )
+	{
+		const blocks = [];
+		to = to || this.length - 1;
+		for ( let i = from; i <= to; i++ )
+		{
+			blocks.push( this.get( i ) );
+		}
+		return blocks;
+	}
+
 	get genesisBlock ()
 	{
 		return this.get( 0 );

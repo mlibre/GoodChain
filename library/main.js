@@ -180,12 +180,12 @@ class Blockchain
 		{
 			throw new Error( "Block number is greater than chain length" );
 		}
-		return this.chain[blockNumber]
+		return this.chain.get( blockNumber )
 	}
 
 	getBlocks ( from, to )
 	{
-		return this.chain.slice( from, to )
+		return this.chain.getRange( from, to )
 	}
 }
 
