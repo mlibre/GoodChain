@@ -1,0 +1,24 @@
+{
+	"index": 7,
+	"chainName": "GoodChain",
+	"timestamp": 1711739192068,
+	"transactions": [
+		{
+			"from": null,
+			"to": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEACgkPwpxpA7+KD0dzG/y0dcgRdk4GnE4us/nqqEcyy/s=\n-----END PUBLIC KEY-----\n",
+			"amount": 100,
+			"fee": 0,
+			"transaction_number": 0,
+			"signature": null,
+			"id": "7bc82bb2-ce0d-4825-9d83-37d126871a8d"
+		}
+	],
+	"previousHash": "02154f35a3d7ca616d440e06368eb74debfee45849c66e9ec95d17ce023a0553",
+	"miner": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEACgkPwpxpA7+KD0dzG/y0dcgRdk4GnE4us/nqqEcyy/s=\n-----END PUBLIC KEY-----\n",
+	"consensusName": "pow",
+	"consensusDifficulty": "000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+	"consensusTotalDifficulty": "6ffb04c81f37e4000000000000000000000000000000000000000000000000000",
+	"consensusNonce": 7203,
+	"consensusHash": "00068ec8b0832520f74c416e1bcfa4ee8d4a9994999f4364192cd45e8a38c1e8",
+	"hash": "e1e92919de019869c8dd948c5c8e2daa7b0f42a3be2d068de970049d152f4b0e"
+}

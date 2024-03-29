@@ -137,7 +137,7 @@ class Wallet
 
 	wipe ()
 	{
-		this.wallet = {};
+		this.wallet = { blockNumber: -1 };
 		this.updateDB( )
 	}
 

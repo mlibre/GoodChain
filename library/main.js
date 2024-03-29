@@ -52,8 +52,7 @@ class Blockchain
 			};
 			this.consensus.apply( block, self.chain.get( block.index - 1 ) );
 			block.hash = hashDataObject( block );
-			self.addBlock( block );
-			return block;
+			return self.addBlock( block );
 		}
 		catch ( error )
 		{
@@ -190,12 +189,14 @@ class Blockchain
 		try
 		{
 			this.chain.replaceBlocks( newChain );
-			this.wallet.reCalculateWallet( this.chain )
+			this.wallet.reCalculateWallet( this.chain.all )
+			this.db.commit( this.chain )
 		}
 		catch ( error )
 		{
 			this.db.reset()
 			this.wallet.reloadDB()
+			throw error
 		}
 		return this.chain.all
 	}

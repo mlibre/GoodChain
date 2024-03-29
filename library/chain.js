@@ -19,11 +19,16 @@ class ChainStore
 
 	get all ()
 	{
-		return fs.readdirSync( this.folderPath ).map( ( fileName ) =>
+		const fileNames = fs.readdirSync( this.folderPath ).sort();
+		const blocks = [];
+		for ( const fileName of fileNames )
 		{
 			const filePath = path.join( this.folderPath, fileName );
-			return JSON.parse( fs.readFileSync( filePath ) );
-		});
+			const block = JSON.parse( fs.readFileSync( filePath ) );
+			blocks.push( block );
+		}
+		return blocks;
+
 	}
 
 	get ( blockNumber )
