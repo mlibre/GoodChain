@@ -15,8 +15,7 @@ class GitDatabase
 		const initOutput = execSync( "git init .", { cwd: this.repoPath }).toString();
 		console.log( "Git repository initialized ", initOutput );
 
-		const resetOutput = execSync( "git reset --hard", { cwd: this.repoPath }).toString();
-		console.log( "Git repository reset ", resetOutput );
+		execSync( "git reset --hard", { cwd: this.repoPath }).toString();
 
 		const cleanOutput = execSync( "git clean -d -x -f", { cwd: this.repoPath }).toString();
 		console.log( "Git repository cleaned ", cleanOutput );
@@ -25,12 +24,11 @@ class GitDatabase
 	commit ( blockNumber )
 	{
 		const addOutput = execSync( "git add --all", { cwd: this.repoPath }).toString();
-		console.log( "Git repository commited ", addOutput );
+		console.log( "Git repository added files ", addOutput );
 
 		try
 		{
-			const commitOutput = execSync( `git commit -m "${blockNumber}"`, { cwd: this.repoPath }).toString();
-			console.log( "Git repository commited ", commitOutput );
+			execSync( `git commit -m "${blockNumber}"`, { cwd: this.repoPath }).toString();
 		}
 		catch ( error )
 		{
