@@ -12,14 +12,18 @@ class ChainStore
 		createFolder( this.folderPath );
 	}
 
-	push ( block )
-	{
-		fs.writeFileSync( `${this.blockFilePath( block.index )}.json`, JSON.stringify( block, null, "\t" ) );
-	}
-
 	get length ()
 	{
 		return fs.readdirSync( this.folderPath ).length;
+	}
+
+	get all ()
+	{
+		return fs.readdirSync( this.folderPath ).map( ( fileName ) =>
+		{
+			const filePath = path.join( this.folderPath, fileName );
+			return JSON.parse( fs.readFileSync( filePath ) );
+		});
 	}
 
 	get ( blockNumber )
@@ -56,6 +60,19 @@ class ChainStore
 		}
 		const lastFile = files.sort().pop();
 		return JSON.parse( fs.readFileSync( this.blockFilePath( lastFile ) ) );
+	}
+
+	push ( block )
+	{
+		fs.writeFileSync( `${this.blockFilePath( block.index )}.json`, JSON.stringify( block, null, "\t" ) );
+	}
+
+	replaceBlocks ( blocks )
+	{
+		for ( const block of blocks )
+		{
+			this.push( block );
+		}
 	}
 
 	lastTwoBlocks ()

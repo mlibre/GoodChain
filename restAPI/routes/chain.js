@@ -6,7 +6,7 @@ const { isEqualBlock } = require( "../utils" )
 
 router.get( "/", function ( req, res, next )
 {
-	res.send( blockchain.chain );
+	res.send( blockchain.chain.all );
 });
 
 router.post( "/update", async function ( req, res, next )

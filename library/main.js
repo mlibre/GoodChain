@@ -136,10 +136,17 @@ class Blockchain
 
 	replaceChain ( newChain )
 	{
-		this.chain = newChain;
-		updateFile( this.filePath, this.chain )
-		this.wallet.reCalculateWallet( this.chain )
-		return newChain
+		try
+		{
+			this.chain.replaceBlocks( newChain );
+			this.wallet.reCalculateWallet( this.chain )
+		}
+		catch ( error )
+		{
+			this.db.reset()
+			this.wallet.reloadDB()
+		}
+		return this.chain.all
 	}
 
 	addBlocks ( blocks )
