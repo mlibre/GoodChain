@@ -9,13 +9,13 @@ router.get( "/", function ( req, res )
 	res.json( blockchain.transactionPool );
 });
 
-router.post( "/", function ( req, res, next )
+router.post( "/", function ( req, res )
 {
 	const blockNumber = blockchain.addTransaction( req.body );
 	res.send( blockNumber.toString() );
 });
 
-router.get( "/update", async function ( req, res, next )
+router.get( "/update", async function ( req, res )
 {
 	try
 	{
@@ -32,7 +32,7 @@ router.get( "/update", async function ( req, res, next )
 	res.json( blockchain.transactionPool );
 });
 
-router.post( "/sign", function ( req, res, next )
+router.post( "/sign", function ( req, res )
 {
 	const transaction = new Transaction( req.body );
 	transaction.sign( req.body.privateKey );

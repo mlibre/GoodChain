@@ -3,6 +3,7 @@ const express = require( "express" );
 const cookieParser = require( "cookie-parser" );
 const logger = require( "morgan" );
 const { hostPort, hostAddress } = require( "./config" );
+const { convertErrorToSimpleObj } = require( "./utils" )
 
 
 require( "./blockchain" )
@@ -34,6 +35,12 @@ server.listen( hostPort, hostAddress );
 server.on( "error", onError );
 server.on( "listening", onListening );
 
+
+function onListening ()
+{
+	console.log( "Listening on", server.address().address, server.address().port );
+}
+
 function onError ( error )
 {
 	if ( error.syscall !== "listen" )
@@ -41,7 +48,7 @@ function onError ( error )
 		throw error;
 	}
 
-	var bind = typeof port === "string" ?
+	const bind = typeof port === "string" ?
 		`Pipe ${ hostPort}` :
 		`Port ${ hostPort}`;
 
@@ -61,11 +68,6 @@ function onError ( error )
 	}
 }
 
-function onListening ()
-{
-	console.log( "Listening on", server.address().address, server.address().port );
-}
-
 function errorHandler ( err, req, res, next )
 {
 	if ( res.headersSent )
@@ -73,35 +75,4 @@ function errorHandler ( err, req, res, next )
 		return next( err )
 	}
 	res.status( 500 ).send( convertErrorToSimpleObj( err ) )
-}
-
-function convertErrorToSimpleObj ( err )
-{
-	// check if it is an axios error
-	if ( err.isAxiosError )
-	{
-		delete err.config
-		delete err.request
-	}
-	const simpleErr = { };
-	if ( err.message )
-	{
-		simpleErr.message = err.message;
-	}
-	if ( err.stack )
-	{
-		simpleErr.stack = err.stack;
-	}
-	for ( const key of Object.getOwnPropertyNames( err ) )
-	{
-		if ( err[key] && ( err[key] instanceof Error || typeof err[key] === "object" ) )
-		{
-			simpleErr[key] = convertErrorToSimpleObj( err[key] );
-		}
-		else
-		{
-			simpleErr[key] = err[key];
-		}
-	}
-	return simpleErr;
 }
