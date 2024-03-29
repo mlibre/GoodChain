@@ -182,7 +182,7 @@ class Blockchain
 
 	addNode ( url )
 	{
-		this.nodes.add( url );
+		return this.nodes.add( url );
 	}
 
 	replaceChain ( newChain )
