@@ -10,7 +10,7 @@ router.get( "/", function ( req, res, next )
 
 router.post( "/", function ( req, res, next )
 {
-	const result = blockchain.nodes.add( req.body.url )
+	const result = blockchain.addNode( req.body.url )
 	res.send( result );
 });
 

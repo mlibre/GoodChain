@@ -5,7 +5,7 @@ const Wallet = require( "./wallet" )
 const Block = require( "./block" )
 const Transaction = require( "./transactions" )
 const Nodes = require( "./nodes" )
-const { updateFile, calculateMiningFee, objectify, hashDataObject } = require( "./utils" )
+const { calculateMiningFee, objectify, hashDataObject } = require( "./utils" )
 
 class Blockchain
 {
@@ -76,23 +76,34 @@ class Blockchain
 		return newBlock
 	}
 
+	addBlocks ( blocks )
+	{
+		for ( const block of blocks )
+		{
+			this.addBlock( block )
+		}
+		return blocks
+	}
+
+	getBlock ( blockNumber )
+	{
+		if ( blockNumber >= this.chain.length )
+		{
+			throw new Error( "Block number is greater than chain length" );
+		}
+		return this.chain.get( blockNumber )
+	}
+
+	getBlocks ( from, to )
+	{
+		return this.chain.getRange( from, to )
+	}
+
 	verifyCondidateBlock ( block )
 	{
 		Block.verify( block, this.chain.latestBlock )
 		this.consensus.validate( block, this.chain.latestBlock );
 		return true
-	}
-
-	genCoinbaseTransaction ( )
-	{
-		return {
-			from: null,
-			to: this.minerKeys.publicKey,
-			amount: this.miningReward + calculateMiningFee( this.transactionPool ),
-			fee: 0,
-			transaction_number: 0,
-			signature: null
-		};
 	}
 
 	addTransaction ( transaction )
@@ -115,47 +126,6 @@ class Blockchain
 		this.transactionPool.push( trx.data );
 		this.transactionPool.sort( ( a, b ) => { return b.fee - a.fee });
 		return this.chain.length
-	}
-
-	checkTransactionsPoolSize ( )
-	{
-		if ( this.transactionPool.length >= this.transactionPoolSize )
-		{
-			throw new Error( "Transaction pool is full" );
-		}
-	}
-
-	isTransactionDuplicate ({ from, to, amount, fee, transaction_number, signature })
-	{
-		const duplicate = _.find( this.transactionPool, { from, to, amount, fee, transaction_number, signature });
-		if ( duplicate )
-		{
-			throw new Error( "Duplicate transaction" );
-		}
-	}
-
-	replaceChain ( newChain )
-	{
-		try
-		{
-			this.chain.replaceBlocks( newChain );
-			this.wallet.reCalculateWallet( this.chain )
-		}
-		catch ( error )
-		{
-			this.db.reset()
-			this.wallet.reloadDB()
-		}
-		return this.chain.all
-	}
-
-	addBlocks ( blocks )
-	{
-		for ( const block of blocks )
-		{
-			this.addBlock( block )
-		}
-		return blocks
 	}
 
 	addTransactions ( transactions )
@@ -181,18 +151,53 @@ class Blockchain
 		return results;
 	}
 
-	getBlock ( blockNumber )
+	genCoinbaseTransaction ( )
 	{
-		if ( blockNumber >= this.chain.length )
-		{
-			throw new Error( "Block number is greater than chain length" );
-		}
-		return this.chain.get( blockNumber )
+		return {
+			from: null,
+			to: this.minerKeys.publicKey,
+			amount: this.miningReward + calculateMiningFee( this.transactionPool ),
+			fee: 0,
+			transaction_number: 0,
+			signature: null
+		};
 	}
 
-	getBlocks ( from, to )
+	checkTransactionsPoolSize ( )
 	{
-		return this.chain.getRange( from, to )
+		if ( this.transactionPool.length >= this.transactionPoolSize )
+		{
+			throw new Error( "Transaction pool is full" );
+		}
+	}
+
+	isTransactionDuplicate ({ from, to, amount, fee, transaction_number, signature })
+	{
+		const duplicate = _.find( this.transactionPool, { from, to, amount, fee, transaction_number, signature });
+		if ( duplicate )
+		{
+			throw new Error( "Duplicate transaction" );
+		}
+	}
+
+	addNode ( url )
+	{
+		this.nodes.add( url );
+	}
+
+	replaceChain ( newChain )
+	{
+		try
+		{
+			this.chain.replaceBlocks( newChain );
+			this.wallet.reCalculateWallet( this.chain )
+		}
+		catch ( error )
+		{
+			this.db.reset()
+			this.wallet.reloadDB()
+		}
+		return this.chain.all
 	}
 }
 
