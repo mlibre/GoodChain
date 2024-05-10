@@ -2,9 +2,9 @@ import * as Blockchain from "../library/main";
 import * as Transaction from "../library/transactions";
 import * as Consensus from "../library/pow-consensus";
 
-import { deleteFile, deleteFoler, initJsonFile, createKeyPair } from "../library/utils";
+import { deleteFile, deleteFolder, initJsonFile, createKeyPair } from "../library/utils.js";
 
-deleteFoler( "assets/db/" );
+deleteFolder( "assets/db/" );
 deleteFile( "./assets/keys/miner.json" );
 deleteFile( "./assets/keys/user.json" );
 

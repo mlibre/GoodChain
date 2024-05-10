@@ -22,11 +22,14 @@ To embark on your `GoodChain` adventure, simply clone the repository and install
 ```bash
 git clone https://github.com/mlibre/GoodChain.git
 cd GoodChain
-sudo npm i eslint@latest -g
-npm install
 
-# Optional: install the TypeScript compiler
-npm i -g typescript
+# Optional: install the TypeScript and Eslint
+
+sudo npm i eslint@latest -g
+sudo npm i -g typescript
+
+# Install dependencies
+npm install
 
 # Generate Your miner keys for the first time
 node test/generateKeys.js

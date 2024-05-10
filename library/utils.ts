@@ -11,7 +11,7 @@ export function calculateMiningFee ( transactionPool: { fee: number }[] ): numbe
 	}, 0 );
 }
 
-export function hashDataObject ( data: any ): string
+export function hashDataObject ( data: object ): string
 {
 	const stringData = JSON.stringify( data );
 	return crypto
@@ -20,12 +20,12 @@ export function hashDataObject ( data: any ): string
 	.digest( "hex" );
 }
 
-export function objectify ( data: any ): any
+export function objectify ( data: object ): object
 {
 	return JSON.parse( JSON.stringify( data ) );
 }
 
-export function initJsonFile ( filePath: string, defaultData: any = {}): any
+export function initJsonFile ( filePath: string, defaultData: object = {}): object
 {
 	const folderPath = path.dirname( filePath );
 	if ( !fs.existsSync( folderPath ) )
@@ -44,7 +44,7 @@ export function initJsonFile ( filePath: string, defaultData: any = {}): any
 	}
 }
 
-export function updateFile ( filePath: string, data: any ): void
+export function updateFile ( filePath: string, data: object ): void
 {
 	fs.writeFileSync( filePath, JSON.stringify( data, null, "\t" ) );
 }
@@ -104,8 +104,8 @@ export function createKeyPair (): {
   }
 {
 	const keyPair = crypto.generateKeyPairSync( "ed25519" );
-	const publicKey = keyPair.publicKey.export({ type: "spki", format: "pem" });
-	const privateKey = keyPair.privateKey.export({ type: "pkcs8", format: "pem" });
+	const publicKey = keyPair.publicKey.export({ type: "spki", format: "pem" }).toString();
+	const privateKey = keyPair.privateKey.export({ type: "pkcs8", format: "pem" }).toString();
 
 	const publicKeyString = removePublicKeyHeaders( publicKey );
 

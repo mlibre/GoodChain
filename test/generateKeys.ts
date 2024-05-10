@@ -1,8 +1,7 @@
-import { deleteFoler, initJsonFile, createKeyPair } from "../library/utils";
+import { deleteFolder, initJsonFile, createKeyPair } from "../library/utils.js";
 
-deleteFoler( "./assets/keys/" );
+deleteFolder( "./assets/keys/" );
 
-
-initJsonFile<{ publicKey: string; privateKey: string }>( "./assets/keys/user.json", createKeyPair() );
-initJsonFile<{ publicKey: string; privateKey: string }>( "./assets/keys/miner.json", createKeyPair() );
+initJsonFile( "./assets/keys/user.json", createKeyPair() );
+initJsonFile( "./assets/keys/miner.json", createKeyPair() );
 
