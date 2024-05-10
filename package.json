@@ -1,8 +1,9 @@
 {
   "name": "goodchain",
-  "version": "2.0.2",
-  "description": "Welcome to GoodChains. A project to explore the blockchain technology",
+  "version": "3.0.0",
+  "description": "GoodChain: Blockchain for Everyone",
   "main": "index.js",
+  "type": "module",
   "engines": {
     "node": ">=18"
   },
@@ -10,19 +11,26 @@
     "3000": "node ./restAPI/app.js --host 'http://127.0.0.1:3000' --nodes 'http://127.0.0.1:3001' --dbPath './assets/db/' --minerKeysFile './assets/keys/miner.json' --name 'GoodChain'",
     "3001": "node ./restAPI/app.js --host 'http://127.0.0.1:3001' --nodes 'http://127.0.0.1:3000' --dbPath './assets/db/' --minerKeysFile './assets/keys/miner.json' --name 'GoodChain'",
     "3002": "node ./restAPI/app.js --host 'http://127.0.0.1:3002' --nodes 'http://127.0.0.1:3000' --dbPath './assets/db/' --minerKeysFile './assets/keys/miner.json' --name 'GoodChain'",
-    "start": "node ./restAPI/app.js"
+    "start": "node ./restAPI/app.js",
+    "dev": "tsc --watch"
   },
-  "author": "",
+  "author": "mlibre",
   "license": "GPL-3.0-only",
   "dependencies": {
     "axios": "^1.6.7",
     "cookie-parser": "~1.4.4",
-    "eslint": "^8.57.0",
-    "eslint-plugin-node": "^11.1.0",
-    "express": "~4.16.1",
+    "express": "^4.19.2",
     "lodash": "^4.17.21",
     "minimist": "^1.2.8",
     "morgan": "~1.9.1",
     "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.2.0",
+    "@types/eslint__js": "^8.42.3",
+    "eslint": "^8.57.0",
+    "globals": "^15.2.0",
+    "typescript": "^5.4.5",
+    "typescript-eslint": "^7.8.0"
   }
 }

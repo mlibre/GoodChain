@@ -1,10 +1,9 @@
-const fs = require( "fs" );
-const path = require( "path" );
-const crypto = require( "crypto" );
-const { v4: uuidv4 } = require( "uuid" );
+import fs from "fs";
+import path from "path";
+import crypto from "crypto";
+import { v4 as uuidv4 } from "uuid";
 
-
-exports.calculateMiningFee = function calculateMiningFee ( transactionPool )
+export function calculateMiningFee ( transactionPool: { fee: number }[] ): number
 {
 	return transactionPool.reduce( ( totalFee, transaction ) =>
 	{
@@ -12,22 +11,21 @@ exports.calculateMiningFee = function calculateMiningFee ( transactionPool )
 	}, 0 );
 }
 
-exports.hashDataObject = function ( data )
+export function hashDataObject ( data: any ): string
 {
-	// the sha256 hash generates fixed length output of 32 bytes, 64 characters
-	const stringData = JSON.stringify( data )
+	const stringData = JSON.stringify( data );
 	return crypto
 	.createHash( "sha256" )
 	.update( stringData )
 	.digest( "hex" );
 }
 
-exports.objectify = function ( data )
+export function objectify ( data: any ): any
 {
 	return JSON.parse( JSON.stringify( data ) );
 }
 
-exports.initJsonFile = function initJsonFile ( filePath, defaultData = {})
+export function initJsonFile ( filePath: string, defaultData: any = {}): any
 {
 	const folderPath = path.dirname( filePath );
 	if ( !fs.existsSync( folderPath ) )
@@ -37,7 +35,7 @@ exports.initJsonFile = function initJsonFile ( filePath, defaultData = {})
 
 	if ( fs.existsSync( filePath ) )
 	{
-		return JSON.parse( fs.readFileSync( filePath ) );
+		return JSON.parse( fs.readFileSync( filePath, "utf8" ) );
 	}
 	else
 	{
@@ -46,12 +44,12 @@ exports.initJsonFile = function initJsonFile ( filePath, defaultData = {})
 	}
 }
 
-exports.updateFile = function updateFile ( path, data )
+export function updateFile ( filePath: string, data: any ): void
 {
-	fs.writeFileSync( path, JSON.stringify( data, null, "\t" ) );
+	fs.writeFileSync( filePath, JSON.stringify( data, null, "\t" ) );
 }
 
-exports.deleteFile = function ( filePath )
+export function deleteFile ( filePath: string ): void
 {
 	try
 	{
@@ -71,7 +69,7 @@ exports.deleteFile = function ( filePath )
 	}
 }
 
-exports.deleteFoler = function ( folderPath )
+export function deleteFolder ( folderPath: string ): void
 {
 	if ( fs.existsSync( folderPath ) )
 	{
@@ -79,12 +77,13 @@ exports.deleteFoler = function ( folderPath )
 	}
 }
 
-exports.createFolder = function ( folderPath )
+export function createFolder ( folderPath: string ): boolean
 {
 	if ( !fs.existsSync( folderPath ) )
 	{
 		fs.mkdirSync( folderPath );
 		console.log( `Folder ${folderPath} Created` );
+		return true;
 	}
 	else
 	{
@@ -93,23 +92,27 @@ exports.createFolder = function ( folderPath )
 	}
 }
 
-exports.uuid = function ()
+export function generateUuid (): string
 {
 	return uuidv4();
 }
 
-exports.createKeyPair = function ()
+export function createKeyPair (): {
+  publicKey: string;
+  privateKey: string;
+  publicKeyString: string;
+  }
 {
 	const keyPair = crypto.generateKeyPairSync( "ed25519" );
 	const publicKey = keyPair.publicKey.export({ type: "spki", format: "pem" });
 	const privateKey = keyPair.privateKey.export({ type: "pkcs8", format: "pem" });
 
-	const publicKeyString = exports.removePublicKeyHeaders( publicKey )
+	const publicKeyString = removePublicKeyHeaders( publicKey );
 
 	return { publicKey, privateKey, publicKeyString };
 }
 
-exports.removePublicKeyHeaders = function ( publicKey )
+export function removePublicKeyHeaders ( publicKey: string ): string
 {
 	const headerRegex = /^-----BEGIN PUBLIC KEY-----\r?\n/;
 	const footerRegex = /\n-----END PUBLIC KEY-----/;
@@ -118,7 +121,7 @@ exports.removePublicKeyHeaders = function ( publicKey )
 	return strippedPublicKey.replace( footerRegex, "" );
 }
 
-exports.makeFilePath = function ( folderPath, ...params )
+export function makeFilePath ( folderPath: string, ...params: string[] ): string
 {
 	return path.join( folderPath, ...params );
 }

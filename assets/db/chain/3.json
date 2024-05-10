@@ -1,33 +1,33 @@
 {
 	"index": 3,
 	"chainName": "GoodChain",
-	"timestamp": 1711720491897,
+	"timestamp": 1715256111683,
 	"transactions": [
 		{
-			"from": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEACgkPwpxpA7+KD0dzG/y0dcgRdk4GnE4us/nqqEcyy/s=\n-----END PUBLIC KEY-----\n",
-			"to": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEA47ytDBrGmxOnSs2zU2BVJCiWMvZqvKeDsqEKnXhLmSE=\n-----END PUBLIC KEY-----\n",
-			"amount": 1,
-			"fee": 0,
-			"transaction_number": 3,
-			"signature": "340fbf0aa99321d53fbdbe9a491d7bb3c6b8db93a2341ec603a7ba1651c65c6645747418670024c85e11f983b00edd3665f36bcd0ca2529023c1ae04f5a7ae05",
-			"id": "72ddf62b-fcf4-4038-bd51-f5541fff4734"
+			"from": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEA+/URbKzHBbk2rt+Zg8ffxjBzmliL1RMacu6+X/YuB4U=\n-----END PUBLIC KEY-----\n",
+			"to": "user3",
+			"amount": 5,
+			"fee": 0.3,
+			"transaction_number": 1,
+			"signature": "83de8f0c1f1d721a31b9199ca2b5c946e677d5611a5236518da7f3edc0e2e68193920ad2dbfd4ae7037078cdf1a6c4f54ad8df65fc844c1f8168c6ee2671bc02",
+			"id": "2153cd08-1e82-46c2-b9d0-998bc177fc0e"
 		},
 		{
 			"from": null,
-			"to": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEACgkPwpxpA7+KD0dzG/y0dcgRdk4GnE4us/nqqEcyy/s=\n-----END PUBLIC KEY-----\n",
-			"amount": 100,
+			"to": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAcGs9vA0KnienWREkV/of2lxzUw8LeBk4aiG6AwEDL1U=\n-----END PUBLIC KEY-----\n",
+			"amount": 100.3,
 			"fee": 0,
 			"transaction_number": 0,
 			"signature": null,
-			"id": "dc781ae1-44b8-4055-8598-a6b00c4e90b1"
+			"id": "367ee445-9d26-472c-bf5f-a50967f507f7"
 		}
 	],
-	"previousHash": "2e6424166bf609cabce03f6852d71a064189c2b69c14ece6c337309ebdfebd3f",
-	"miner": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEACgkPwpxpA7+KD0dzG/y0dcgRdk4GnE4us/nqqEcyy/s=\n-----END PUBLIC KEY-----\n",
+	"previousHash": "b7df776691d9fd52ee8785ca8e7cf0c2df5f14ef73960f2a2c49cebcca5bfa03",
+	"miner": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAcGs9vA0KnienWREkV/of2lxzUw8LeBk4aiG6AwEDL1U=\n-----END PUBLIC KEY-----\n",
 	"consensusName": "pow",
 	"consensusDifficulty": "000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
-	"consensusTotalDifficulty": "2ffd8f0874d4aa000000000000000000000000000000000000000000000000000",
-	"consensusNonce": 2067,
-	"consensusHash": "000def6aefe42c825e0318fc197dbea7c8097b188b6a6ee5606be831569c1250",
-	"hash": "1836cdf8af2f05e03da50da0fd323cb717c6187e240d6c85b84880b414b9412c"
+	"consensusTotalDifficulty": "2fffc6b5841958000000000000000000000000000000000000000000000000000",
+	"consensusNonce": 45,
+	"consensusHash": "00029db84fc924f05a0978bf8854c6875b6f6c4a41f42f6e17ab44b8ef51d399",
+	"hash": "7917fea5f39f6c187f4cf4fd31848122c195e0d171bfd2f2abb06cfcf59cd5d4"
 }
