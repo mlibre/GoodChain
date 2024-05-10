@@ -1,6 +1,6 @@
+import crypto from "crypto";
 import fs from "fs";
 import path from "path";
-import crypto from "crypto";
 import { v4 as uuidv4 } from "uuid";
 
 export function calculateMiningFee ( transactionPool: { fee: number }[] ): number
@@ -25,7 +25,7 @@ export function objectify ( data: object ): object
 	return JSON.parse( JSON.stringify( data ) );
 }
 
-export function initJsonFile ( filePath: string, defaultData: object = {}): object
+export function initJsonFile ( filePath: string, defaultData: object = {})
 {
 	const folderPath = path.dirname( filePath );
 	if ( !fs.existsSync( folderPath ) )

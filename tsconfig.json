@@ -2,12 +2,18 @@
 	"compilerOptions": {
 		"target": "ESNext",
 		"module": "NodeNext",
-		"rootDir": "./",
+		"rootDir": "./src",
 		"outDir": "./dist",
 		"esModuleInterop": true,
 		"forceConsistentCasingInFileNames": true,
 		"strict": true,
 		"skipLibCheck": true,
-		"sourceMap": true
-	}
+		"sourceMap": true,
+		// "isolatedModules": true
+	},
+	// "include": [
+	// 	"global.d.ts",
+	// 	"**/*.ts",
+	// 	"**/*.tsx"
+	// ]
 }

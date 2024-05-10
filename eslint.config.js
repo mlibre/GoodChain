@@ -2,8 +2,8 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 // @ts-check
 
-import globals from "globals";
 import eslint from "@eslint/js";
+import globals from "globals";
 import tseslint from "typescript-eslint";
 
 
@@ -23,7 +23,6 @@ export default tseslint.config(
 	{
 		rules: {
 			"no-unused-vars": "warn",
-			"no-undef": "warn",
 			"no-trailing-spaces": "error",
 			"linebreak-style": [ "error", "unix" ],
 			"quotes": [ "error", "double" ],
