@@ -1,15 +1,38 @@
-const _ = require( "lodash" );
-const Database = require( "./db-git" )
-const ChainStore = require( "./chain" )
-const Wallet = require( "./wallet" )
-const Block = require( "./block" )
-const Transaction = require( "./transactions" )
-const Nodes = require( "./nodes" )
-const { calculateMiningFee, objectify, hashDataObject } = require( "./utils" )
+import _ from "lodash";
+import { verify as blackVerify } from "./block.js";
+import ChainStore from "./chain.js";
+import Database from "./db-git.js";
+import Nodes from "./nodes.js";
+import Transaction from "./transactions.js";
+import { calculateMiningFee, hashDataObject, objectify } from "./utils.js";
+import Wallet from "./wallet.js";
+
+
+
+interface BlockWithMiner {
+  index: number;
+  chainName: string;
+  timestamp: number;
+  transactions: any[];
+  previousHash: string;
+  miner: string;
+  hash?: string;
+}
 
 class Blockchain
 {
-	constructor ({ dbPath, nodes, chainName, minerKeys, consensus })
+	private consensus: any;
+	private chainName: string;
+	private minerKeys: { publicKey: string };
+	private db: Database;
+	private chain: ChainStore;
+	private wallet: Wallet;
+	private nodes: Nodes;
+	private transactionPool: TransactionData[];
+	private transactionPoolSize: number;
+	private miningReward: number;
+
+	constructor ({ dbPath, nodes, chainName, minerKeys, consensus }: BlockchainConstructorParams )
 	{
 		this.consensus = consensus;
 		this.chainName = chainName;
@@ -18,31 +41,29 @@ class Blockchain
 		this.chain = new ChainStore( dbPath );
 		this.wallet = new Wallet( dbPath );
 		this.nodes = new Nodes( dbPath, nodes );
-		this.db.commit( "-1" )
+		this.db.commit( "-1" );
 		this.transactionPool = [];
 		this.transactionPoolSize = 100;
 		this.miningReward = 100;
 
 		if ( this.chain.length === 0 )
 		{
-			this.mineNewBlock()
+			this.mineNewBlock();
 		}
 
 		this.consensus.setValues( this.chain.latestBlock );
-
-		// check whole block chain itegrity and validitty
 	}
 
 	mineNewBlock ()
 	{
-		const self = this
+		const self = this;
 		try
 		{
 			self.transactionPool = self.wallet.cleanupTransactions( self.transactionPool );
-			self.db.reset()
+			self.db.reset();
 			const coinbaseTrx = self.genCoinbaseTransaction();
-			self.addTransaction( coinbaseTrx )
-			const block = {
+			self.addTransaction( coinbaseTrx );
+			const block: BlockWithMiner = {
 				index: self.chain.length,
 				chainName: self.chainName,
 				timestamp: Date.now(),
@@ -56,80 +77,79 @@ class Blockchain
 		}
 		catch ( error )
 		{
-			self.db.reset()
-			self.wallet.reloadDB()
-			throw error
+			self.db.reset();
+			self.wallet.reloadDB();
+			throw error;
 		}
 	}
 
-	addBlock ( block )
+	addBlock ( block: BlockWithMiner )
 	{
 		const newBlock = objectify( block );
 		this.verifyCondidateBlock( newBlock );
 		this.wallet.performTransactions( newBlock.transactions );
-		this.wallet.checkFinalDBState( newBlock )
-		this.chain.push( newBlock )
-		this.chain.checkFinalDBState( newBlock )
+		this.wallet.checkFinalDBState( newBlock );
+		this.chain.push( newBlock );
+		this.chain.checkFinalDBState( newBlock );
 		this.transactionPool = [];
-		this.db.commit( newBlock.index )
-		return newBlock
+		this.db.commit( newBlock.index );
+		return newBlock;
 	}
 
-	addBlocks ( blocks )
+	addBlocks ( blocks: BlockWithMiner[] )
 	{
 		for ( const block of blocks )
 		{
-			this.addBlock( block )
+			this.addBlock( block );
 		}
-		return blocks
+		return blocks;
 	}
 
-	getBlock ( blockNumber )
+	getBlock ( blockNumber: number )
 	{
 		if ( blockNumber >= this.chain.length )
 		{
 			throw new Error( "Block number is greater than chain length" );
 		}
-		return this.chain.get( blockNumber )
+		return this.chain.get( blockNumber );
 	}
 
-	getBlocks ( from, to )
+	getBlocks ( from: number, to: number )
 	{
-		return this.chain.getRange( from, to )
+		return this.chain.getRange( from, to );
 	}
 
-	verifyCondidateBlock ( block )
+	verifyCondidateBlock ( block: BlockWithMiner )
 	{
-		Block.verify( block, this.chain.latestBlock )
+		blackVerify( block, this.chain.latestBlock );
 		this.consensus.validate( block, this.chain.latestBlock );
-		return true
+		return true;
 	}
 
-	addTransaction ( transaction )
+	addTransaction ( transaction: Transaction )
 	{
-		this.checkTransactionsPoolSize( );
+		this.checkTransactionsPoolSize();
 
 		const trx = new Transaction( transaction );
 		this.wallet.validateAddress( trx.from );
 		this.wallet.validateAddress( trx.to );
 
-		if ( !trx.isCoinBase( ) )
+		if ( !trx.isCoinBase() )
 		{
 			this.wallet.isTransactionNumberCorrect( trx.from, trx.transaction_number );
 		}
 
-		trx.validate( );
+		trx.validate();
 		this.isTransactionDuplicate( trx.data );
-
 
 		this.transactionPool.push( trx.data );
 		this.transactionPool.sort( ( a, b ) => { return b.fee - a.fee });
-		return this.chain.length
+		return this.chain.length;
 	}
 
-	addTransactions ( transactions )
+	addTransactions ( transactions: Transaction[] )
 	{
-		const results = []
+		const results: { id: string; blockNumber?: number; error?: Error }[] = [];
 		for ( const transaction of transactions )
 		{
 			try
@@ -150,7 +170,7 @@ class Blockchain
 		return results;
 	}
 
-	genCoinbaseTransaction ( )
+	genCoinbaseTransaction (): Transaction
 	{
 		return {
 			from: null,
@@ -162,7 +182,7 @@ class Blockchain
 		};
 	}
 
-	checkTransactionsPoolSize ( )
+	checkTransactionsPoolSize ()
 	{
 		if ( this.transactionPool.length >= this.transactionPoolSize )
 		{
@@ -170,7 +190,7 @@ class Blockchain
 		}
 	}
 
-	isTransactionDuplicate ({ from, to, amount, fee, transaction_number, signature })
+	isTransactionDuplicate ({ from, to, amount, fee, transaction_number, signature }: Transaction )
 	{
 		const duplicate = _.find( this.transactionPool, { from, to, amount, fee, transaction_number, signature });
 		if ( duplicate )
@@ -179,27 +199,27 @@ class Blockchain
 		}
 	}
 
-	addNode ( url )
+	addNode ( url: string )
 	{
 		return this.nodes.add( url );
 	}
 
-	replaceChain ( newChain )
+	replaceChain ( newChain: BlockWithMiner[] )
 	{
 		try
 		{
 			this.chain.replaceBlocks( newChain );
-			this.wallet.reCalculateWallet( this.chain.all )
-			this.db.commit( this.chain )
+			this.wallet.reCalculateWallet( this.chain.all );
+			this.db.commit( this.chain );
 		}
 		catch ( error )
 		{
-			this.db.reset()
-			this.wallet.reloadDB()
-			throw error
+			this.db.reset();
+			this.wallet.reloadDB();
+			throw error;
 		}
-		return this.chain.all
+		return this.chain.all;
 	}
 }
 
-module.exports = Blockchain
+module.exports = Blockchain;

@@ -1,29 +1,31 @@
-const { execSync } = require( "child_process" );
-const { createFolder } = require( "./utils" );
+import { execSync } from "child_process";
+import { createFolder } from "./utils";
 
-class GitDatabase
+export default class GitDatabase
 {
-	constructor ( repoPath )
+	repoPath: string;
+
+	constructor ( repoPath: string )
 	{
 		this.repoPath = repoPath;
-		this.cleanInit( repoPath );
+		this.cleanInit( );
 	}
 
-	cleanInit ( )
+	cleanInit ()
 	{
 		createFolder( this.repoPath );
-		const initOutput = execSync( "git init .", { cwd: this.repoPath }).toString();
+		const initOutput: string = execSync( "git init .", { cwd: this.repoPath }).toString();
 		console.log( "Git repository initialized ", initOutput );
 
 		execSync( "git reset --hard", { cwd: this.repoPath }).toString();
 
-		const cleanOutput = execSync( "git clean -d -x -f", { cwd: this.repoPath }).toString();
+		const cleanOutput: string = execSync( "git clean -d -x -f", { cwd: this.repoPath }).toString();
 		console.log( "Git repository cleaned ", cleanOutput );
 	}
 
-	commit ( blockNumber )
+	commit ( blockNumber: string )
 	{
-		const addOutput = execSync( "git add --all", { cwd: this.repoPath }).toString();
+		const addOutput: string = execSync( "git add --all", { cwd: this.repoPath }).toString();
 		console.log( "Git repository added files ", addOutput );
 
 		try
@@ -42,9 +44,7 @@ class GitDatabase
 
 	reset ()
 	{
-		const resetOutput = execSync( "git reset --hard", { cwd: this.repoPath }).toString()
+		const resetOutput: string = execSync( "git reset --hard", { cwd: this.repoPath }).toString()
 		console.log( "Git repository reset", resetOutput )
 	}
 }
-
-module.exports = GitDatabase;

@@ -17,7 +17,7 @@ class Wallet
 		return this.wallet;
 	}
 
-	performTransactions ( transactionList: Transaction[] ): Transaction[]
+	performTransactions ( transactionList: TransactionData[] ): TransactionData[]
 	{
 		for ( const tmpTrx of transactionList )
 		{
@@ -119,7 +119,7 @@ class Wallet
 		}
 	}
 
-	checkFinalDBState ( proposedBlock: any ): void
+	checkFinalDBState ( proposedBlock: BlockData ): void
 	{
 		this.reloadDB();
 		if ( this.wallet.blockNumber !== proposedBlock.index )

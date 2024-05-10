@@ -1,6 +1,6 @@
 {
   "name": "goodchain",
-  "version": "3.0.0",
+  "version": "2.0.2",
   "description": "GoodChain: Blockchain for Everyone",
   "main": "index.js",
   "type": "module",
@@ -28,6 +28,7 @@
   "devDependencies": {
     "@eslint/js": "^9.2.0",
     "@types/eslint__js": "^8.42.3",
+    "@types/lodash": "^4.17.1",
     "@types/node": "^20.12.11",
     "@types/uuid": "^9.0.8",
     "eslint": "^8.57.0",

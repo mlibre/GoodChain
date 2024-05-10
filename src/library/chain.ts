@@ -1,48 +1,49 @@
-const fs = require( "fs" );
-const path = require( "path" );
-const _ = require( "lodash" );
-const Block = require( "./block" )
-const { createFolder, makeFilePath } = require( "./utils" );
+import * as fs from "fs";
+import * as _ from "lodash";
+import * as path from "path";
+import { verify as blackVerify } from "./block.js";
+import { createFolder, makeFilePath } from "./utils.js";
 
-class ChainStore
+export default class ChainStore
 {
-	constructor ( folderPath )
+	folderPath: string;
+
+	constructor ( folderPath: string )
 	{
 		this.folderPath = makeFilePath( folderPath, "chain" );
 		createFolder( this.folderPath );
 	}
 
-	get length ()
+	get length (): number
 	{
 		return fs.readdirSync( this.folderPath ).length;
 	}
 
-	get all ()
+	get all (): any[]
 	{
 		const fileNames = fs.readdirSync( this.folderPath ).sort();
-		const blocks = [];
+		const blocks: any[] = [];
 		for ( const fileName of fileNames )
 		{
 			const filePath = path.join( this.folderPath, fileName );
-			const block = JSON.parse( fs.readFileSync( filePath ) );
+			const block = JSON.parse( fs.readFileSync( filePath, "utf8" ) );
 			blocks.push( block );
 		}
 		return blocks;
-
 	}
 
-	get ( blockNumber )
+	get ( blockNumber: number ): any | null
 	{
-		if ( blockNumber == -1 )
+		if ( blockNumber === -1 )
 		{
-			return null
+			return null;
 		}
-		return JSON.parse( fs.readFileSync( `${this.blockFilePath( blockNumber ) }.json` ) );
+		return JSON.parse( fs.readFileSync( `${this.blockFilePath( blockNumber )}.json`, "utf8" ) );
 	}
 
-	getRange ( from, to )
+	getRange ( from: number, to?: number ): any[]
 	{
-		const blocks = [];
+		const blocks: any[] = [];
 		to = to || this.length - 1;
 		for ( let i = from; i <= to; i++ )
 		{
@@ -51,28 +52,28 @@ class ChainStore
 		return blocks;
 	}
 
-	get genesisBlock ()
+	get genesisBlock (): any
 	{
 		return this.get( 0 );
 	}
 
-	get latestBlock ()
+	get latestBlock (): any | null
 	{
 		const files = fs.readdirSync( this.folderPath );
 		if ( files.length === 0 )
 		{
-			return null
+			return null;
 		}
 		const lastFile = files.sort().pop();
-		return JSON.parse( fs.readFileSync( this.blockFilePath( lastFile ) ) );
+		return JSON.parse( fs.readFileSync( this.blockFilePath( lastFile! ), "utf8" ) );
 	}
 
-	push ( block )
+	push ( block: any ): void
 	{
 		fs.writeFileSync( `${this.blockFilePath( block.index )}.json`, JSON.stringify( block, null, "\t" ) );
 	}
 
-	replaceBlocks ( blocks )
+	replaceBlocks ( blocks: any[] ): void
 	{
 		for ( const block of blocks )
 		{
@@ -80,32 +81,32 @@ class ChainStore
 		}
 	}
 
-	lastTwoBlocks ()
+	lastTwoBlocks (): [any, any]
 	{
-		const lastBlock = this.latestBlock
-		const secondLastBlock = this.get( lastBlock.index - 1 )
+		const lastBlock = this.latestBlock;
+		const secondLastBlock = this.get( lastBlock!.index - 1 );
 		return [ lastBlock, secondLastBlock ];
 	}
 
-	blockFilePath ( index )
+	blockFilePath ( index: number | string ): string
 	{
 		return path.join( this.folderPath, index.toString() );
 	}
 
-	checkFinalDBState ( proposedBlock )
+	checkFinalDBState ( proposedBlock: any ): boolean
 	{
 		if ( proposedBlock.index === 0 )
 		{
 			const lastBlock = this.latestBlock;
-			Block.verify( lastBlock, null );
+			blackVerify( lastBlock, null );
 			if ( !_.isEqual( lastBlock, proposedBlock ) )
 			{
 				throw new Error( "Invalid chain" );
 			}
-			return true
+			return true;
 		}
 		const [ lastBlock, secondLastBlock ] = [ this.get( proposedBlock.index ), this.get( proposedBlock.index - 1 ) ];
-		Block.verify( lastBlock, secondLastBlock )
+		blackVerify( lastBlock, secondLastBlock );
 		if ( !_.isEqual( lastBlock, proposedBlock ) )
 		{
 			throw new Error( "Invalid chain" );
@@ -118,7 +119,7 @@ class ChainStore
 		return lastBlock;
 	}
 
-	validateChain ()
+	validateChain (): boolean
 	{
 		if ( this.length === 0 )
 		{
@@ -126,11 +127,8 @@ class ChainStore
 		}
 		for ( let i = 0; i < this.length; i++ )
 		{
-			Block.verify( this.get( i ), this.get( i - 1 ) )
+			blackVerify( this.get( i ), this.get( i - 1 ) );
 		}
-		return true
+		return true;
 	}
 }
-
-
-module.exports = ChainStore

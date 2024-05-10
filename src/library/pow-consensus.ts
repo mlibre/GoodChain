@@ -1,8 +1,12 @@
-const _ = require( "lodash" );
-const { hashDataObject } = require( "./utils" );
+import _ from "lodash";
+import { hashDataObject } from "./utils.js";
 
 module.exports = class pow
 {
+	private name: string;
+	private difficulty: string;
+	private minDifficulty: string;
+
 	constructor ()
 	{
 		this.name = "pow";
@@ -10,19 +14,19 @@ module.exports = class pow
 		this.minDifficulty = "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
 	}
 
-	setValues ( block )
+	setValues ( block: BlockData )
 	{
 		this.difficulty = block.consensusDifficulty || this.difficulty;
 	}
 
-	apply ( block, previousBlock )
+	apply ( block: BlockData, previousBlock: BlockData )
 	{
-		let targetDifficulty;
+		let targetDifficulty: string;
 		block.consensusName = this.name;
 		if ( block.index === 0 )
 		{
 			block.consensusDifficulty = this.difficulty;
-			block.consensusTotalDifficulty = 0
+			block.consensusTotalDifficulty = "0";
 			targetDifficulty = this.difficulty;
 		}
 		else
@@ -32,12 +36,12 @@ module.exports = class pow
 			const num2 = parseInt( previousBlock.consensusTotalDifficulty, 16 );
 			const sum = num1 + num2;
 			const sumHex = sum.toString( 16 );
-			block.consensusTotalDifficulty = sumHex
+			block.consensusTotalDifficulty = sumHex;
 			targetDifficulty = previousBlock.consensusDifficulty;
 		}
 
 		block.consensusNonce = 0;
-		let hash = hashDataObject( block )
+		let hash = hashDataObject( block );
 		while ( hash.localeCompare( targetDifficulty ) != -1 )
 		{
 			block.consensusNonce++;
@@ -45,10 +49,10 @@ module.exports = class pow
 		}
 		block.consensusHash = hash;
 
-		return block
+		return block;
 	}
 
-	validate ( block, previousBlock )
+	validate ( block: BlockData, previousBlock: BlockData )
 	{
 		const pureObject = _.omit( block, [ "consensusHash", "hash" ] );
 		const hash = hashDataObject( pureObject );
@@ -69,25 +73,22 @@ module.exports = class pow
 		}
 	}
 
-	chooseBlock ( blocks )
+	chooseBlock ( blocks: BlockData[] )
 	{
-		const self = this
-		return _.maxBy( blocks, block =>
+		return _.maxBy( blocks, ( block ) =>
 		{
-			const blockDifficulty = parseInt( self.minDifficulty, 16 ) - parseInt( block.consensusHash, 16 );
+			const blockDifficulty = parseInt( this.minDifficulty, 16 ) - parseInt( block.consensusHash, 16 );
 			return parseInt( block.consensusTotalDifficulty, 16 ) + blockDifficulty;
 		});
 	}
 
-	chooseChain ( nodesBlocks )
+	chooseChain ( nodesBlocks: any[] )
 	{
-		const self = this;
-		return _.maxBy( nodesBlocks, nodeBlock =>
+		return _.maxBy( nodesBlocks, ( nodeBlock ) =>
 		{
 			const { block } = nodeBlock;
-			const blockDifficulty = parseInt( self.minDifficulty, 16 ) - parseInt( block.consensusHash, 16 );
+			const blockDifficulty = parseInt( this.minDifficulty, 16 ) - parseInt( block.consensusHash, 16 );
 			return parseInt( block.consensusTotalDifficulty, 16 ) + blockDifficulty;
 		});
 	}
-
 }
