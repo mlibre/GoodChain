@@ -1,4 +1,4 @@
-import { Transaction } from "./transactions.js";
+import Transaction from "./transactions.js";
 import { initJsonFile, makeFilePath, updateFile } from "./utils.js";
 
 class Wallet
@@ -36,9 +36,9 @@ class Wallet
 		return transactionList;
 	}
 
-	cleanupTransactions ( transactions: Transaction[] ): Transaction[]
+	cleanupTransactions ( transactions: TransactionData[] ): TransactionData[]
 	{
-		const newTransactions: Transaction[] = [];
+		const newTransactions: TransactionData[] = [];
 		for ( const tmpTrx of transactions )
 		{
 			try

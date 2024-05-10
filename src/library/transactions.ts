@@ -1,9 +1,17 @@
-const crypto = require( "crypto" );
-const { uuid } = require( "./utils" )
+import crypto from "crypto";
+import { generateUuid } from "./utils.js";
 
-module.exports = class Transaction
+export default class Transaction
 {
-	constructor ({ from, to, amount, fee, transaction_number, signature, id })
+	from: string;
+	to: string;
+	amount: number;
+	fee: number;
+	transaction_number: number;
+	signature: string;
+	id: string;
+
+	constructor ({ from, to, amount, fee, transaction_number, signature, id }: TransactionData )
 	{
 		this.from = from;
 		this.to = to;
@@ -11,9 +19,10 @@ module.exports = class Transaction
 		this.fee = fee;
 		this.transaction_number = transaction_number;
 		this.signature = signature;
-		this.id = id || uuid()
+		this.id = id || generateUuid()
 	}
-	get data ()
+
+	get data (): TransactionData
 	{
 		return {
 			from: this.from,
@@ -25,7 +34,8 @@ module.exports = class Transaction
 			id: this.id
 		};
 	}
-	get dataWithoutSignature ()
+
+	get dataWithoutSignature (): TransactionDataWithoutSignature
 	{
 		return {
 			from: this.from,
@@ -37,7 +47,7 @@ module.exports = class Transaction
 		}
 	}
 
-	validate ()
+	validate (): boolean
 	{
 		if ( this.amount < 0 )
 		{
@@ -51,11 +61,11 @@ module.exports = class Transaction
 		{
 			throw new Error( "Invalid transaction" );
 		}
-		this.verifySignature( );
+		this.verifySignature();
 		return true;
 	}
 
-	verifySignature ( )
+	verifySignature (): boolean
 	{
 		if ( !this.signature )
 		{
@@ -70,14 +80,14 @@ module.exports = class Transaction
 		return result;
 	}
 
-	sign ( privateKey )
+	sign ( privateKey: Buffer ): string
 	{
 		const signature = crypto.sign( null, Buffer.from( JSON.stringify( this.dataWithoutSignature ) ), privateKey );
 		this.signature = signature.toString( "hex" )
 		return this.signature;
 	}
 
-	isCoinBase ()
+	isCoinBase (): boolean
 	{
 		return !this.from && !this.signature;
 	}
