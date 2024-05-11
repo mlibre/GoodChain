@@ -1,7 +1,7 @@
 import * as fs from "fs";
 import * as _ from "lodash";
 import * as path from "path";
-import { verify as blackVerify } from "./block.js";
+import * as Block from "./block.js";
 import { createFolder, makeFilePath } from "./utils.js";
 
 export default class ChainStore
@@ -19,10 +19,10 @@ export default class ChainStore
 		return fs.readdirSync( this.folderPath ).length;
 	}
 
-	get all (): any[]
+	get all (): BlockData[]
 	{
 		const fileNames = fs.readdirSync( this.folderPath ).sort();
-		const blocks: any[] = [];
+		const blocks: BlockData[] = [];
 		for ( const fileName of fileNames )
 		{
 			const filePath = path.join( this.folderPath, fileName );
@@ -32,19 +32,19 @@ export default class ChainStore
 		return blocks;
 	}
 
-	get ( blockNumber: number ): any | null
+	get ( blockNumber: number ): BlockData
 	{
 		if ( blockNumber === -1 )
 		{
-			return null;
+			throw new Error( "Invalid Block Number" );
 		}
 		return JSON.parse( fs.readFileSync( `${this.blockFilePath( blockNumber )}.json`, "utf8" ) );
 	}
 
-	getRange ( from: number, to?: number ): any[]
+	getRange ( from: number, to?: number ): BlockData[]
 	{
-		const blocks: any[] = [];
-		to = to || this.length - 1;
+		const blocks: BlockData[] = [];
+		to = to ?? this.length - 1;
 		for ( let i = from; i <= to; i++ )
 		{
 			blocks.push( this.get( i ) );
@@ -52,28 +52,28 @@ export default class ChainStore
 		return blocks;
 	}
 
-	get genesisBlock (): any
+	get genesisBlock (): BlockData
 	{
 		return this.get( 0 );
 	}
 
-	get latestBlock (): any | null
+	get latestBlock (): BlockData
 	{
 		const files = fs.readdirSync( this.folderPath );
-		if ( files.length === 0 )
-		{
-			return null;
-		}
 		const lastFile = files.sort().pop();
-		return JSON.parse( fs.readFileSync( this.blockFilePath( lastFile! ), "utf8" ) );
+		if ( !files.length || !lastFile )
+		{
+			throw new Error( "No blocks found" );
+		}
+		return JSON.parse( fs.readFileSync( this.blockFilePath( lastFile ), "utf8" ) );
 	}
 
-	push ( block: any ): void
+	push ( block: BlockData ): void
 	{
 		fs.writeFileSync( `${this.blockFilePath( block.index )}.json`, JSON.stringify( block, null, "\t" ) );
 	}
 
-	replaceBlocks ( blocks: any[] ): void
+	replaceBlocks ( blocks: BlockData[] ): void
 	{
 		for ( const block of blocks )
 		{
@@ -81,10 +81,10 @@ export default class ChainStore
 		}
 	}
 
-	lastTwoBlocks (): [any, any]
+	lastTwoBlocks (): [BlockData, BlockData]
 	{
 		const lastBlock = this.latestBlock;
-		const secondLastBlock = this.get( lastBlock!.index - 1 );
+		const secondLastBlock = this.get( lastBlock.index - 1 );
 		return [ lastBlock, secondLastBlock ];
 	}
 
@@ -93,12 +93,12 @@ export default class ChainStore
 		return path.join( this.folderPath, index.toString() );
 	}
 
-	checkFinalDBState ( proposedBlock: any ): boolean
+	checkFinalDBState ( proposedBlock: BlockData ): boolean
 	{
 		if ( proposedBlock.index === 0 )
 		{
 			const lastBlock = this.latestBlock;
-			blackVerify( lastBlock, null );
+			Block.verifyGenesis( lastBlock );
 			if ( !_.isEqual( lastBlock, proposedBlock ) )
 			{
 				throw new Error( "Invalid chain" );
@@ -106,7 +106,7 @@ export default class ChainStore
 			return true;
 		}
 		const [ lastBlock, secondLastBlock ] = [ this.get( proposedBlock.index ), this.get( proposedBlock.index - 1 ) ];
-		blackVerify( lastBlock, secondLastBlock );
+		Block.verify( lastBlock, secondLastBlock );
 		if ( !_.isEqual( lastBlock, proposedBlock ) )
 		{
 			throw new Error( "Invalid chain" );
@@ -116,7 +116,7 @@ export default class ChainStore
 		{
 			throw new Error( "Invalid chain" );
 		}
-		return lastBlock;
+		return true;
 	}
 
 	validateChain (): boolean
@@ -127,7 +127,7 @@ export default class ChainStore
 		}
 		for ( let i = 0; i < this.length; i++ )
 		{
-			blackVerify( this.get( i ), this.get( i - 1 ) );
+			Block.verify( this.get( i ), this.get( i - 1 ) );
 		}
 		return true;
 	}

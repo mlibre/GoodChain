@@ -1,5 +1,5 @@
 import { execSync } from "child_process";
-import { createFolder } from "./utils";
+import { createFolder } from "./utils.js";
 
 export default class GitDatabase
 {
@@ -32,10 +32,10 @@ export default class GitDatabase
 		{
 			execSync( `git commit -m "${blockNumber}"`, { cwd: this.repoPath }).toString();
 		}
-		catch ( error )
+		catch ( error: unknown )
 		{
 			console.log( error.stdout.toString() );
-			if ( error.status != 1 )
+			if ( error.status !== 1 )
 			{
 				throw error
 			}

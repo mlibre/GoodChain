@@ -9,29 +9,35 @@ export function verify ( block: BlockData, previousBlock: BlockData ): void
 	{
 		throw new Error( "Invalid block hash" );
 	}
-	if ( block.index !== 0 )
+	if ( normalizedBlock.chainName !== previousBlock.chainName )
 	{
-		if ( normalizedBlock.chainName !== previousBlock.chainName )
-		{
-			throw new Error( "Invalid chain name" );
-		}
-		if ( normalizedBlock.index !== previousBlock.index + 1 )
-		{
-			throw new Error( "Invalid index" );
-		}
-		if ( previousBlock.hash !== block.previousHash )
-		{
-			throw new Error( "Invalid previous hash" );
-		}
+		throw new Error( "Invalid chain name" );
+	}
+	if ( normalizedBlock.index !== previousBlock.index + 1 )
+	{
+		throw new Error( "Invalid index" );
+	}
+	if ( previousBlock.hash !== block.previousHash )
+	{
+		throw new Error( "Invalid previous hash" );
+	}
 
-		if ( block.timestamp < previousBlock.timestamp )
-		{
-			throw new Error( "Block timestamp must be greater than previous block timestamp" );
-		}
-		for ( const transaction of block.transactions )
-		{
-			const transactionInstance = new Transaction( transaction );
-			transactionInstance.validate();
-		}
+	if ( block.timestamp < previousBlock.timestamp )
+	{
+		throw new Error( "Block timestamp must be greater than previous block timestamp" );
+	}
+	for ( const transaction of block.transactions )
+	{
+		const transactionInstance = new Transaction( transaction );
+		transactionInstance.validate();
+	}
+}
+
+export function verifyGenesis ( block: BlockData ): void
+{
+	const normalizedBlock = _.omit( block, [ "hash" ] );
+	if ( block.hash !== hashDataObject( normalizedBlock ) )
+	{
+		throw new Error( "Invalid block hash" );
 	}
 }

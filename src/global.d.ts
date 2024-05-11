@@ -1,9 +1,15 @@
 interface BlockchainConstructorParams {
   dbPath: string;
-  nodes: any[];
+  nodes: {
+    list: string[];
+    hostUrl: string;
+  };
   chainName: string;
-  minerKeys: { publicKey: string };
-  consensus: any;
+  minerKeys: {
+    publicKey: string;
+    privateKey: string;
+  };
+  consensus: Consensus;
 }
 
 interface WalletData {
