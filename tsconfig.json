@@ -9,11 +9,14 @@
 		"strict": true,
 		"skipLibCheck": true,
 		"sourceMap": true,
+		"useUnknownInCatchVariables": true
 		// "isolatedModules": true
 	},
 	// "include": [
 	// 	"global.d.ts",
 	// 	"**/*.ts",
-	// 	"**/*.tsx"
+	// 	"**/*.tsx",
+	// 	"src/**/*",
+	// 	"src/global.d.ts"
 	// ]
 }

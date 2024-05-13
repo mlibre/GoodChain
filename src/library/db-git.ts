@@ -34,10 +34,13 @@ export default class GitDatabase
 		}
 		catch ( error: unknown )
 		{
-			console.log( error.stdout.toString() );
-			if ( error.status !== 1 )
+			if ( isErrorWithStds( error ) )
 			{
-				throw error
+				console.log( error.stdout.toString() );
+				if ( error.status !== 1 )
+				{
+					throw error
+				}
 			}
 		}
 	}

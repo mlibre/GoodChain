@@ -21,17 +21,18 @@ interface WalletData {
 }
 
 interface BlockData {
-  hash?: string;
-  index: number;
-  chainName: string;
-  previousHash: string;
-  timestamp: number;
-  consensusDifficulty: string;
-  consensusName: string;
-  consensusTotalDifficulty: string;
-  consensusHash: string;
-  consensusNonce: number;
-  transactions: TransactionData[];
+	index: number;
+	chainName: string;
+	timestamp: number;
+	transactions: TransactionData[];
+	previousHash: string;
+	consensusDifficulty?: string;
+	consensusName?: string;
+	consensusTotalDifficulty?: string;
+	consensusHash?: string;
+	consensusNonce?: number;
+	miner?: string;
+	hash?: string;
 }
 
 interface TransactionData {
@@ -51,4 +52,21 @@ interface TransactionDataWithoutSignature {
   fee: number;
   transaction_number: number;
   id: string;
+}
+
+interface ErrorWithStds {
+  stderr: string;
+  stdout: string;
+  status?: number;
+}
+
+declare function isErrorWithStds( error: unknown ): error is ErrorWithStds
+{
+	return (
+		typeof error === "object" &&
+    error !== null &&
+    "stderr" in error &&
+    "stdout" in error &&
+    ( "status" in error || typeof error.status === "undefined" )
+	);
 }

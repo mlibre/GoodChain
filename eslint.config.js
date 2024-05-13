@@ -22,6 +22,13 @@ export default tseslint.config(
 	},
 	{
 		rules: {
+			"@typescript-eslint/no-this-alias": [
+				"error",
+				{
+					"allowedNames": [ "self" ]
+				}
+			],
+			"@typescript-eslint/prefer-nullish-coalescing": "off",
 			"no-unused-vars": "warn",
 			"no-trailing-spaces": "error",
 			"linebreak-style": [ "error", "unix" ],

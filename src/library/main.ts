@@ -6,22 +6,11 @@ import Nodes from "./nodes.js";
 import Transaction from "./transactions.js";
 import { calculateMiningFee, hashDataObject, objectify } from "./utils.js";
 import Wallet from "./wallet.js";
-
-
-
-interface BlockWithMiner {
-  index: number;
-  chainName: string;
-  timestamp: number;
-  transactions: any[];
-  previousHash: string;
-  miner: string;
-  hash?: string;
-}
+import ConsensusClass from "./pow-consensus.js"
 
 class Blockchain
 {
-	private consensus: any;
+	private consensus: ConsensusClass;
 	private chainName: string;
 	private minerKeys: { publicKey: string };
 	private db: Database;
@@ -63,7 +52,7 @@ class Blockchain
 			self.db.reset();
 			const coinbaseTrx = self.genCoinbaseTransaction();
 			self.addTransaction( coinbaseTrx );
-			const block: BlockWithMiner = {
+			const block: BlockData = {
 				index: self.chain.length,
 				chainName: self.chainName,
 				timestamp: Date.now(),
@@ -71,7 +60,7 @@ class Blockchain
 				previousHash: self.chain.latestBlock?.hash || "",
 				miner: self.minerKeys.publicKey
 			};
-			this.consensus.apply( block, self.chain.get( block.index - 1 ) );
+			self.consensus.apply( block, self.chain.get( block.index - 1 ) );
 			block.hash = hashDataObject( block );
 			return self.addBlock( block );
 		}
@@ -83,7 +72,7 @@ class Blockchain
 		}
 	}
 
-	addBlock ( block: BlockWithMiner )
+	addBlock ( block: BlockData )
 	{
 		const newBlock = objectify( block );
 		this.verifyCondidateBlock( newBlock );
@@ -96,7 +85,7 @@ class Blockchain
 		return newBlock;
 	}
 
-	addBlocks ( blocks: BlockWithMiner[] )
+	addBlocks ( blocks: BlockData[] )
 	{
 		for ( const block of blocks )
 		{
@@ -119,7 +108,7 @@ class Blockchain
 		return this.chain.getRange( from, to );
 	}
 
-	verifyCondidateBlock ( block: BlockWithMiner )
+	verifyCondidateBlock ( block: BlockData )
 	{
 		blackVerify( block, this.chain.latestBlock );
 		this.consensus.validate( block, this.chain.latestBlock );
@@ -204,7 +193,7 @@ class Blockchain
 		return this.nodes.add( url );
 	}
 
-	replaceChain ( newChain: BlockWithMiner[] )
+	replaceChain ( newChain: BlockData[] )
 	{
 		try
 		{
