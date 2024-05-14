@@ -1,10 +1,10 @@
 import _ from "lodash";
-import { verify as blackVerify } from "./block.js";
+import { verifyBlock, blockify } from "./block.js";
 import ChainStore from "./chain.js";
 import Database from "./db-git.js";
 import Nodes from "./nodes.js";
 import Transaction from "./transactions.js";
-import { calculateMiningFee, hashDataObject, objectify } from "./utils.js";
+import { calculateMiningFee, hashDataObject } from "./utils.js";
 import Wallet from "./wallet.js";
 import ConsensusClass from "./pow-consensus.js"
 
@@ -74,7 +74,7 @@ class Blockchain
 
 	addBlock ( block: BlockData )
 	{
-		const newBlock = objectify( block );
+		const newBlock = blockify( block );
 		this.verifyCondidateBlock( newBlock );
 		this.wallet.performTransactions( newBlock.transactions );
 		this.wallet.checkFinalDBState( newBlock );
@@ -110,7 +110,7 @@ class Blockchain
 
 	verifyCondidateBlock ( block: BlockData )
 	{
-		blackVerify( block, this.chain.latestBlock );
+		verifyBlock( block, this.chain.latestBlock );
 		this.consensus.validate( block, this.chain.latestBlock );
 		return true;
 	}

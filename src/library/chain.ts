@@ -106,7 +106,7 @@ export default class ChainStore
 			return true;
 		}
 		const [ lastBlock, secondLastBlock ] = [ this.get( proposedBlock.index ), this.get( proposedBlock.index - 1 ) ];
-		Block.verify( lastBlock, secondLastBlock );
+		Block.verifyBlock( lastBlock, secondLastBlock );
 		if ( !_.isEqual( lastBlock, proposedBlock ) )
 		{
 			throw new Error( "Invalid chain" );
@@ -127,7 +127,7 @@ export default class ChainStore
 		}
 		for ( let i = 0; i < this.length; i++ )
 		{
-			Block.verify( this.get( i ), this.get( i - 1 ) );
+			Block.verifyBlock( this.get( i ), this.get( i - 1 ) );
 		}
 		return true;
 	}

@@ -1,4 +1,4 @@
-import { createKeyPair, deleteFolder, initJsonFile } from "../src/library/utils.js";
+import { createKeyPair, deleteFolder, initJsonFile } from "../library/utils.js";
 
 deleteFolder( "./assets/keys/" );
 

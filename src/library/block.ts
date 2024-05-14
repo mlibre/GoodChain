@@ -2,7 +2,7 @@ import _ from "lodash";
 import Transaction from "./transactions.js";
 import { hashDataObject } from "./utils.js";
 
-export function verify ( block: BlockData, previousBlock: BlockData ): void
+export function verifyBlock ( block: BlockData, previousBlock: BlockData ): void
 {
 	const normalizedBlock = _.omit( block, [ "hash" ] );
 	if ( block.hash !== hashDataObject( normalizedBlock ) )
@@ -40,4 +40,9 @@ export function verifyGenesis ( block: BlockData ): void
 	{
 		throw new Error( "Invalid block hash" );
 	}
+}
+
+export function blockify ( data: BlockData ): BlockData
+{
+	return JSON.parse( JSON.stringify( data ) );
 }
