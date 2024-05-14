@@ -1,8 +1,8 @@
-import * as Blockchain from "../library/main";
-import * as Consensus from "../library/pow-consensus";
-import * as Transaction from "../library/transactions";
+import Blockchain from "../library/main";
+import Consensus from "../library/pow-consensus";
+import Transaction from "../library/transactions";
 
-import { createKeyPair, deleteFile, deleteFolder, initJsonFile } from "../src/library/utils.js";
+import { createKeyPair, deleteFile, deleteFolder, initJsonFile } from "../library/utils.js";
 
 deleteFolder( "assets/db/" );
 deleteFile( "./assets/keys/miner.json" );
@@ -10,7 +10,7 @@ deleteFile( "./assets/keys/user.json" );
 
 const userKeys = initJsonFile( "./assets/keys/user.json", createKeyPair() );
 const minerKeys = initJsonFile( "./assets/keys/miner.json", createKeyPair() );
-const blockchain = new Blockchain.Blockchain({
+const blockchain = new Blockchain({
 	dbPath: "./assets/db/",
 	nodes: {
 		list: [ "http://127.0.0.1:3001" ],
@@ -18,11 +18,11 @@ const blockchain = new Blockchain.Blockchain({
 	},
 	chainName: "GoodChain",
 	minerKeys,
-	consensus: new Consensus.Consensus(),
+	consensus: new Consensus(),
 });
 blockchain.mineNewBlock();
 
-const trx = new Transaction.Transaction({
+const trx = new Transaction({
 	from: minerKeys.publicKey,
 	to: userKeys.publicKey,
 	amount: 50,

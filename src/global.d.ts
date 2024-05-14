@@ -36,23 +36,24 @@ interface BlockData {
 }
 
 interface TransactionData {
-  from: string;
+  from: string | null;
   to: string;
   amount: number;
   fee: number;
   transaction_number: number;
-  signature: string;
+  signature: string | null;
+  id?: string;
+}
+
+interface TransactionWithoutSignatureData {
+  from: string | null;
+  to: string;
+  amount: number;
+  fee: number;
+  transaction_number: number;
   id: string;
 }
 
-interface TransactionDataWithoutSignature {
-  from: string;
-  to: string;
-  amount: number;
-  fee: number;
-  transaction_number: number;
-  id: string;
-}
 
 interface ErrorWithStds {
   stderr: string;

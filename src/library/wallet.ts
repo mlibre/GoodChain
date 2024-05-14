@@ -104,7 +104,7 @@ class Wallet
 
 	validateAddress ( address: string ): void
 	{
-		if ( !this.wallet.list[address] )
+		if ( address )
 		{
 			this.wallet.list[address] = { balance: 0, transaction_number: 0 };
 		}
@@ -128,7 +128,7 @@ class Wallet
 		}
 	}
 
-	reCalculateWallet ( chain: any[] ): void
+	reCalculateWallet ( chain: BlockData[] ): void
 	{
 		this.wipe();
 		for ( const block of chain )

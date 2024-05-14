@@ -3,12 +3,12 @@ import { generateUuid } from "./utils.js";
 
 export default class Transaction
 {
-	from: string;
+	from: string | null;
 	to: string;
 	amount: number;
 	fee: number;
 	transaction_number: number;
-	signature: string;
+	signature: string | null;
 	id: string;
 
 	constructor ({ from, to, amount, fee, transaction_number, signature, id }: TransactionData )
@@ -35,7 +35,7 @@ export default class Transaction
 		};
 	}
 
-	get dataWithoutSignature (): TransactionDataWithoutSignature
+	get dataWithoutSignature (): TransactionWithoutSignatureData
 	{
 		return {
 			from: this.from,
@@ -57,7 +57,7 @@ export default class Transaction
 		{
 			return true;
 		}
-		if ( !this.from || !this.to )
+		if ( !this.to )
 		{
 			throw new Error( "Invalid transaction" );
 		}
@@ -67,9 +67,9 @@ export default class Transaction
 
 	verifySignature (): boolean
 	{
-		if ( !this.signature )
+		if ( !this.signature || !this.from )
 		{
-			throw new Error( "No signature" );
+			throw new Error( "No signature or from" );
 		}
 		const signature = Buffer.from( this.signature, "hex" );
 		const result = crypto.verify( null, Buffer.from( JSON.stringify( this.dataWithoutSignature ) ), this.from, signature );

@@ -23,7 +23,7 @@ export default class GitDatabase
 		console.log( "Git repository cleaned ", cleanOutput );
 	}
 
-	commit ( blockNumber: string )
+	commit ( blockNumber: string | number )
 	{
 		const addOutput: string = execSync( "git add --all", { cwd: this.repoPath }).toString();
 		console.log( "Git repository added files ", addOutput );

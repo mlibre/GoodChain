@@ -8,7 +8,7 @@ import { calculateMiningFee, hashDataObject } from "./utils.js";
 import Wallet from "./wallet.js";
 import ConsensusClass from "./pow-consensus.js"
 
-class Blockchain
+export default class Blockchain
 {
 	private consensus: ConsensusClass;
 	private chainName: string;
@@ -115,7 +115,7 @@ class Blockchain
 		return true;
 	}
 
-	addTransaction ( transaction: Transaction )
+	addTransaction ( transaction: TransactionData )
 	{
 		this.checkTransactionsPoolSize();
 
@@ -136,9 +136,9 @@ class Blockchain
 		return this.chain.length;
 	}
 
-	addTransactions ( transactions: Transaction[] )
+	addTransactions ( transactions: TransactionData[] )
 	{
-		const results: { id: string; blockNumber?: number; error?: Error }[] = [];
+		const results = [];
 		for ( const transaction of transactions )
 		{
 			try
@@ -159,7 +159,7 @@ class Blockchain
 		return results;
 	}
 
-	genCoinbaseTransaction (): Transaction
+	genCoinbaseTransaction (): TransactionData
 	{
 		return {
 			from: null,
@@ -179,7 +179,7 @@ class Blockchain
 		}
 	}
 
-	isTransactionDuplicate ({ from, to, amount, fee, transaction_number, signature }: Transaction )
+	isTransactionDuplicate ({ from, to, amount, fee, transaction_number, signature }: TransactionData )
 	{
 		const duplicate = _.find( this.transactionPool, { from, to, amount, fee, transaction_number, signature });
 		if ( duplicate )
@@ -199,7 +199,7 @@ class Blockchain
 		{
 			this.chain.replaceBlocks( newChain );
 			this.wallet.reCalculateWallet( this.chain.all );
-			this.db.commit( this.chain );
+			this.db.commit( this.chain.latestBlock.index );
 		}
 		catch ( error )
 		{
@@ -210,5 +210,3 @@ class Blockchain
 		return this.chain.all;
 	}
 }
-
-module.exports = Blockchain;
