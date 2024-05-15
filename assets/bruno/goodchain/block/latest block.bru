@@ -1,0 +1,35 @@
+meta {
+  name: latest block
+  type: http
+  seq: 4
+}
+
+get {
+  url: http://{{host}}:{{port}}/block
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "index": 15,
+    "chainName": "GoodChain",
+    "timestamp": 1707660750591,
+    "transactions": [
+      {
+        "from": null,
+        "to": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAeri5Q/XQrMUPqUNYY6dGYIwrVCTSpCv+vSUZaRBlaWA=\n-----END PUBLIC KEY-----\n",
+        "amount": 100,
+        "fee": 0,
+        "transaction_number": 0,
+        "signature": null,
+        "id": "8be88f45-eeab-4a8a-bbf2-c0c1216da56d"
+      }
+    ],
+    "previousHash": "0001c9df62972c18fb487ca3e53ad99d5e2d2c7e99fcbaac531fb67601cd8225",
+    "hash": "0000c2fe2e5c869726ffb9fb689b46dbbc2b9c2701de408fe88223300b766eee",
+    "nonce": 2013,
+    "miner": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAeri5Q/XQrMUPqUNYY6dGYIwrVCTSpCv+vSUZaRBlaWA=\n-----END PUBLIC KEY-----\n",
+    "difficulty": "000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+  }
+}

@@ -55,6 +55,22 @@ export default class pow
 		return block;
 	}
 
+	applyGenesis ( block: BlockData )
+	{
+		block.consensusName = this.name;
+		block.consensusDifficulty = this.difficulty;
+		block.consensusTotalDifficulty = "0";
+		block.consensusNonce = 0;
+		let hash = hashDataObject( block );
+		while ( hash.localeCompare( this.difficulty ) != -1 )
+		{
+			block.consensusNonce++;
+			hash = hashDataObject( block );
+		}
+		block.consensusHash = hash;
+		return block;
+	}
+
 	validate ( block: BlockData, previousBlock: BlockData )
 	{
 		const pureObject = _.omit( block, [ "consensusHash", "hash" ] );
@@ -85,13 +101,13 @@ export default class pow
 		});
 	}
 
-	chooseChain ( nodesBlocks: any[] )
+	chooseChain ( nodesBlocks: nodesBlocks[] )
 	{
 		return _.maxBy( nodesBlocks, ( nodeBlock ) =>
 		{
 			const { block } = nodeBlock;
-			const blockDifficulty = parseInt( this.minDifficulty, 16 ) - parseInt( block.consensusHash, 16 );
-			return parseInt( block.consensusTotalDifficulty, 16 ) + blockDifficulty;
+			const blockDifficulty = parseInt( this.minDifficulty, 16 ) - parseInt( block.consensusHash.toString(), 16 );
+			return parseInt( block.consensusTotalDifficulty.toString(), 16 ) + blockDifficulty;
 		});
 	}
 }

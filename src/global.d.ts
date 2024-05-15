@@ -41,23 +41,19 @@ interface TransactionData {
   id?: string;
 }
 
-interface TransactionWithoutSignatureData {
-  from: string | null;
-  to: string;
-  amount: number;
-  fee: number;
-  transaction_number: number;
-  id: string;
+interface nodesBlocks
+{
+  block: BlockData,
+  node: string
 }
 
-
-interface ErrorWithStds {
+interface ErrorWithStdsOutErr {
   stderr: string;
   stdout: string;
   status?: number;
 }
 
-declare function isErrorWithStds( error: unknown ): error is ErrorWithStds
+declare function isErrorWithStds( error: unknown ): error is ErrorWithStdsOutErr
 {
 	return (
 		typeof error === "object" &&

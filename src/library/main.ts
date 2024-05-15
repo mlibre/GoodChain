@@ -37,12 +37,40 @@ export default class Blockchain
 
 		if ( this.chain.length === 0 )
 		{
-			this.mineNewBlock();
+			this.minGenesisBlock();
 		}
 
 		this.consensus.setValues( this.chain.latestBlock );
 	}
 
+	minGenesisBlock ()
+	{
+		const self = this;
+		try
+		{
+			self.db.reset();
+			const coinbaseTrx = self.genCoinbaseTransaction();
+			self.addTransaction( coinbaseTrx );
+			const block: BlockData = {
+				index: self.chain.length,
+				chainName: self.chainName,
+				timestamp: Date.now(),
+				transactions: self.transactionPool,
+				previousHash: "",
+				miner: self.minerKeys.publicKey
+			};
+			self.consensus.applyGenesis( block );
+			block.hash = hashDataObject( block );
+			return self.addBlock( block );
+		}
+		catch ( error )
+		{
+			self.db.reset();
+			self.wallet.reloadDB();
+			throw error;
+		}
+
+	}
 	mineNewBlock ()
 	{
 		const self = this;

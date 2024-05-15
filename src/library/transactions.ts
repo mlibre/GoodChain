@@ -35,7 +35,7 @@ export default class Transaction
 		};
 	}
 
-	get dataWithoutSignature (): TransactionWithoutSignatureData
+	get dataWithoutSignature (): TransactionData
 	{
 		return {
 			from: this.from,

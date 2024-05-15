@@ -45,15 +45,7 @@ export default class Nodes
 		return this.all.indexOf( url ) !== -1;
 	}
 
-	parseUrlList ( list: any[] )
-	{
-		return _.map( list, ( node ) =>
-		{
-			this.parseUrl( node );
-		});
-	}
-
-	parseUrl ( url: any )
+	parseUrl ( url: URL )
 	{
 		const urlObj = new URL( url );
 		const protocol = urlObj.protocol.replace( ":", "" );
