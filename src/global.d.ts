@@ -47,6 +47,12 @@ interface nodesBlocks
   node: string
 }
 
+interface KeyPair {
+  publicKey: string;
+  privateKey: string;
+  publicKeyString: string;
+}
+
 interface ErrorWithStdsOutErr {
   stderr: string;
   stdout: string;

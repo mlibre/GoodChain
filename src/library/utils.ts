@@ -97,11 +97,7 @@ export function generateUuid (): string
 	return uuidv4();
 }
 
-export function createKeyPair (): {
-  publicKey: string;
-  privateKey: string;
-  publicKeyString: string;
-  }
+export function createKeyPair (): KeyPair
 {
 	const keyPair = crypto.generateKeyPairSync( "ed25519" );
 	const publicKey = keyPair.publicKey.export({ type: "spki", format: "pem" }).toString();
