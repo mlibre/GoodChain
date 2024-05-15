@@ -21,16 +21,12 @@ interface WalletData {
 }
 
 interface BlockData {
-	index: number;
+  [x: string]: string | number | TransactionData[];
+  index: number;
 	chainName: string;
 	timestamp: number;
 	transactions: TransactionData[];
 	previousHash: string;
-	consensusDifficulty?: string;
-	consensusName?: string;
-	consensusTotalDifficulty?: string;
-	consensusHash?: string;
-	consensusNonce?: number;
 	miner?: string;
 	hash?: string;
 }

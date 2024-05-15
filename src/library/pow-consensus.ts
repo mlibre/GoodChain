@@ -16,7 +16,10 @@ export default class pow
 
 	setValues ( block: BlockData )
 	{
-		this.difficulty = block.consensusDifficulty || this.difficulty;
+		if ( block.consensusDifficulty )
+		{
+			this.difficulty = block.consensusDifficulty.toString();
+		}
 	}
 
 	apply ( block: BlockData, previousBlock: BlockData )
@@ -32,12 +35,12 @@ export default class pow
 		else
 		{
 			block.consensusDifficulty = previousBlock.consensusDifficulty;
-			const num1 = parseInt( this.minDifficulty, 16 ) - parseInt( previousBlock.consensusHash, 16 );
-			const num2 = parseInt( previousBlock.consensusTotalDifficulty, 16 );
+			const num1 = parseInt( this.minDifficulty, 16 ) - parseInt( previousBlock.consensusHash.toString(), 16 );
+			const num2 = parseInt( previousBlock.consensusTotalDifficulty.toString(), 16 );
 			const sum = num1 + num2;
 			const sumHex = sum.toString( 16 );
 			block.consensusTotalDifficulty = sumHex;
-			targetDifficulty = previousBlock.consensusDifficulty;
+			targetDifficulty = previousBlock.consensusDifficulty.toString();
 		}
 
 		block.consensusNonce = 0;
@@ -56,7 +59,7 @@ export default class pow
 	{
 		const pureObject = _.omit( block, [ "consensusHash", "hash" ] );
 		const hash = hashDataObject( pureObject );
-		if ( block.consensusHash.localeCompare( hash ) !== 0 )
+		if ( block.consensusHash.toString().localeCompare( hash ) !== 0 )
 		{
 			throw new Error( "Invalid hash" );
 		}
@@ -77,8 +80,8 @@ export default class pow
 	{
 		return _.maxBy( blocks, ( block ) =>
 		{
-			const blockDifficulty = parseInt( this.minDifficulty, 16 ) - parseInt( block.consensusHash, 16 );
-			return parseInt( block.consensusTotalDifficulty, 16 ) + blockDifficulty;
+			const blockDifficulty = parseInt( this.minDifficulty, 16 ) - parseInt( block.consensusHash.toString(), 16 );
+			return parseInt( block.consensusTotalDifficulty.toString(), 16 ) + blockDifficulty;
 		});
 	}
 
