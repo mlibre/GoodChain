@@ -112,7 +112,7 @@ export default class Blockchain
 
 		const trx = new Transaction( transaction );
 
-		if ( !trx.isCoinBase() )
+		if ( !trx.isCoinBase() && trx.from !== null )
 		{
 			this.wallet.validateAddress( trx.from );
 			this.wallet.isTransactionNumberCorrect( trx.from, trx.transaction_number );

@@ -27,8 +27,11 @@ class Wallet
 				this.addBalance( trx.to, trx.amount );
 				continue;
 			}
-			this.minusBalance( trx.from, trx.amount + trx.fee );
-			this.incrementTN( trx.from );
+			if ( trx.from !== null )
+			{
+				this.minusBalance( trx.from, trx.amount + trx.fee );
+				this.incrementTN( trx.from );
+			}
 			this.addBalance( trx.to, trx.amount );
 		}
 		this.wallet.blockNumber++;
@@ -49,13 +52,16 @@ class Wallet
 					console.log( "Dropping coinbase transaction" );
 					continue;
 				}
-				if ( trx.transaction_number <= this.transactionNumber( trx.from ) )
+				if ( trx.from !== null )
 				{
-					console.log( "Dropping transaction with transaction number less than wallet transaction number" );
-					continue;
+					if ( trx.transaction_number <= this.transactionNumber( trx.from ) )
+					{
+						console.log( "Dropping transaction with transaction number less than wallet transaction number" );
+						continue;
+					}
+					this.minusBalance( trx.from, trx.amount + trx.fee );
+					this.incrementTN( trx.from );
 				}
-				this.minusBalance( trx.from, trx.amount + trx.fee );
-				this.incrementTN( trx.from );
 				this.addBalance( trx.to, trx.amount );
 				newTransactions.push( trx.data );
 			}

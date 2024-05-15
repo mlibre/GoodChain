@@ -89,6 +89,6 @@ export default class Transaction
 
 	isCoinBase (): boolean
 	{
-		return !this.from && !this.signature;
+		return this.from !== null;
 	}
 }
