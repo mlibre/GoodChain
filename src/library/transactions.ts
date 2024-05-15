@@ -8,7 +8,7 @@ export default class Transaction
 	amount: number;
 	fee: number;
 	transaction_number: number;
-	signature: string | null;
+	signature?: string | null;
 	id: string;
 
 	constructor ({ from, to, amount, fee, transaction_number, signature, id }: TransactionData )

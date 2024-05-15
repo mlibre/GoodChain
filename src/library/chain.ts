@@ -34,9 +34,9 @@ export default class ChainStore
 
 	get ( blockNumber: number ): BlockData
 	{
-		if ( blockNumber === -1 )
+		if ( blockNumber >= this.length || blockNumber < 0 )
 		{
-			throw new Error( "Invalid Block Number" );
+			throw new Error( "Invalid block number" );
 		}
 		return JSON.parse( fs.readFileSync( `${this.blockFilePath( blockNumber )}.json`, "utf8" ) );
 	}

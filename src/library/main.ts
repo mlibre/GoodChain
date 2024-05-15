@@ -14,8 +14,8 @@ export default class Blockchain
 	private chainName: string;
 	private minerKeys: { publicKey: string };
 	private db: Database;
-	private chain: ChainStore;
-	private wallet: Wallet;
+	public chain: ChainStore;
+	public wallet: Wallet;
 	private nodes: Nodes;
 	private transactionPool: TransactionData[];
 	private transactionPoolSize: number;
@@ -94,15 +94,6 @@ export default class Blockchain
 		return blocks;
 	}
 
-	getBlock ( blockNumber: number )
-	{
-		if ( blockNumber >= this.chain.length )
-		{
-			throw new Error( "Block number is greater than chain length" );
-		}
-		return this.chain.get( blockNumber );
-	}
-
 	getBlocks ( from: number, to: number )
 	{
 		return this.chain.getRange( from, to );
@@ -120,13 +111,13 @@ export default class Blockchain
 		this.checkTransactionsPoolSize();
 
 		const trx = new Transaction( transaction );
-		this.wallet.validateAddress( trx.from );
-		this.wallet.validateAddress( trx.to );
 
 		if ( !trx.isCoinBase() )
 		{
+			this.wallet.validateAddress( trx.from );
 			this.wallet.isTransactionNumberCorrect( trx.from, trx.transaction_number );
 		}
+		this.wallet.validateAddress( trx.to );
 
 		trx.validate();
 		this.isTransactionDuplicate( trx.data );

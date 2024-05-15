@@ -41,7 +41,7 @@ interface TransactionData {
   amount: number;
   fee: number;
   transaction_number: number;
-  signature: string | null;
+  signature?: string | null;
   id?: string;
 }
 

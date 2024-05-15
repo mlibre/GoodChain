@@ -76,7 +76,6 @@ class Wallet
 
 	balance ( address: string ): number
 	{
-		this.validateAddress( address );
 		return this.wallet.list[address].balance;
 	}
 
@@ -98,7 +97,6 @@ class Wallet
 
 	transactionNumber ( address: string ): number
 	{
-		this.validateAddress( address );
 		return this.wallet.list[address].transaction_number;
 	}
 
@@ -112,7 +110,6 @@ class Wallet
 
 	isTransactionNumberCorrect ( address: string, transaction_number: number ): void
 	{
-		this.validateAddress( address );
 		if ( transaction_number <= this.transactionNumber( address ) )
 		{
 			throw new Error( "Invalid transaction number", { cause: { address, transaction_number } });

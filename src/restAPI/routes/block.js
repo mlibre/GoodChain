@@ -16,7 +16,7 @@ router.get( "/", function ( req, res )
 	else if ( index )
 	{
 		index = toNum( index )
-		res.json( blockchain.getBlock( index ) );
+		res.json( blockchain.chain.get( index ) );
 		return;
 	}
 	else if ( from || to )

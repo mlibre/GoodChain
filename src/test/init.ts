@@ -35,7 +35,7 @@ const blockNumber = blockchain.addTransaction( trx.data );
 blockchain.mineNewBlock();
 console.log( "Mined block :", blockNumber, blockchain.chain.latestBlock );
 
-const trx2 = new Transaction.Transaction({
+const trx2 = new Transaction({
 	from: userKeys.publicKey,
 	to: "user3",
 	amount: 5,
