@@ -5,7 +5,7 @@ export const isEqualBlock = function ( block1: BlockData, block2: BlockData ): b
 	return _.isEqual( block1, block2 );
 }
 
-export const parseUrl = function ( url: string ): { host: string, port: string | number, protocol: string }
+export const parseUrl = function ( url: string ): { host: string, port: string, protocol: string }
 {
 	const urlObj = new URL( url );
 	const protocol = urlObj.protocol.replace( ":", "" );
