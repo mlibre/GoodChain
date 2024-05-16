@@ -26,14 +26,15 @@
     "uuid": "^9.0.1"
   },
   "devDependencies": {
-    "ts-node": "^10.9.2",
     "@eslint/js": "^9.2.0",
     "@types/eslint__js": "^8.42.3",
     "@types/lodash": "^4.17.1",
+    "@types/minimist": "^1.2.5",
     "@types/node": "^20.12.11",
     "@types/uuid": "^9.0.8",
     "eslint": "^8.57.0",
     "globals": "^15.2.0",
+    "ts-node": "^10.9.2",
     "tsx": "^4.10.2",
     "typescript": "^5.4.5",
     "typescript-eslint": "^7.8.0"
