@@ -14,7 +14,7 @@
     "start": "node ./dist/restAPI/app.js",
     "3000": "tsx ./src/restAPI/app.ts --host 'http://127.0.0.1:3000' --nodes 'http://127.0.0.1:3001' --dbPath './assets/db/' --minerKeysFile './assets/keys/miner.json' --name 'GoodChain'",
     "3001": "tsx ./src/restAPI/app.ts --host 'http://127.0.0.1:3001' --nodes 'http://127.0.0.1:3000' --dbPath './assets/db/' --minerKeysFile './assets/keys/miner.json' --name 'GoodChain'",
-    "3002": "tsx ./src/restAPI/app.ts --host 'http://127.0.0.1:3002' --nodes 'http://127.0.0.1:3000' --dbPath './assets/db/' --minerKeysFile './assets/keys/miner.json' --name 'GoodChain'",
+    "3002": "tsx ./src/restAPI/app.ts --host 'http://127.0.0.1:3002' --nodes 'http://127.0.0.1:3000' --dbPath './assets/db/' --minerKeysFile './assets/keys/miner.json' --name 'GoodChain'"
   },
   "author": "mlibre",
   "license": "GPL-3.0-only",
