@@ -1,11 +1,11 @@
-const Blockchain = require( "../library/main" );
-const Consensus = require( "../library/pow-consensus" );
-const consensus = new Consensus()
-const { initJsonFile, createKeyPair } = require( "../library/utils" )
-const { name, dbPath, minerKeysFile, hostUrl, nodesList } = require( "./config" );
+import Blockchain from "../library/main";
+import Consensus from "../library/pow-consensus";
+const consensus = new Consensus();
+import { initJsonFile, createKeyPair } from "../library/utils";
+import { name, dbPath, minerKeysFile, hostUrl, nodesList } from "./config";
 
 const minerKeys = initJsonFile( minerKeysFile, createKeyPair() );
-module.exports = new Blockchain({
+export default new Blockchain({
 	dbPath,
 	nodes: {
 		list: nodesList,
