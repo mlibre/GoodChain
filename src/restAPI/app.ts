@@ -2,10 +2,10 @@ import http from "http";
 import express from "express";
 import cookieParser from "cookie-parser";
 import logger from "morgan";
-import { hostPort, hostAddress } from "./config";
-import { convertErrorToSimpleObj } from "./utils";
+import { hostPort, hostAddress } from "./config.js";
+import { convertErrorToSimpleObj } from "./utils.js";
 
-require( "./blockchain" );
+import "./blockchain.js";
 
 import chainRouter from "./routes/chain";
 import blockRouter from "./routes/block";
@@ -31,13 +31,13 @@ app.use( "/nodes", nodeRouter );
 app.use( errorHandler );
 
 const server = http.createServer( app );
-server.listen( {port: hostPort, host: hostAddress} );
+server.listen({ port: hostPort, host: hostAddress });
 server.on( "error", onError );
 server.on( "listening", onListening );
 
 function onListening ()
 {
-	console.log( "Listening on", (server.address() as AddressInfo).address, (server.address() as AddressInfo).port );
+	console.log( "Listening on", ( server.address() as AddressInfo ).address, ( server.address() as AddressInfo ).port );
 }
 
 function onError ( error: AnyError )
@@ -51,16 +51,24 @@ function onError ( error: AnyError )
 	{
 	case "EACCES":
 		console.error( `${hostPort} requires elevated privileges` );
-		process.exit( 1 );
+		if ( !process.exit( 1 ) )
+		{
+			console.log( "Cant Exit" );
+		}
+		break
 	case "EADDRINUSE":
 		console.error( `${hostPort} is already in use` );
-		process.exit( 1 );
+		if ( !process.exit( 1 ) )
+		{
+			console.log( "Cant Exit" );
+		}
+		break
 	default:
 		throw error;
 	}
 }
 
-function errorHandler ( err: any, req: express.Request, res: express.Response, next: express.NextFunction )
+function errorHandler ( err: CustomError, req: express.Request, res: express.Response, next: express.NextFunction )
 {
 	if ( res.headersSent )
 	{

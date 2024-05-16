@@ -81,5 +81,6 @@ interface SimpleError {
 }
 
 interface AnyError extends Error {
-	[x: string]: string
+	[x: string]: string;
+	[key: string]: string;
 }

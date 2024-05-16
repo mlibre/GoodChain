@@ -1,11 +1,11 @@
 import _ from "lodash";
 
-export const isEqualBlock = function ( block1: BlockData, block2: BlockData ): boolean
+export function isEqualBlock ( block1: BlockData, block2: BlockData ): boolean
 {
 	return _.isEqual( block1, block2 );
 }
 
-export const parseUrl = function ( url: string ): { host: string, port: string, protocol: string }
+export function parseUrl ( url: string ): { host: string, port: string, protocol: string }
 {
 	const urlObj = new URL( url );
 	const protocol = urlObj.protocol.replace( ":", "" );
@@ -14,12 +14,12 @@ export const parseUrl = function ( url: string ): { host: string, port: string, 
 	return { host, port, protocol };
 }
 
-export const toNum = function ( value: unknown ): number
+export function toNum ( value: unknown ): number
 {
 	return Number( value );
 }
 
-export const convertErrorToSimpleObj = function ( err: CustomError )
+export function convertErrorToSimpleObj ( err: CustomError )
 {
 	if ( err.isAxiosError )
 	{
