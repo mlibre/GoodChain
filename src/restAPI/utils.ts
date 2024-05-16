@@ -1,11 +1,11 @@
-const _ = require( "lodash" );
+import _ from "lodash";
 
-exports.isEqualBlock = function ( block1, block2 )
+export const isEqualBlock = function ( block1: BlockData, block2: BlockData ): boolean
 {
 	return _.isEqual( block1, block2 );
 }
 
-exports.parseUrl = function ( url )
+export const parseUrl = function ( url: string ): { host: string, port: string | number, protocol: string }
 {
 	const urlObj = new URL( url );
 	const protocol = urlObj.protocol.replace( ":", "" );
@@ -14,30 +14,19 @@ exports.parseUrl = function ( url )
 	return { host, port, protocol };
 }
 
-exports.toNum = function ( value )
+export const toNum = function ( value: unknown ): number
 {
-	if ( typeof value === "string" )
-	{
-		return Number( value );
-	}
-	else if ( typeof value === "number" )
-	{
-		return value;
-	}
-	else
-	{
-		return value;
-	}
+	return Number( value );
 }
 
-exports.convertErrorToSimpleObj = function convertErrorToSimpleObj ( err )
+export const convertErrorToSimpleObj = function ( err: CustomError )
 {
 	if ( err.isAxiosError )
 	{
 		delete err.config
 		delete err.request
 	}
-	const simpleErr = { };
+	const simpleErr: SimpleError = {};
 	if ( err.message )
 	{
 		simpleErr.message = err.message;
