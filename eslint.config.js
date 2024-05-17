@@ -16,7 +16,7 @@ export default tseslint.config(
 			globals: globals.node,
 			parserOptions: {
 				project: true,
-				tsconfigRootDir: import.meta.dirname,
+				tsconfigRootDir: import.meta.dirname
 			}
 		}
 	},
@@ -25,6 +25,14 @@ export default tseslint.config(
 			stylistic
 		},
 		rules: {
+			"stylistic/indent": [
+				"error",
+				"tab",
+				{
+					"MemberExpression": 0
+				}
+			],
+			"stylistic/no-tabs": 0,
 			"stylistic/brace-style": [ "error", "allman" ],
 			"stylistic/comma-style": [ "error" ],
 			"stylistic/array-bracket-spacing": [ "error", "always" ],
@@ -50,6 +58,15 @@ export default tseslint.config(
 			"stylistic/space-infix-ops": [ "error" ],
 			"stylistic/object-curly-spacing": [ "error", "always" ],
 			"stylistic/no-multi-spaces": [ "error" ],
+			"stylistic/operator-linebreak": [ "error", "after" ],
+			"stylistic/no-extra-parens": [
+				"error",
+				"all",
+				{
+					"conditionalAssign": false
+				}
+			],
+			"stylistic/comma-dangle": [ "error" ]
 		}
 	},
 	{
@@ -63,29 +80,22 @@ export default tseslint.config(
 			"@typescript-eslint/prefer-nullish-coalescing": "off",
 			"no-unused-vars": "warn",
 			"one-var": [ "error", "never" ],
-			"operator-linebreak": [ "error", "after" ],
 			"arrow-body-style": [ "error", "always" ],
 			"no-template-curly-in-string": [ "error" ],
 			"prefer-const": [
 				"error",
 				{
 					"destructuring": "any",
-					"ignoreReadBeforeAssign": false,
+					"ignoreReadBeforeAssign": false
 				}
 			],
 			"no-new-object": [ "error" ],
-			"no-extra-parens": [
-				"error",
-				"all",
-				{
-					"conditionalAssign": false,
-				}
-			],
+
 			"no-empty-function": [ "error" ],
 			"no-empty": [
 				"warn",
 				{
-					"allowEmptyCatch": true,
+					"allowEmptyCatch": true
 				}
 			],
 			"no-eq-null": [ "error" ],
@@ -98,15 +108,15 @@ export default tseslint.config(
 				"error", {
 					"VariableDeclarator": {
 						"array": true,
-						"object": true,
+						"object": true
 					},
 					"AssignmentExpression": {
 						"array": false,
-						"object": false,
+						"object": false
 					}
 				},
 				{
-					"enforceForRenamedProperties": false,
+					"enforceForRenamedProperties": false
 				}
 			],
 			"object-shorthand": [ "warn" ],
@@ -117,23 +127,11 @@ export default tseslint.config(
 			"no-new-func": [ "warn" ],
 			"no-unneeded-ternary": [ "warn" ],
 			"no-process-exit": "off",
-			"require-await": "warn",
-			"indent": [
-				"error",
-				"tab",
-				{
-					"MemberExpression": 0,
-				}
-			],
-			"no-tabs": 0,
-			"node/no-unpublished-import": "off",
-			"node/no-unpublished-require": "off",
-			"node/no-missing-import": "off",
-			"node/no-unsupported-features/es-syntax": "off",
+			"require-await": "warn"
 		}
 	},
 	{
 		files: [ "**/*.js" ],
 		extends: [ tseslint.configs.disableTypeChecked ]
-	},
+	}
 );
