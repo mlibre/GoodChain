@@ -1,0 +1,17 @@
+meta {
+  name: add
+  type: http
+  seq: 2
+}
+
+post {
+  url: http://{{host}}:{{port}}/nodes
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "url": "http://127.0.0.1:3002"
+  }
+}

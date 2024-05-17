@@ -3,7 +3,6 @@ tmp/
 package-lock.json
 
 # compiled output
-/dist
 **/node_modules
 
 # Logs
@@ -30,11 +29,3 @@ lerna-debug.log*
 *.launch
 .settings/
 *.sublime-workspace
-
-# IDE - VSCode
-.vscode/
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
