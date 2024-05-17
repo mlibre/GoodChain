@@ -37,14 +37,13 @@ sudo npm i -g typescript
 npm install
 
 # Generate Your miner keys for the first time
-node dist/test/generateKeys.js
+tsx src/test/generateKeys.ts
 
 # Mine the very first block
-node dist/test/init.js
-
-# You can also run TypeScript files directly using tsx
 tsx src/test/init.ts
 
+# You can also run Nodejs files directly
+node dist/test/init.js
 
 # Run the GoodChain node
 npm run dev
