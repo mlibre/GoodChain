@@ -1,37 +1,38 @@
-const express = require( "express" );
-const axios = require( "axios" );
+import express from "express";
+import axios from "axios";
+import blockchain from "../blockchain";
+import { toNum } from "../utils";
+
 const router = express.Router();
-const blockchain = require( "../blockchain" );
-const { toNum } = require( "../utils" );
 
 router.get( "/", function ( req, res )
 {
-	let { index, from, to, list } = req.query;
-	const { firstAndLast } = req.query
+	const { list } = req.query;
+	const { to, index, from, firstAndLast } = req.query;
 	if ( !index && !from && !to && !list && !firstAndLast )
 	{
 		res.json( blockchain.chain.latestBlock );
-		return
+		return;
 	}
 	else if ( index )
 	{
-		index = toNum( index )
-		res.json( blockchain.chain.get( index ) );
+		const blockIndex = toNum( index );
+		res.json( blockchain.chain.get( blockIndex ) );
 		return;
 	}
 	else if ( from || to )
 	{
-		from = toNum( from )
-		to = toNum( to )
-		const blocks = blockchain.getBlocks( from, to );
+		const blockFrom = toNum( from );
+		const blockTo = toNum( to );
+		const blocks = blockchain.getBlocks( blockFrom, blockTo );
 		res.json( blocks );
 		return;
 	}
 	else if ( list )
 	{
-		list = list.split( "," )
+		const blockList = list.split( "," );
 		const blocks = [];
-		for ( const blcokIndex of list )
+		for ( const blcokIndex of blockList )
 		{
 			blocks.push( blockchain.getBlock( blcokIndex ) );
 		}
@@ -40,7 +41,7 @@ router.get( "/", function ( req, res )
 	}
 	else if ( firstAndLast )
 	{
-		const blocks = []
+		const blocks = [];
 		blocks.push( blockchain.getBlock( 0 ) );
 		blocks.push( blockchain.chain.latestBlock );
 		res.json( blocks );
@@ -68,6 +69,6 @@ router.get( "/broadcast", async function ( req, res )
 		}
 	}
 	res.send( "Broadcasted to all nodes" );
-})
+});
 
-module.exports = router;
+export default router;

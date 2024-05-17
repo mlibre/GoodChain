@@ -7,12 +7,12 @@ import { convertErrorToSimpleObj } from "./utils.js";
 
 import "./blockchain.js";
 
-import chainRouter from "./routes/chain";
-import blockRouter from "./routes/block";
-import walletRouter from "./routes/wallet";
-import transactionRouter from "./routes/transaction";
-import mineRouter from "./routes/mine";
-import nodeRouter from "./routes/node";
+import chainRouter from "./routes/chain.js";
+import blockRouter from "./routes/block.js";
+import walletRouter from "./routes/wallet.js";
+import transactionRouter from "./routes/transaction.js";
+import mineRouter from "./routes/mine.js";
+import nodeRouter from "./routes/node.js";
 import { AddressInfo } from "net";
 
 const app = express();

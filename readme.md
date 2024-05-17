@@ -44,7 +44,7 @@ npm run dev
 
 ### Running REST API 🌐
 
-This command will start the `RESTful API` server for the GoodChain project
+Start the `RESTful API` server:
 
 ```bash
 npm start -- --host "http://localhost:3000" --nodes "http://localhost:3001" --dbPath "./assets/db/" --minerKeysFile "./keys/miner.json" --name "GoodChain"
