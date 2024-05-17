@@ -55,14 +55,14 @@ function onError ( error: AnyError )
 		{
 			console.log( "Cant Exit" );
 		}
-		break
+		break;
 	case "EADDRINUSE":
 		console.error( `${hostPort} is already in use` );
 		if ( !process.exit( 1 ) )
 		{
 			console.log( "Cant Exit" );
 		}
-		break
+		break;
 	default:
 		throw error;
 	}
