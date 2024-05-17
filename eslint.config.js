@@ -7,7 +7,9 @@ import globals from "globals";
 import tseslint from "typescript-eslint";
 import stylistic from "@stylistic/eslint-plugin";
 
-export default tseslint.config(
+
+/** @type {import('@typescript-eslint/utils').TSESLint.FlatConfig.ConfigFile} */
+export default [
 	eslint.configs.recommended,
 	...tseslint.configs.strict,
 	...tseslint.configs.stylisticTypeChecked,
@@ -134,4 +136,4 @@ export default tseslint.config(
 		files: [ "**/*.js" ],
 		extends: [ tseslint.configs.disableTypeChecked ]
 	}
-);
+];
