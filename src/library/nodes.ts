@@ -1,4 +1,4 @@
-import * as _ from "lodash";
+import _ from "lodash";
 import { initJsonFile, makeFilePath, updateFile } from "./utils.js";
 
 export default class Nodes

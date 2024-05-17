@@ -1,6 +1,6 @@
-import Blockchain from "../library/main";
-import Consensus from "../library/pow-consensus";
-import Transaction from "../library/transactions";
+import Blockchain from "../library/main.js";
+import Consensus from "../library/pow-consensus.js";
+import Transaction from "../library/transactions.js";
 
 import { createKeyPair, deleteFile, deleteFolder, initJsonFile } from "../library/utils.js";
 

@@ -23,9 +23,10 @@ To embark on your `GoodChain` adventure, simply clone the repository and install
 git clone https://github.com/mlibre/GoodChain.git
 cd GoodChain
 
-# Optional: install the TypeScript, tsx, TSNode and Eslint
+# Optional: install the TypeScript, tsx, TSNode, nodemon and Eslint
 
 sudo npm i eslint@latest -g
+sudo npm install -g nodemon
 sudo npm install -g ts-node
 npm i ts-node
 sudo npm install -g tsx
@@ -36,11 +37,17 @@ sudo npm i -g typescript
 npm install
 
 # Generate Your miner keys for the first time
-node test/generateKeys.js
+node dist/test/generateKeys.js
 
-# Want to dive deeper into the blockchain mechanics? Use the Blockchain class directly for a hands-on experience
+# Mine the very first block
 node dist/test/init.js
-node --loader ts-node/esm src/test/init.ts 
+
+# You can also run TypeScript files directly using tsx
+tsx src/test/init.ts
+
+
+# Run the GoodChain node
+npm run dev
 ```
 
 ## REST API

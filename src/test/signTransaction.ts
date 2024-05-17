@@ -1,5 +1,5 @@
-import Transaction from "../library/transactions";
-import { initJsonFile, createKeyPair } from "../library/utils";
+import Transaction from "../library/transactions.js";
+import { initJsonFile, createKeyPair } from "../library/utils.js";
 
 const minerKeys = initJsonFile( "./keys/miner.json", createKeyPair() );
 const userKeys = initJsonFile( "./keys/user.json", createKeyPair() );

@@ -8,13 +8,14 @@
     "node": ">=20"
   },
   "scripts": {
+    "start": "tsx ./src/restAPI/app.ts",
+    "3000": "tsx ./src/restAPI/app.ts --host 'http://127.0.0.1:3000' --nodes 'http://127.0.0.1:3001' --dbPath './assets/db/' --minerKeysFile './assets/keys/miner.json' --name 'GoodChain'",
+    "3001": "tsx ./src/restAPI/app.ts --host 'http://127.0.0.1:3001' --nodes 'http://127.0.0.1:3000' --dbPath './assets/db/' --minerKeysFile './assets/keys/miner.json' --name 'GoodChain'",
+    "3002": "tsx ./src/restAPI/app.ts --host 'http://127.0.0.1:3002' --nodes 'http://127.0.0.1:3000' --dbPath './assets/db/' --minerKeysFile './assets/keys/miner.json' --name 'GoodChain'",
     "build": "tsc",
     "buildw": "tsc --watch",
     "dev": "nodemon ./src/restAPI/app.ts",
-    "start": "node ./dist/restAPI/app.js",
-    "3000": "tsx ./src/restAPI/app.ts --host 'http://127.0.0.1:3000' --nodes 'http://127.0.0.1:3001' --dbPath './assets/db/' --minerKeysFile './assets/keys/miner.json' --name 'GoodChain'",
-    "3001": "tsx ./src/restAPI/app.ts --host 'http://127.0.0.1:3001' --nodes 'http://127.0.0.1:3000' --dbPath './assets/db/' --minerKeysFile './assets/keys/miner.json' --name 'GoodChain'",
-    "3002": "tsx ./src/restAPI/app.ts --host 'http://127.0.0.1:3002' --nodes 'http://127.0.0.1:3000' --dbPath './assets/db/' --minerKeysFile './assets/keys/miner.json' --name 'GoodChain'"
+    "startjs": "node ./src/restAPI/app.js"
   },
   "author": "mlibre",
   "license": "GPL-3.0-only",
@@ -39,9 +40,23 @@
     "@types/uuid": "^9.0.8",
     "eslint": "^8.57.0",
     "globals": "^15.2.0",
+    "nodemon": "^3.1.0",
     "ts-node": "^10.9.2",
     "tsx": "^4.10.2",
     "typescript": "^5.4.5",
     "typescript-eslint": "^7.8.0"
+  },
+  "nodemonConfig": {
+    "watch": [
+      "src"
+    ],
+    "execMap": {
+      "ts": "tsx",
+      "tsx": "tsx"
+    },
+    "events": {
+      "restart": "tsc",
+      "start": "tsc"
+    }
   }
 }
