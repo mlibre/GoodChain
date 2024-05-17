@@ -71,7 +71,7 @@ router.get( "/broadcast", async function ( req, res )
 			}
 			else
 			{
-				console.error( `Error broadcasting to node ${node}` );
+				console.error( `Error broadcasting to node ${node}`, error );
 			}
 		}
 	}

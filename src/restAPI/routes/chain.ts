@@ -1,8 +1,8 @@
-const express = require( "express" );
+import express from "express";
 const router = express.Router();
-const blockchain = require( "../blockchain" );
-const axios = require( "axios" );
-const { isEqualBlock } = require( "../utils" )
+import blockchain from "../blockchain.js";
+import axios from "axios";
+import { isEqualBlock, axiosErrorHandling } from "../utils.js";
 
 router.get( "/", function ( req, res )
 {
@@ -11,8 +11,8 @@ router.get( "/", function ( req, res )
 
 router.post( "/update", async function ( req, res )
 {
-	let chosenBlock = true
-	while ( chosenBlock )
+	let continueUpdate = true;
+	while ( continueUpdate )
 	{
 		const currentIndex = blockchain.chain.latestBlock.index;
 		const nodesLatestBlocks = [];
@@ -30,14 +30,18 @@ router.post( "/update", async function ( req, res )
 			}
 			catch ( error )
 			{
-				console.error( `Error fetching data from node ${node}:`, error.code, error.message, error?.response?.data );
+				axiosErrorHandling( error, node );
 			}
 		}
 
-		chosenBlock = blockchain.consensus.chooseBlock( nodesLatestBlocks );
-		if ( chosenBlock )
+		const chosenBlockResult = blockchain.consensus.chooseBlock( nodesLatestBlocks );
+		if ( chosenBlockResult )
 		{
-			blockchain.addBlock( chosenBlock );
+			blockchain.addBlock( chosenBlockResult );
+		}
+		else
+		{
+			continueUpdate = false;
 		}
 	}
 	res.send( blockchain.chain.latestBlock );
@@ -51,8 +55,13 @@ router.put( "/sync", async function ( req, res )
 	{
 		try
 		{
-			const [ firstBlock, lastBlock ] = ( await axios.get( `${node}/block`, { params: { firstAndLast: true } }) ).data;
-			if ( isEqualBlock( firstBlock, blockchain.chain.genesisBlock ) && !isEqualBlock( myLastestBlock, lastBlock ) )
+			const [ firstBlock, lastBlock ] = (
+				await axios.get( `${node}/block`, { params: { firstAndLast: true } })
+			).data;
+			if (
+				isEqualBlock( firstBlock, blockchain.chain.genesisBlock ) &&
+				!isEqualBlock( myLastestBlock, lastBlock )
+			)
 			{
 				otherNodesLastestBlocks.push({ block: lastBlock, node });
 			}
@@ -62,13 +71,17 @@ router.put( "/sync", async function ( req, res )
 			console.error( `Error fetching data from node ${node}:`, error );
 		}
 	}
-	const allNodesLastBlocks = [ ...otherNodesLastestBlocks, { block: blockchain.chain.latestBlock, node: blockchain.nodes.hostUrl } ];
+	const allNodesLastBlocks = [
+		...otherNodesLastestBlocks,
+		{ block: blockchain.chain.latestBlock, node: blockchain.nodes.hostUrl }
+	];
 	const chosenNodeBlock = blockchain.consensus.chooseChain( allNodesLastBlocks );
-	const chosenChain = await axios.get( `${chosenNodeBlock.node}/chain` );
-	blockchain.replaceChain( chosenChain.data );
+	if ( chosenNodeBlock )
+	{
+		const chosenChain = await axios.get( `${chosenNodeBlock.node}/chain` );
+		blockchain.replaceChain( chosenChain.data );
+	}
 	res.send( "ok" );
 });
 
-
-
-module.exports = router;
+export default router;

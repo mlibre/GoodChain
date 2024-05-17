@@ -10,7 +10,7 @@ import ConsensusClass from "./pow-consensus.js";
 
 export default class Blockchain
 {
-	private consensus: ConsensusClass;
+	public consensus: ConsensusClass;
 	private chainName: string;
 	private minerKeys: { publicKey: string };
 	private db: Database;

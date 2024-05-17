@@ -10,8 +10,8 @@ export default class pow
 	constructor ()
 	{
 		this.name = "pow";
-		this.difficulty = "000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
-		this.minDifficulty = "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+		this.difficulty = "000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff";
+		this.minDifficulty = "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff";
 	}
 
 	setValues ( block: BlockData )
@@ -92,7 +92,7 @@ export default class pow
 		}
 	}
 
-	chooseBlock ( blocks: BlockData[] )
+	chooseBlock ( blocks: BlockData[] ): BlockData | undefined
 	{
 		return _.maxBy( blocks, ( block ) =>
 		{
@@ -101,7 +101,7 @@ export default class pow
 		});
 	}
 
-	chooseChain ( nodesBlocks: nodesBlocks[] )
+	chooseChain ( nodesBlocks: nodesBlocks[] ): nodesBlocks | undefined
 	{
 		return _.maxBy( nodesBlocks, ( nodeBlock ) =>
 		{

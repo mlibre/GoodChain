@@ -1,3 +1,4 @@
+import { AxiosError } from "axios";
 import _ from "lodash";
 
 export function isEqualBlock ( block1: BlockData, block2: BlockData ): boolean
@@ -23,8 +24,8 @@ export function convertErrorToSimpleObj ( err: CustomError )
 {
 	if ( err.isAxiosError )
 	{
-		delete err.config
-		delete err.request
+		delete err.config;
+		delete err.request;
 	}
 	const simpleErr: SimpleError = {};
 	if ( err.message )
@@ -47,4 +48,21 @@ export function convertErrorToSimpleObj ( err: CustomError )
 		}
 	}
 	return simpleErr;
+}
+
+export function axiosErrorHandling ( error: unknown, data?: string )
+{
+	if ( error instanceof AxiosError )
+	{
+		console.error(
+			`Error fetching data from node ${data}:`,
+			error.code,
+			error.message,
+			error?.response?.data
+		);
+	}
+	else
+	{
+		console.error( "Error:", error );
+	}
 }

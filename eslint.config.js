@@ -80,6 +80,7 @@ export default [
 				}
 			],
 			"@typescript-eslint/prefer-nullish-coalescing": "off",
+			"curly": [ "error", "multi-line" ],
 			"no-unused-vars": "warn",
 			"one-var": [ "error", "never" ],
 			"arrow-body-style": [ "error", "always" ],
