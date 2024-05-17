@@ -32,9 +32,10 @@ export default class ChainStore
 		return blocks;
 	}
 
-	get ( blockNumber: number ): BlockData
+	get ( blockNumber: number | string ): BlockData
 	{
-		if ( blockNumber >= this.length || blockNumber < 0 )
+		const blockIndex = parseInt( blockNumber.toString() );
+		if ( blockIndex >= this.length || blockIndex < 0 )
 		{
 			throw new Error( "Invalid block number" );
 		}

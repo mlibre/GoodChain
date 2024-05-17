@@ -5,7 +5,7 @@
 import eslint from "@eslint/js";
 import globals from "globals";
 import tseslint from "typescript-eslint";
-
+import stylistic from "@stylistic/eslint-plugin";
 
 export default tseslint.config(
 	eslint.configs.recommended,
@@ -16,8 +16,24 @@ export default tseslint.config(
 			globals: globals.node,
 			parserOptions: {
 				project: true,
-				tsconfigRootDir: import.meta.dirname
+				tsconfigRootDir: import.meta.dirname,
 			}
+		}
+	},
+	{
+		plugins: {
+			stylistic
+		},
+		rules: {
+			"stylistic/brace-style": [ "error", "allman" ],
+			"stylistic/array-bracket-spacing": [ "error", "always" ],
+			"stylistic/space-before-blocks": [ "warn" ],
+			"stylistic/comma-spacing": [ "error" ],
+			"stylistic/function-call-spacing": [ "error", "never" ],
+			"stylistic/quotes": [ "error", "double" ],
+			"stylistic/semi": "error",
+			"stylistic/no-trailing-spaces": "error",
+			"stylistic/linebreak-style": [ "error", "unix" ],
 		}
 	},
 	{
@@ -30,24 +46,16 @@ export default tseslint.config(
 			],
 			"@typescript-eslint/prefer-nullish-coalescing": "off",
 			"no-unused-vars": "warn",
-			"no-trailing-spaces": "error",
-			"linebreak-style": [ "error", "unix" ],
-			"quotes": [ "error", "double" ],
 			"one-var": [ "error", "never" ],
-			"brace-style": [ "error", "allman", { "allowSingleLine": true } ],
-			"space-before-blocks": [ "warn" ],
-			"func-call-spacing": [ "error", "never" ],
 			"space-before-function-paren": [ "error", "always" ],
-			"space-in-parens": [ "error", "always", { "exceptions": [ "{}" ] } ],
+			"space-in-parens": [ "error", "always", { exceptions: [ "{}" ] } ],
 			"keyword-spacing": [ "error" ],
-			"comma-spacing": [ "error" ],
 			"space-unary-ops": [ "error" ],
 			"block-spacing": [ "error" ],
 			"arrow-spacing": [ "error" ],
 			"key-spacing": [ "error" ],
 			"comma-style": [ "error" ],
 			"space-infix-ops": [ "error" ],
-			"array-bracket-spacing": [ "error", "always" ],
 			"object-curly-spacing": [ "error", "always" ],
 			"no-multi-spaces": [ "error" ],
 			"operator-linebreak": [ "error", "after" ],
@@ -62,7 +70,7 @@ export default tseslint.config(
 				"error",
 				{
 					"destructuring": "any",
-					"ignoreReadBeforeAssign": false
+					"ignoreReadBeforeAssign": false,
 				}
 			],
 			"no-new-object": [ "error" ],
@@ -70,14 +78,14 @@ export default tseslint.config(
 				"error",
 				"all",
 				{
-					"conditionalAssign": false
+					"conditionalAssign": false,
 				}
 			],
 			"no-empty-function": [ "error" ],
 			"no-empty": [
 				"warn",
 				{
-					"allowEmptyCatch": true
+					"allowEmptyCatch": true,
 				}
 			],
 			"no-eq-null": [ "error" ],
@@ -90,15 +98,15 @@ export default tseslint.config(
 				"error", {
 					"VariableDeclarator": {
 						"array": true,
-						"object": true
+						"object": true,
 					},
 					"AssignmentExpression": {
 						"array": false,
-						"object": false
+						"object": false,
 					}
 				},
 				{
-					"enforceForRenamedProperties": false
+					"enforceForRenamedProperties": false,
 				}
 			],
 			"object-shorthand": [ "warn" ],
@@ -114,14 +122,14 @@ export default tseslint.config(
 				"error",
 				"tab",
 				{
-					"MemberExpression": 0
+					"MemberExpression": 0,
 				}
 			],
 			"no-tabs": 0,
 			"node/no-unpublished-import": "off",
 			"node/no-unpublished-require": "off",
 			"node/no-missing-import": "off",
-			"node/no-unsupported-features/es-syntax": "off"
+			"node/no-unsupported-features/es-syntax": "off",
 		}
 	},
 	{

@@ -23,17 +23,17 @@ router.get("/", function (req, res) {
         return;
     }
     else if (list) {
-        const blockList = list.split(",");
+        const blockList = list.toString().split(",");
         const blocks = [];
         for (const blcokIndex of blockList) {
-            blocks.push(blockchain.getBlock(blcokIndex));
+            blocks.push(blockchain.chain.get(blcokIndex));
         }
         res.json(blocks);
         return;
     }
     else if (firstAndLast) {
         const blocks = [];
-        blocks.push(blockchain.getBlock(0));
+        blocks.push(blockchain.chain.get(0));
         blocks.push(blockchain.chain.latestBlock);
         res.json(blocks);
         return;

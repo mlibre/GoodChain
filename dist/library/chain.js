@@ -23,7 +23,8 @@ export default class ChainStore {
         return blocks;
     }
     get(blockNumber) {
-        if (blockNumber >= this.length || blockNumber < 0) {
+        const blockIndex = parseInt(blockNumber.toString());
+        if (blockIndex >= this.length || blockIndex < 0) {
             throw new Error("Invalid block number");
         }
         return JSON.parse(fs.readFileSync(`${this.blockFilePath(blockNumber)}.json`, "utf8"));

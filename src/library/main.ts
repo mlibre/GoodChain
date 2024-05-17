@@ -6,7 +6,7 @@ import Nodes from "./nodes.js";
 import Transaction from "./transactions.js";
 import { calculateMiningFee, hashDataObject } from "./utils.js";
 import Wallet from "./wallet.js";
-import ConsensusClass from "./pow-consensus.js"
+import ConsensusClass from "./pow-consensus.js";
 
 export default class Blockchain
 {
@@ -16,7 +16,7 @@ export default class Blockchain
 	private db: Database;
 	public chain: ChainStore;
 	public wallet: Wallet;
-	private nodes: Nodes;
+	public nodes: Nodes;
 	private transactionPool: TransactionData[];
 	private transactionPoolSize: number;
 	private miningReward: number;
@@ -151,7 +151,10 @@ export default class Blockchain
 		this.isTransactionDuplicate( trx.data );
 
 		this.transactionPool.push( trx.data );
-		this.transactionPool.sort( ( a, b ) => { return b.fee - a.fee });
+		this.transactionPool.sort( ( a, b ) =>
+		{
+			return b.fee - a.fee;
+		});
 		return this.chain.length;
 	}
 

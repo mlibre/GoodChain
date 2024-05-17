@@ -30,11 +30,11 @@ router.get( "/", function ( req, res )
 	}
 	else if ( list )
 	{
-		const blockList = list.split( "," );
+		const blockList = list.toString().split( "," );
 		const blocks = [];
 		for ( const blcokIndex of blockList )
 		{
-			blocks.push( blockchain.getBlock( blcokIndex ) );
+			blocks.push( blockchain.chain.get( blcokIndex ) );
 		}
 		res.json( blocks );
 		return;
@@ -42,7 +42,7 @@ router.get( "/", function ( req, res )
 	else if ( firstAndLast )
 	{
 		const blocks = [];
-		blocks.push( blockchain.getBlock( 0 ) );
+		blocks.push( blockchain.chain.get( 0 ) );
 		blocks.push( blockchain.chain.latestBlock );
 		res.json( blocks );
 		return;
@@ -65,7 +65,14 @@ router.get( "/broadcast", async function ( req, res )
 		}
 		catch ( error )
 		{
-			console.error( `Error broadcasting to node ${node}:`, error.message );
+			if ( error instanceof Error )
+			{
+				console.error( `Error broadcasting to node ${node}:`, error.message );
+			}
+			else
+			{
+				console.error( `Error broadcasting to node ${node}` );
+			}
 		}
 	}
 	res.send( "Broadcasted to all nodes" );
