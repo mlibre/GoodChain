@@ -1,10 +1,8 @@
 # GoodChain
 
-Welcome to **GoodChain**  where blockchain meets simplicity and flexibility!  
-Whether you're a seasoned developer or just starting to explore the world of blockchain technology, **GoodChain** is here to make your journey exciting and rewarding.  
+Welcome to **GoodChain**, a blockchain platform designed for both beginners and experienced, seeking simplicity and flexibility. Built with `TypeScript` and `LevelDB`, GoodChain offers a customizable environment for experimenting with consensus algorithms, including a default Simple **Proof-of-Work (PoW)** option.
 
 **GoodChain** is a distributed ledger that enables secure and irreversible transactions across a peer-to-peer distributed network of nodes, ensuring the integrity of data.  
-**GoodChain** It is written in `TypeScript` and uses `LevelDB` as its database. It adaptable infrastructure allows you to experiment with various `consensus` algorithms or use a default **Simple Proof-of-Work (PoW)** implementation.
 
 ## Key Features 🚀
 
@@ -23,16 +21,9 @@ To embark on your `GoodChain` adventure, simply clone the repository and install
 git clone https://github.com/mlibre/GoodChain.git
 cd GoodChain
 
-# Optional: install the TypeScript, tsx, TSNode, nodemon and Eslint
+# install TypeScript, tsx, nodemon and Eslint
 
-sudo npm i eslint@latest -g
-sudo npm install -g nodemon
-sudo npm install -g ts-node
-npm i ts-node
-sudo npm install -g tsx
-npm i tsx
-sudo npm i -g typescript
-
+sudo npm install -g nodemon tsx typescript eslint
 # Install dependencies
 npm install
 
@@ -42,7 +33,7 @@ tsx src/test/generateKeys.ts
 # Mine the very first block
 tsx src/test/init.ts
 
-# You can also run Nodejs files directly
+# You may also run Nodejs files directly
 node dist/test/init.js
 
 # Run the GoodChain node

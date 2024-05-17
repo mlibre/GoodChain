@@ -1,8 +1,8 @@
 import Transaction from "../library/transactions.js";
-import { initJsonFile, createKeyPair } from "../library/utils.js";
+import { initJsonFile } from "../library/utils.js";
 
-const minerKeys = initJsonFile( "./keys/miner.json", createKeyPair() );
-const userKeys = initJsonFile( "./keys/user.json", createKeyPair() );
+const minerKeys = initJsonFile( "./assets/keys/miner.json" );
+const userKeys = initJsonFile( "./assets/keys/user.json" );
 
 const trx = new Transaction({
 	from: minerKeys.publicKey,
