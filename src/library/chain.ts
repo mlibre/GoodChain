@@ -1,6 +1,6 @@
-import * as fs from "fs";
-import * as _ from "lodash";
-import * as path from "path";
+import fs from "fs";
+import _ from "lodash";
+import path from "path";
 import * as Block from "./block.js";
 import { createFolder, makeFilePath } from "./utils.js";
 
@@ -62,7 +62,7 @@ export default class ChainStore
 	{
 		const files = fs.readdirSync( this.folderPath );
 		const lastFile = files.sort().pop();
-		if ( !files.length || !lastFile )
+		if ( !lastFile )
 		{
 			throw new Error( "No blocks found" );
 		}
@@ -128,7 +128,14 @@ export default class ChainStore
 		}
 		for ( let i = 0; i < this.length; i++ )
 		{
-			Block.verifyBlock( this.get( i ), this.get( i - 1 ) );
+			if ( i === 0 )
+			{
+				Block.verifyGenesis( this.get( i ) );
+			}
+			else
+			{
+				Block.verifyBlock( this.get( i ), this.get( i - 1 ) );
+			}
 		}
 		return true;
 	}

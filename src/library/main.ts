@@ -1,5 +1,5 @@
 import _ from "lodash";
-import { verifyBlock, blockify } from "./block.js";
+import { verifyBlock, verifyGenesis, blockify } from "./block.js";
 import ChainStore from "./chain.js";
 import Database from "./db-git.js";
 import Nodes from "./nodes.js";
@@ -129,8 +129,16 @@ export default class Blockchain
 
 	verifyCondidateBlock ( block: BlockData )
 	{
-		verifyBlock( block, this.chain.latestBlock );
-		this.consensus.validate( block, this.chain.latestBlock );
+		if ( block.index == 0 )
+		{
+			verifyGenesis( block );
+			this.consensus.validateGenesis( block );
+		}
+		else
+		{
+			verifyBlock( block, this.chain.latestBlock );
+			this.consensus.validate( block, this.chain.latestBlock );
+		}
 		return true;
 	}
 

@@ -79,16 +79,24 @@ export default class pow
 		{
 			throw new Error( "Invalid hash" );
 		}
-		if ( block.index !== 0 )
+
+		if ( block.consensusName !== previousBlock.consensusName )
 		{
-			if ( block.consensusName !== previousBlock.consensusName )
-			{
-				throw new Error( "Invalid consensus name" );
-			}
-			if ( block.consensusDifficulty !== previousBlock.consensusDifficulty )
-			{
-				throw new Error( "Invalid difficulty" );
-			}
+			throw new Error( "Invalid consensus name" );
+		}
+		if ( block.consensusDifficulty !== previousBlock.consensusDifficulty )
+		{
+			throw new Error( "Invalid difficulty" );
+		}
+	}
+
+	validateGenesis ( block: BlockData )
+	{
+		const pureObject = _.omit( block, [ "consensusHash", "hash" ] );
+		const hash = hashDataObject( pureObject );
+		if ( block.consensusHash.toString().localeCompare( hash ) !== 0 )
+		{
+			throw new Error( "Invalid hash" );
 		}
 	}
 

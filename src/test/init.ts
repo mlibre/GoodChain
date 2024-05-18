@@ -14,11 +14,11 @@ const blockchain = new Blockchain({
 	dbPath: "./assets/db/",
 	nodes: {
 		list: [ "http://127.0.0.1:3001" ],
-		hostUrl: "http://127.0.0.1:3000",
+		hostUrl: "http://127.0.0.1:3000"
 	},
 	chainName: "GoodChain",
 	minerKeys,
-	consensus: new Consensus(),
+	consensus: new Consensus()
 });
 blockchain.mineNewBlock();
 
@@ -27,7 +27,7 @@ const trx = new Transaction({
 	to: userKeys.publicKey,
 	amount: 50,
 	fee: 0,
-	transaction_number: 1,
+	transaction_number: 1
 });
 trx.sign( minerKeys.privateKey );
 
@@ -40,7 +40,7 @@ const trx2 = new Transaction({
 	to: "user3",
 	amount: 5,
 	fee: 0.3,
-	transaction_number: 1,
+	transaction_number: 1
 });
 trx2.sign( userKeys.privateKey );
 

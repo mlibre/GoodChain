@@ -19,7 +19,7 @@ export default class Transaction
 		this.fee = fee;
 		this.transaction_number = transaction_number;
 		this.signature = signature;
-		this.id = id || generateUuid()
+		this.id = id || generateUuid();
 	}
 
 	get data (): TransactionData
@@ -44,7 +44,7 @@ export default class Transaction
 			fee: this.fee,
 			transaction_number: this.transaction_number,
 			id: this.id
-		}
+		};
 	}
 
 	validate (): boolean
@@ -83,12 +83,12 @@ export default class Transaction
 	sign ( privateKey: Buffer ): string
 	{
 		const signature = crypto.sign( null, Buffer.from( JSON.stringify( this.dataWithoutSignature ) ), privateKey );
-		this.signature = signature.toString( "hex" )
+		this.signature = signature.toString( "hex" );
 		return this.signature;
 	}
 
 	isCoinBase (): boolean
 	{
-		return this.from !== null;
+		return this.from === null;
 	}
 }
