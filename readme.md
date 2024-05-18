@@ -47,7 +47,9 @@ npm run dev
 Start the `RESTful API` server:
 
 ```bash
-npm start -- --host "http://localhost:3000" --nodes "http://localhost:3001" --dbPath "./assets/db/" --minerKeysFile "./keys/miner.json" --name "GoodChain"
+npm run dev
+# OR
+npm start -- --host "http://localhost:3000" --nodes "http://localhost:3001" --dbPath "./assets/db/" --minerKeysFile "./assets/keys/miner.json" --name "GoodChain"
 ```
 
 ### Running Multiple REST Nodes 🌟
@@ -91,19 +93,22 @@ Each node will have its own blockchain data, wallets, and nodes list, but they c
 
 ## Support and Resources 🤝
 
-Check out the **Bruno collection** in the `useful-assets` folder for a quick start with API requests.
+Check out the **Bruno collection** in the `assets` folder for a quick start with API requests.
 
 ## License 📜
 
-This project is licensed under the `GPL` License
+This project is licensed under the GNU General Public License
 
 ## Version 1
 
-The first version of `GoodChain` was built in 2024. It was a simple blockchain implementation that was used to learn about the blockchain technology. It was simply using `json` files to store the blockchain data. You can check out the [realases](https://github.com/mlibre/GoodChain/releases/tag/1.0.5) to see the code.
+The first version of `GoodChain`. It was a simple blockchain implementation that was used to learn about the blockchain technology. It was simply using `json` files to store the blockchain data. You can check out the [realases](https://github.com/mlibre/GoodChain/releases/tag/1.0.5) to see the code.
 
 ## Version 2 (latest version)
 
 The second version of `GoodChain` is the successor to the first version. It was built using `Node.js` and `Express.js`, and uses `git` to store the blockchain data.
+
+## Version 3 (in progress)
+The third version of `GoodChain` is the successor to the second version. It was built using `TypeScript`, `Express.js`, and `TypeORM`.
 
 ## Donate 💖
 
