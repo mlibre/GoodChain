@@ -68,7 +68,7 @@ export default class Transaction {
         return this.signature;
     }
     isCoinBase() {
-        return this.from !== null;
+        return this.from === null;
     }
 }
 //# sourceMappingURL=transactions.js.map

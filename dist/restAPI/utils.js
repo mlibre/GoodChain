@@ -1,3 +1,4 @@
+import { AxiosError } from "axios";
 import _ from "lodash";
 export function isEqualBlock(block1, block2) {
     return _.isEqual(block1, block2);
@@ -33,5 +34,13 @@ export function convertErrorToSimpleObj(err) {
         }
     }
     return simpleErr;
+}
+export function axiosErrorHandling(error, data) {
+    if (error instanceof AxiosError) {
+        console.error(`Error fetching data from node ${data}:`, error.code, error.message, error?.response?.data);
+    }
+    else {
+        console.error("Error:", error);
+    }
 }
 //# sourceMappingURL=utils.js.map

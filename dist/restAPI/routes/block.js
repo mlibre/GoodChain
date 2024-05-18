@@ -49,7 +49,12 @@ router.get("/broadcast", async function (req, res) {
             await axios.post(`${node}/block`, blockchain.chain.latestBlock);
         }
         catch (error) {
-            console.error(`Error broadcasting to node ${node}:`, error.message);
+            if (error instanceof Error) {
+                console.error(`Error broadcasting to node ${node}:`, error.message);
+            }
+            else {
+                console.error(`Error broadcasting to node ${node}`, error);
+            }
         }
     }
     res.send("Broadcasted to all nodes");

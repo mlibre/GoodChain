@@ -1,5 +1,5 @@
 import _ from "lodash";
-import { verifyBlock, blockify } from "./block.js";
+import { verifyBlock, verifyGenesis, blockify } from "./block.js";
 import ChainStore from "./chain.js";
 import Database from "./db-git.js";
 import Nodes from "./nodes.js";
@@ -104,8 +104,14 @@ export default class Blockchain {
         return this.chain.getRange(from, to);
     }
     verifyCondidateBlock(block) {
-        verifyBlock(block, this.chain.latestBlock);
-        this.consensus.validate(block, this.chain.latestBlock);
+        if (block.index == 0) {
+            verifyGenesis(block);
+            this.consensus.validateGenesis(block);
+        }
+        else {
+            verifyBlock(block, this.chain.latestBlock);
+            this.consensus.validate(block, this.chain.latestBlock);
+        }
         return true;
     }
     addTransaction(transaction) {
@@ -119,7 +125,9 @@ export default class Blockchain {
         trx.validate();
         this.isTransactionDuplicate(trx.data);
         this.transactionPool.push(trx.data);
-        this.transactionPool.sort((a, b) => { return b.fee - a.fee; });
+        this.transactionPool.sort((a, b) => {
+            return b.fee - a.fee;
+        });
         return this.chain.length;
     }
     addTransactions(transactions) {
