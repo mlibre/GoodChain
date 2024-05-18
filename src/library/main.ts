@@ -17,7 +17,7 @@ export default class Blockchain
 	public chain: ChainStore;
 	public wallet: Wallet;
 	public nodes: Nodes;
-	private transactionPool: TransactionData[];
+	public transactionPool: TransactionData[];
 	private transactionPoolSize: number;
 	private miningReward: number;
 

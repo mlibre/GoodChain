@@ -1,8 +1,8 @@
-const express = require( "express" );
+import express from "express";
 const router = express.Router();
-const blockchain = require( "../blockchain" );
-const Transaction = require( "../../library/transactions" )
-const axios = require( "axios" );
+import blockchain from "../blockchain";
+import Transaction from "../../library/transactions";
+import axios from "axios";
 
 router.get( "/", function ( req, res )
 {
@@ -27,7 +27,7 @@ router.get( "/update", async function ( req, res )
 	}
 	catch ( error )
 	{
-		console.log( error )
+		console.log( error );
 	}
 	res.json( blockchain.transactionPool );
 });
@@ -39,4 +39,4 @@ router.post( "/sign", function ( req, res )
 	res.send( transaction.data );
 });
 
-module.exports = router;
+export default router;

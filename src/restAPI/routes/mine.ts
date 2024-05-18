@@ -1,6 +1,6 @@
-const express = require( "express" );
+import express from "express";
 const router = express.Router();
-const blockchain = require( "../blockchain" );
+import blockchain from "../blockchain";
 
 router.get( "/", function ( req, res )
 {
@@ -8,4 +8,4 @@ router.get( "/", function ( req, res )
 	res.send( block );
 });
 
-module.exports = router;
+export default router;

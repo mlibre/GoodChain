@@ -1,7 +1,7 @@
-const express = require( "express" );
+import express from "express";
 const router = express.Router();
-const blockchain = require( "../blockchain" );
-const axios = require( "axios" );
+import blockchain from "../blockchain";
+import axios from "axios";
 
 router.get( "/", function ( req, res )
 {
@@ -10,10 +10,9 @@ router.get( "/", function ( req, res )
 
 router.post( "/", function ( req, res )
 {
-	const result = blockchain.addNode( req.body.url )
+	const result = blockchain.addNode( req.body.url );
 	res.send( result );
 });
-
 
 router.post( "/update", async function ( req, res )
 {
@@ -26,7 +25,14 @@ router.post( "/update", async function ( req, res )
 		}
 		catch ( error )
 		{
-			console.error( `Error fetching data from node ${node}:`, error.message );
+			if ( error instanceof Error )
+			{
+				console.error( `Error fetching data from node ${node}:`, error.message );
+			}
+			else
+			{
+				console.error( `Error fetching data from node ${node}:`, error );
+			}
 		}
 	}
 	res.send( blockchain.nodes.all );
@@ -44,13 +50,17 @@ router.get( "/broadcast", async function ( req, res )
 		}
 		catch ( error )
 		{
-			console.error( `Error introducing self to node ${node}:`, error.message );
+			if ( error instanceof Error )
+			{
+				console.error( `Error introducing self to node ${node}:`, error.message );
+			}
+			else
+			{
+				console.error( `Error introducing self to node ${node}:`, error );
+			}
 		}
 	}
 	res.send( "Introduced self to all nodes" );
 });
 
-
-
-
-module.exports = router;
+export default router;
