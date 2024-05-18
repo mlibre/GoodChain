@@ -26,7 +26,6 @@ export default [
 		plugins: {
 			stylistic
 		},
-		ignores: ["**/*/global.d.ts"],
 		rules: {
 			"stylistic/indent": [
 				"error",
@@ -106,7 +105,6 @@ export default [
 			"no-extra-bind": [ "error" ],
 			"no-self-compare": [ "error" ],
 			"no-useless-call": [ "error" ],
-			"no-undefined": [ "error" ],
 			"no-array-constructor": [ "error" ],
 			"prefer-destructuring": [
 				"error", {

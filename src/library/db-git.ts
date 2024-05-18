@@ -1,5 +1,6 @@
 import { execSync } from "child_process";
 import { createFolder } from "./utils.js";
+import { isErrorWithStds } from "../guards.js";
 
 export default class GitDatabase
 {

@@ -65,17 +65,6 @@ interface ErrorWithStdsOutErr
 	status?: number;
 }
 
-declare function isErrorWithStds ( error: unknown ): error is ErrorWithStdsOutErr
-{
-	return (
-		typeof error === "object" &&
-		error !== null &&
-		"stderr" in error &&
-		"stdout" in error &&
-	 ( "status" in error || typeof error.status === "undefined" )
-	);
-}
-
 interface CustomError extends Error
 {
 	[x: string]: CustomError;

@@ -15,10 +15,8 @@
 		// "isolatedModules": true
 	},
 	// "include": [
-	// 	"global.d.ts",
 	// 	"**/*.ts",
 	// 	"**/*.tsx",
-	// 	"src/**/*",
-	// 	"src/global.d.ts"
+	// 	"src/**/*"
 	// ]
 }

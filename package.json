@@ -12,8 +12,8 @@
     "3001": "tsx ./src/restAPI/app.ts --host 'http://127.0.0.1:3001' --nodes 'http://127.0.0.1:3000' --dbPath './assets/db/' --minerKeysFile './assets/keys/miner.json' --name 'GoodChain'",
     "3002": "tsx ./src/restAPI/app.ts --host 'http://127.0.0.1:3002' --nodes 'http://127.0.0.1:3000' --dbPath './assets/db/' --minerKeysFile './assets/keys/miner.json' --name 'GoodChain'",
     "start": "tsx ./src/restAPI/app.ts",
-    "build": "tsc",
-    "buildw": "tsc --watch",
+    "build": "rm -r dist && tsc",
+    "buildw": "rm -r dist && tsc --watch",
     "dev": "nodemon ./src/restAPI/app.ts",
     "startjs": "node ./src/restAPI/app.js"
   },
