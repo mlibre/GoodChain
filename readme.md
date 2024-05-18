@@ -1,6 +1,6 @@
 # GoodChain
 
-Welcome to **GoodChain**, a blockchain platform designed for both beginners and experienced, seeking simplicity and flexibility. Built with `TypeScript` and `LevelDB`, GoodChain offers a customizable environment for experimenting with consensus algorithms, including a default Simple **Proof-of-Work (PoW)** option.
+Welcome to **GoodChain**, a blockchain platform designed for both beginners and experienced, seeking simplicity and flexibility. Built with `TypeScript` and `LevelDB(soon)`, GoodChain offers a customizable environment for experimenting with consensus algorithms, including a default Simple **Proof-of-Work (PoW)** option.
 
 **GoodChain** is a distributed ledger that enables secure and irreversible transactions across a peer-to-peer distributed network of nodes, ensuring the integrity of data.  
 

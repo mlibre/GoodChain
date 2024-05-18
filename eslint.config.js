@@ -26,6 +26,7 @@ export default [
 		plugins: {
 			stylistic
 		},
+		ignores: ["**/*/global.d.ts"],
 		rules: {
 			"stylistic/indent": [
 				"error",

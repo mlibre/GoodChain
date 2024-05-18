@@ -39,7 +39,7 @@ export default class GitDatabase
 				console.log( error.stdout.toString() );
 				if ( error.status !== 1 )
 				{
-					throw error
+					throw error;
 				}
 			}
 		}
@@ -47,7 +47,7 @@ export default class GitDatabase
 
 	reset ()
 	{
-		const resetOutput: string = execSync( "git reset --hard", { cwd: this.repoPath }).toString()
-		console.log( "Git repository reset", resetOutput )
+		const resetOutput: string = execSync( "git reset --hard", { cwd: this.repoPath }).toString();
+		console.log( "Git repository reset", resetOutput );
 	}
 }

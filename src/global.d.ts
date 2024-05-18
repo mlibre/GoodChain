@@ -1,4 +1,5 @@
-interface BlockchainConstructorParams {
+interface BlockchainConstructorParams
+{
 	dbPath: string;
 	nodes: {
 		list: string[];
@@ -12,7 +13,8 @@ interface BlockchainConstructorParams {
 	consensus: Consensus;
 }
 
-interface WalletData {
+interface WalletData
+{
 	blockNumber: number;
 	list:	Record<string, {
 		balance: number;
@@ -20,7 +22,8 @@ interface WalletData {
 	}>;
 }
 
-interface BlockData {
+interface BlockData
+{
 	[x: string]: string | number | TransactionData[];
 	index: number;
 	chainName: string;
@@ -31,7 +34,8 @@ interface BlockData {
 	hash?: string;
 }
 
-interface TransactionData {
+interface TransactionData
+{
 	from: string | null;
 	to: string;
 	amount: number;
@@ -47,19 +51,21 @@ interface nodesBlocks
 	node: string
 }
 
-interface KeyPair {
+interface KeyPair
+{
 	publicKey: string;
 	privateKey: string;
 	publicKeyString: string;
 }
 
-interface ErrorWithStdsOutErr {
+interface ErrorWithStdsOutErr
+{
 	stderr: string;
 	stdout: string;
 	status?: number;
 }
 
-declare function isErrorWithStds( error: unknown ): error is ErrorWithStdsOutErr
+declare function isErrorWithStds ( error: unknown ): error is ErrorWithStdsOutErr
 {
 	return (
 		typeof error === "object" &&
@@ -70,17 +76,20 @@ declare function isErrorWithStds( error: unknown ): error is ErrorWithStdsOutErr
 	);
 }
 
-interface CustomError extends Error {
+interface CustomError extends Error
+{
 	[x: string]: CustomError;
 }
 
-interface SimpleError {
+interface SimpleError
+{
 	message?: string;
 	stack?: string;
 	[key: string]: SimpleError;
 }
 
-interface AnyError extends Error {
+interface AnyError extends Error
+{
 	[x: string]: string;
 	[key: string]: string;
 }
