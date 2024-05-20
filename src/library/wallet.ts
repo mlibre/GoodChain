@@ -108,7 +108,7 @@ class Wallet
 
 	validateAddress ( address: string ): void
 	{
-		if ( address )
+		if ( !this.wallet.list[address] )
 		{
 			this.wallet.list[address] = { balance: 0, transaction_number: 0 };
 		}
