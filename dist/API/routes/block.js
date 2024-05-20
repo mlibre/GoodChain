@@ -1,7 +1,7 @@
 import express from "express";
 import axios from "axios";
-import blockchain from "../blockchain";
-import { toNum } from "../utils";
+import blockchain from "../blockchain.js";
+import { toNum } from "../utils.js";
 const router = express.Router();
 router.get("/", function (req, res) {
     const { list } = req.query;

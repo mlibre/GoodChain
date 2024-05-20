@@ -76,7 +76,7 @@ class Wallet {
         return this.wallet.list[address].transaction_number;
     }
     validateAddress(address) {
-        if (address) {
+        if (!this.wallet.list[address]) {
             this.wallet.list[address] = { balance: 0, transaction_number: 0 };
         }
     }

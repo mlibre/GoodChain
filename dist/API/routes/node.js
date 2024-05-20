@@ -1,6 +1,6 @@
 import express from "express";
 const router = express.Router();
-import blockchain from "../blockchain";
+import blockchain from "../blockchain.js";
 import axios from "axios";
 router.get("/", function (req, res) {
     res.send(blockchain.nodes.all);

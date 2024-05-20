@@ -1,7 +1,7 @@
 import express from "express";
 const router = express.Router();
-import blockchain from "../blockchain";
-import Transaction from "../../library/transactions";
+import blockchain from "../blockchain.js";
+import Transaction from "../../library/transactions.js";
 import axios from "axios";
 router.get("/", function (req, res) {
     res.json(blockchain.transactionPool);
