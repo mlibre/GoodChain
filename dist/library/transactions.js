@@ -46,7 +46,7 @@ export default class Transaction {
             return true;
         }
         if (!this.to) {
-            throw new Error("Invalid transaction");
+            throw new Error("Invalid transaction: missing 'to' address");
         }
         this.verifySignature();
         return true;

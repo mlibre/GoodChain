@@ -103,7 +103,7 @@ export default class Blockchain
 	addBlock ( block: BlockData )
 	{
 		const newBlock = blockify( block );
-		this.verifyCondidateBlock( newBlock );
+		this.verifyCandidateBlock( newBlock );
 		this.wallet.performTransactions( newBlock.transactions );
 		this.wallet.checkFinalDBState( newBlock );
 		this.chain.push( newBlock );
@@ -127,7 +127,7 @@ export default class Blockchain
 		return this.chain.getRange( from, to );
 	}
 
-	verifyCondidateBlock ( block: BlockData )
+	verifyCandidateBlock ( block: BlockData )
 	{
 		if ( block.index == 0 )
 		{

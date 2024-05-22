@@ -25,7 +25,7 @@ router.post( "/update", async function ( req, res )
 						index: currentIndex + 1
 					}
 				});
-				blockchain.verifyCondidateBlock( response.data );
+				blockchain.verifyCandidateBlock( response.data );
 				nodesLatestBlocks.push( response.data );
 			}
 			catch ( error )
