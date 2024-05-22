@@ -23,7 +23,7 @@ export function verifyBlock(block, previousBlock) {
         transactionInstance.validate();
     }
 }
-export function verifyGenesis(block) {
+export function verifyGenesisBlock(block) {
     const normalizedBlock = _.omit(block, ["hash"]);
     if (block.hash !== hashDataObject(normalizedBlock)) {
         throw new Error("Invalid block hash");

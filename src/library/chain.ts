@@ -99,7 +99,7 @@ export default class ChainStore
 		if ( proposedBlock.index === 0 )
 		{
 			const lastBlock = this.latestBlock;
-			Block.verifyGenesis( lastBlock );
+			Block.verifyGenesisBlock( lastBlock );
 			if ( !_.isEqual( lastBlock, proposedBlock ) )
 			{
 				throw new Error( "Invalid chain" );
@@ -130,7 +130,7 @@ export default class ChainStore
 		{
 			if ( i === 0 )
 			{
-				Block.verifyGenesis( this.get( i ) );
+				Block.verifyGenesisBlock( this.get( i ) );
 			}
 			else
 			{

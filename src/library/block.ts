@@ -33,7 +33,7 @@ export function verifyBlock ( block: BlockData, previousBlock: BlockData ): void
 	}
 }
 
-export function verifyGenesis ( block: BlockData ): void
+export function verifyGenesisBlock ( block: BlockData ): void
 {
 	const normalizedBlock = _.omit( block, [ "hash" ] );
 	if ( block.hash !== hashDataObject( normalizedBlock ) )
