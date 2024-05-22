@@ -1,11 +1,11 @@
 import _ from "lodash";
 import Transaction from "./transactions.js";
-import { hashDataObject } from "./utils.js";
+import { computeHash } from "./utils.js";
 
 export function verifyBlock ( block: BlockData, previousBlock: BlockData ): void
 {
 	const normalizedBlock = _.omit( block, [ "hash" ] );
-	if ( block.hash !== hashDataObject( normalizedBlock ) )
+	if ( block.hash !== computeHash( normalizedBlock ) )
 	{
 		throw new Error( "Invalid block hash" );
 	}
@@ -36,7 +36,7 @@ export function verifyBlock ( block: BlockData, previousBlock: BlockData ): void
 export function verifyGenesisBlock ( block: BlockData ): void
 {
 	const normalizedBlock = _.omit( block, [ "hash" ] );
-	if ( block.hash !== hashDataObject( normalizedBlock ) )
+	if ( block.hash !== computeHash( normalizedBlock ) )
 	{
 		throw new Error( "Invalid block hash" );
 	}

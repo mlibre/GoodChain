@@ -7,7 +7,7 @@ export function calculateMiningFee(transactionPool) {
         return totalFee + transaction.fee;
     }, 0);
 }
-export function hashDataObject(data) {
+export function computeHash(data) {
     const stringData = JSON.stringify(data);
     return crypto
         .createHash("sha256")
@@ -79,7 +79,7 @@ export function removePublicKeyHeaders(publicKey) {
     const strippedPublicKey = publicKey.replace(headerRegex, "");
     return strippedPublicKey.replace(footerRegex, "");
 }
-export function makeFilePath(folderPath, ...params) {
+export function generateFilePath(folderPath, ...params) {
     return path.join(folderPath, ...params);
 }
 //# sourceMappingURL=utils.js.map

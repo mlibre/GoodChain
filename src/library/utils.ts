@@ -11,7 +11,7 @@ export function calculateMiningFee ( transactionPool: { fee: number }[] ): numbe
 	}, 0 );
 }
 
-export function hashDataObject ( data: object ): string
+export function computeHash ( data: object ): string
 {
 	const stringData = JSON.stringify( data );
 	return crypto
@@ -117,7 +117,7 @@ export function removePublicKeyHeaders ( publicKey: string ): string
 	return strippedPublicKey.replace( footerRegex, "" );
 }
 
-export function makeFilePath ( folderPath: string, ...params: string[] ): string
+export function generateFilePath ( folderPath: string, ...params: string[] ): string
 {
 	return path.join( folderPath, ...params );
 }

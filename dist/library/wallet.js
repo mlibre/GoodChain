@@ -1,10 +1,10 @@
 import Transaction from "./transactions.js";
-import { initJsonFile, makeFilePath, updateFile } from "./utils.js";
+import { initJsonFile, generateFilePath, updateFile } from "./utils.js";
 class Wallet {
     filePath;
     wallet;
     constructor(folderPath) {
-        this.filePath = makeFilePath(folderPath, "wallet", "wallet.json");
+        this.filePath = generateFilePath(folderPath, "wallet", "wallet.json");
         this.wallet = initJsonFile(this.filePath, { blockNumber: -1, list: {} });
     }
     get allData() {

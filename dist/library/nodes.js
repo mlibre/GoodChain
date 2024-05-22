@@ -1,11 +1,11 @@
 import _ from "lodash";
-import { initJsonFile, makeFilePath, updateFile } from "./utils.js";
+import { initJsonFile, generateFilePath, updateFile } from "./utils.js";
 export default class Nodes {
     filePath;
     list;
     hostUrl;
     constructor(folderPath, nodes) {
-        this.filePath = makeFilePath(folderPath, "nodes", "nodes.json");
+        this.filePath = generateFilePath(folderPath, "nodes", "nodes.json");
         const nodesFile = initJsonFile(this.filePath);
         this.list = _.uniq(nodes.list.concat(nodesFile.list || []));
         this.hostUrl = nodes.hostUrl ?? nodesFile.hostUrl;

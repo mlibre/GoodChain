@@ -1,10 +1,10 @@
 import _ from "lodash";
 import { verifyBlock, verifyGenesisBlock, blockify } from "./block.js";
 import ChainStore from "./chain.js";
-import Database from "./db-git.js";
+import Database from "./git-database.js";
 import Nodes from "./nodes.js";
 import Transaction from "./transactions.js";
-import { calculateMiningFee, hashDataObject } from "./utils.js";
+import { calculateMiningFee, computeHash } from "./utils.js";
 import Wallet from "./wallet.js";
 export default class Blockchain {
     consensus;
@@ -49,7 +49,7 @@ export default class Blockchain {
                 miner: self.minerKeys.publicKey
             };
             self.consensus.applyGenesis(block);
-            block.hash = hashDataObject(block);
+            block.hash = computeHash(block);
             return self.addBlock(block);
         }
         catch (error) {
@@ -74,7 +74,7 @@ export default class Blockchain {
                 miner: self.minerKeys.publicKey
             };
             self.consensus.apply(block, self.chain.get(block.index - 1));
-            block.hash = hashDataObject(block);
+            block.hash = computeHash(block);
             return self.addBlock(block);
         }
         catch (error) {

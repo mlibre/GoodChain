@@ -2,7 +2,7 @@ import fs from "fs";
 import _ from "lodash";
 import path from "path";
 import * as Block from "./block.js";
-import { createFolder, makeFilePath } from "./utils.js";
+import { createFolder, generateFilePath } from "./utils.js";
 
 export default class ChainStore
 {
@@ -10,7 +10,7 @@ export default class ChainStore
 
 	constructor ( folderPath: string )
 	{
-		this.folderPath = makeFilePath( folderPath, "chain" );
+		this.folderPath = generateFilePath( folderPath, "chain" );
 		createFolder( this.folderPath );
 	}
 

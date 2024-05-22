@@ -1,5 +1,5 @@
 import _ from "lodash";
-import { hashDataObject } from "./utils.js";
+import { computeHash } from "./utils.js";
 export default class POW {
     name;
     difficulty;
@@ -32,10 +32,10 @@ export default class POW {
             targetDifficulty = previousBlock.consensusDifficulty.toString();
         }
         block.consensusNonce = 0;
-        let hash = hashDataObject(block);
+        let hash = computeHash(block);
         while (hash.localeCompare(targetDifficulty) != -1) {
             block.consensusNonce++;
-            hash = hashDataObject(block);
+            hash = computeHash(block);
         }
         block.consensusHash = hash;
         return block;
@@ -45,17 +45,17 @@ export default class POW {
         block.consensusDifficulty = this.difficulty;
         block.consensusTotalDifficulty = "0";
         block.consensusNonce = 0;
-        let hash = hashDataObject(block);
+        let hash = computeHash(block);
         while (hash.localeCompare(this.difficulty) != -1) {
             block.consensusNonce++;
-            hash = hashDataObject(block);
+            hash = computeHash(block);
         }
         block.consensusHash = hash;
         return block;
     }
     validate(block, previousBlock) {
         const pureObject = _.omit(block, ["consensusHash", "hash"]);
-        const hash = hashDataObject(pureObject);
+        const hash = computeHash(pureObject);
         if (block.consensusHash.toString().localeCompare(hash) !== 0) {
             throw new Error("Invalid hash");
         }
@@ -68,7 +68,7 @@ export default class POW {
     }
     validateGenesis(block) {
         const pureObject = _.omit(block, ["consensusHash", "hash"]);
-        const hash = hashDataObject(pureObject);
+        const hash = computeHash(pureObject);
         if (block.consensusHash.toString().localeCompare(hash) !== 0) {
             throw new Error("Invalid hash");
         }
