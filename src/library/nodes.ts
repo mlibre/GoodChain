@@ -58,7 +58,7 @@ export default class Nodes
 	{
 		updateFile( this.filePath, {
 			list: this.list,
-			hostUrl: this.hostUrl,
+			hostUrl: this.hostUrl
 		});
 	}
 }

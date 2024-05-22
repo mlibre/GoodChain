@@ -1,7 +1,7 @@
 import _ from "lodash";
 import { hashDataObject } from "./utils.js";
 
-export default class pow
+export default class POW
 {
 	private name: string;
 	private difficulty: string;

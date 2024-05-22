@@ -1,5 +1,5 @@
 import crypto from "crypto";
-import fs from "fs";
+import { existsSync, mkdirSync, readFileSync, rmdirSync, unlinkSync, writeFileSync } from "fs";
 import path from "path";
 import { v4 as uuidv4 } from "uuid";
 
@@ -28,34 +28,34 @@ export function objectify ( data: object ): object
 export function initJsonFile ( filePath: string, defaultData: object = {})
 {
 	const folderPath = path.dirname( filePath );
-	if ( !fs.existsSync( folderPath ) )
+	if ( !existsSync( folderPath ) )
 	{
-		fs.mkdirSync( folderPath, { recursive: true });
+		mkdirSync( folderPath, { recursive: true });
 	}
 
-	if ( fs.existsSync( filePath ) )
+	if ( existsSync( filePath ) )
 	{
-		return JSON.parse( fs.readFileSync( filePath, "utf8" ) );
+		return JSON.parse( readFileSync( filePath, "utf8" ) );
 	}
 	else
 	{
-		fs.writeFileSync( filePath, JSON.stringify( defaultData, null, "\t" ) );
+		writeFileSync( filePath, JSON.stringify( defaultData, null, "\t" ) );
 		return defaultData;
 	}
 }
 
 export function updateFile ( filePath: string, data: object ): void
 {
-	fs.writeFileSync( filePath, JSON.stringify( data, null, "\t" ) );
+	writeFileSync( filePath, JSON.stringify( data, null, "\t" ) );
 }
 
 export function deleteFile ( filePath: string ): void
 {
 	try
 	{
-		if ( fs.existsSync( filePath ) )
+		if ( existsSync( filePath ) )
 		{
-			fs.unlinkSync( filePath );
+			unlinkSync( filePath );
 			console.log( `File ${filePath} Deleted` );
 		}
 		else
@@ -71,17 +71,17 @@ export function deleteFile ( filePath: string ): void
 
 export function deleteFolder ( folderPath: string ): void
 {
-	if ( fs.existsSync( folderPath ) )
+	if ( existsSync( folderPath ) )
 	{
-		fs.rmdirSync( folderPath, { recursive: true });
+		rmdirSync( folderPath, { recursive: true });
 	}
 }
 
 export function createFolder ( folderPath: string ): boolean
 {
-	if ( !fs.existsSync( folderPath ) )
+	if ( !existsSync( folderPath ) )
 	{
-		fs.mkdirSync( folderPath );
+		mkdirSync( folderPath );
 		console.log( `Folder ${folderPath} Created` );
 		return true;
 	}

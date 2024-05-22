@@ -42,7 +42,7 @@ export default [
 			"stylistic/comma-spacing": [ "error" ],
 			"stylistic/function-call-spacing": [ "error", "never" ],
 			"stylistic/space-before-function-paren": [ "error", "always" ],
-			"stylistic/space-in-parens": [ "error", "always", { exceptions: [ "{}" ] } ],
+			"stylistic/space-in-parens": [ "error", "always", { exceptions: [ "{}" , "empty" ] } ],
 			"stylistic/keyword-spacing": [ "error" ],
 			"stylistic/space-unary-ops": [ "error" ],
 			"stylistic/key-spacing": [ "error" ],

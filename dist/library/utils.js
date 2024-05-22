@@ -1,5 +1,5 @@
 import crypto from "crypto";
-import fs from "fs";
+import { existsSync, mkdirSync, readFileSync, rmdirSync, unlinkSync, writeFileSync } from "fs";
 import path from "path";
 import { v4 as uuidv4 } from "uuid";
 export function calculateMiningFee(transactionPool) {
@@ -19,24 +19,24 @@ export function objectify(data) {
 }
 export function initJsonFile(filePath, defaultData = {}) {
     const folderPath = path.dirname(filePath);
-    if (!fs.existsSync(folderPath)) {
-        fs.mkdirSync(folderPath, { recursive: true });
+    if (!existsSync(folderPath)) {
+        mkdirSync(folderPath, { recursive: true });
     }
-    if (fs.existsSync(filePath)) {
-        return JSON.parse(fs.readFileSync(filePath, "utf8"));
+    if (existsSync(filePath)) {
+        return JSON.parse(readFileSync(filePath, "utf8"));
     }
     else {
-        fs.writeFileSync(filePath, JSON.stringify(defaultData, null, "\t"));
+        writeFileSync(filePath, JSON.stringify(defaultData, null, "\t"));
         return defaultData;
     }
 }
 export function updateFile(filePath, data) {
-    fs.writeFileSync(filePath, JSON.stringify(data, null, "\t"));
+    writeFileSync(filePath, JSON.stringify(data, null, "\t"));
 }
 export function deleteFile(filePath) {
     try {
-        if (fs.existsSync(filePath)) {
-            fs.unlinkSync(filePath);
+        if (existsSync(filePath)) {
+            unlinkSync(filePath);
             console.log(`File ${filePath} Deleted`);
         }
         else {
@@ -48,13 +48,13 @@ export function deleteFile(filePath) {
     }
 }
 export function deleteFolder(folderPath) {
-    if (fs.existsSync(folderPath)) {
-        fs.rmdirSync(folderPath, { recursive: true });
+    if (existsSync(folderPath)) {
+        rmdirSync(folderPath, { recursive: true });
     }
 }
 export function createFolder(folderPath) {
-    if (!fs.existsSync(folderPath)) {
-        fs.mkdirSync(folderPath);
+    if (!existsSync(folderPath)) {
+        mkdirSync(folderPath);
         console.log(`Folder ${folderPath} Created`);
         return true;
     }

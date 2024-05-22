@@ -9,7 +9,7 @@ export default class GitDatabase
 	constructor ( repoPath: string )
 	{
 		this.repoPath = repoPath;
-		this.cleanInit( );
+		this.cleanInit();
 	}
 
 	cleanInit ()
