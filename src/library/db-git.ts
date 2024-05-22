@@ -37,7 +37,7 @@ export default class GitDatabase
 		{
 			if ( isErrorWithStds( error ) )
 			{
-				console.log( error.stdout.toString() );
+				console.error( error.stdout.toString() );
 				if ( error.status !== 1 )
 				{
 					throw error;

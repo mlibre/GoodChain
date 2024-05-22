@@ -49,14 +49,14 @@ class Wallet
 				const trx = new Transaction( tmpTrx );
 				if ( trx.isCoinBase() )
 				{
-					console.log( "Dropping coinbase transaction" );
+					console.warn( "Dropping coinbase transaction" );
 					continue;
 				}
 				if ( trx.from !== null )
 				{
 					if ( trx.transaction_number <= this.transactionNumber( trx.from ) )
 					{
-						console.log( "Dropping transaction with transaction number less than wallet transaction number" );
+						console.warn( "Dropping transaction with transaction number less than wallet transaction number" );
 						continue;
 					}
 					this.minusBalance( trx.from, trx.amount + trx.fee );
@@ -67,7 +67,7 @@ class Wallet
 			}
 			catch ( error )
 			{
-				console.log( error );
+				console.error( error );
 			}
 		}
 		this.reloadDB();

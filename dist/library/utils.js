@@ -59,7 +59,7 @@ export function createFolder(folderPath) {
         return true;
     }
     else {
-        console.log(`Folder ${folderPath} already exists`);
+        console.warn(`Folder ${folderPath} already exists`);
         return false;
     }
 }

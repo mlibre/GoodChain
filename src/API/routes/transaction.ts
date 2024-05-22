@@ -27,7 +27,7 @@ router.get( "/update", async function ( req, res )
 	}
 	catch ( error )
 	{
-		console.log( error );
+		console.error( error );
 	}
 	res.json( blockchain.transactionPool );
 });

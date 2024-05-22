@@ -53,14 +53,14 @@ function onError ( error: AnyError )
 		console.error( `${hostPort} requires elevated privileges` );
 		if ( !process.exit( 1 ) )
 		{
-			console.log( "Cant Exit" );
+			console.error( "Cant Exit" );
 		}
 		break;
 	case "EADDRINUSE":
 		console.error( `${hostPort} is already in use` );
 		if ( !process.exit( 1 ) )
 		{
-			console.log( "Cant Exit" );
+			console.error( "Cant Exit" );
 		}
 		break;
 	default:

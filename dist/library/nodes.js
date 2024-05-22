@@ -40,7 +40,7 @@ export default class Nodes {
     updateDB() {
         updateFile(this.filePath, {
             list: this.list,
-            hostUrl: this.hostUrl,
+            hostUrl: this.hostUrl
         });
     }
 }

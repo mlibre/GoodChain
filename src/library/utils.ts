@@ -87,7 +87,7 @@ export function createFolder ( folderPath: string ): boolean
 	}
 	else
 	{
-		console.log( `Folder ${folderPath} already exists` );
+		console.warn( `Folder ${folderPath} already exists` );
 		return false;
 	}
 }
