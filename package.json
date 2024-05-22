@@ -4,6 +4,10 @@
   "description": "GoodChain: Blockchain for Everyone",
   "main": "index.js",
   "type": "module",
+  "repository": {
+    "url": "https://github.com/mlibre/GoodChain",
+    "type": "git"
+  },
   "engines": {
     "node": ">=20"
   },
@@ -11,10 +15,10 @@
     "3000": "tsx ./src/API/app.ts --host 'http://127.0.0.1:3000' --nodes 'http://127.0.0.1:3001' --dbPath './assets/db/' --minerKeysFile './assets/keys/miner.json' --name 'GoodChain'",
     "3001": "tsx ./src/API/app.ts --host 'http://127.0.0.1:3001' --nodes 'http://127.0.0.1:3000' --dbPath './assets/db/' --minerKeysFile './assets/keys/miner.json' --name 'GoodChain'",
     "3002": "tsx ./src/API/app.ts --host 'http://127.0.0.1:3002' --nodes 'http://127.0.0.1:3000' --dbPath './assets/db/' --minerKeysFile './assets/keys/miner.json' --name 'GoodChain'",
-    "start": "tsx ./src/API/app.ts",
     "build": "rm -r dist && tsc",
-    "buildw": "rm -r dist && tsc --watch",
+    "watch": "rm -r dist && tsc --watch",
     "dev": "tsc && nodemon ./src/API/app.ts",
+    "start": "tsx ./src/API/app.ts",
     "startjs": "node ./src/API/app.js"
   },
   "author": "mlibre",
@@ -39,7 +43,7 @@
     "@types/lodash": "^4.17.1",
     "@types/minimist": "^1.2.5",
     "@types/morgan": "^1.9.9",
-    "@types/node": "^20.12.11",
+    "@types/node": "^20.12.12",
     "@types/uuid": "^9.0.8",
     "eslint": "^8.57.0",
     "globals": "^15.2.0",

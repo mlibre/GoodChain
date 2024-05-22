@@ -1,4 +1,4 @@
-import { parseUrl } from "./utils";
+import { parseUrl } from "./utils.js";
 import parseArgs from "minimist";
 // Parse command line arguments
 const args = parseArgs(process.argv.slice(2));
