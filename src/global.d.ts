@@ -55,7 +55,6 @@ interface KeyPair
 {
 	publicKey: string;
 	privateKey: string;
-	publicKeyString: string;
 }
 
 interface ErrorWithStdsOutErr

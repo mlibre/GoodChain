@@ -1,3 +1,4 @@
+import crypto from "crypto";
 import Transaction from "./transaction.js";
 import { initJsonFile, generateFilePath, updateFile } from "./utils.js";
 class Wallet {
@@ -106,6 +107,12 @@ class Wallet {
     }
     updateDB() {
         updateFile(this.filePath, this.wallet);
+    }
+    static generateKeyPair() {
+        const keyPair = crypto.generateKeyPairSync("ed25519");
+        const publicKey = keyPair.publicKey.export({ type: "spki", format: "pem" }).toString();
+        const privateKey = keyPair.privateKey.export({ type: "pkcs8", format: "pem" }).toString();
+        return { publicKey, privateKey };
     }
 }
 export default Wallet;

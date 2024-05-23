@@ -2,14 +2,15 @@ import Blockchain from "../library/main.js";
 import Consensus from "../library/pow-consensus.js";
 import Transaction from "../library/transaction.js";
 
-import { createKeyPair, deleteFile, deleteFolder, initJsonFile } from "../library/utils.js";
+import { deleteFile, deleteFolder, initJsonFile } from "../library/utils.js";
+import Wallet from "../library/wallet.js";
 
 deleteFolder( "assets/db/" );
 deleteFile( "./assets/keys/miner.json" );
 deleteFile( "./assets/keys/user.json" );
 
-const userKeys = initJsonFile( "./assets/keys/user.json", createKeyPair() );
-const minerKeys = initJsonFile( "./assets/keys/miner.json", createKeyPair() );
+const userKeys = initJsonFile( "./assets/keys/user.json", Wallet.generateKeyPair() );
+const minerKeys = initJsonFile( "./assets/keys/miner.json", Wallet.generateKeyPair() );
 const blockchain = new Blockchain({
 	dbPath: "./assets/db/",
 	nodes: {

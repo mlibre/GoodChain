@@ -66,13 +66,6 @@ export function createFolder(folderPath) {
 export function generateUuid() {
     return uuidv4();
 }
-export function createKeyPair() {
-    const keyPair = crypto.generateKeyPairSync("ed25519");
-    const publicKey = keyPair.publicKey.export({ type: "spki", format: "pem" }).toString();
-    const privateKey = keyPair.privateKey.export({ type: "pkcs8", format: "pem" }).toString();
-    const publicKeyString = removePublicKeyHeaders(publicKey);
-    return { publicKey, privateKey, publicKeyString };
-}
 export function removePublicKeyHeaders(publicKey) {
     const headerRegex = /^-----BEGIN PUBLIC KEY-----\r?\n/;
     const footerRegex = /\n-----END PUBLIC KEY-----/;
