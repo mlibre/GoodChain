@@ -1,5 +1,5 @@
 import crypto from "crypto";
-import { existsSync, mkdirSync, readFileSync, rmdirSync, unlinkSync, writeFileSync } from "fs";
+import { existsSync, mkdirSync, readFileSync, rmSync, unlinkSync, writeFileSync } from "fs";
 import path from "path";
 import { v4 as uuidv4 } from "uuid";
 export function calculateMiningFee(transactionPool) {
@@ -49,7 +49,7 @@ export function deleteFile(filePath) {
 }
 export function deleteFolder(folderPath) {
     if (existsSync(folderPath)) {
-        rmdirSync(folderPath, { recursive: true });
+        rmSync(folderPath, { recursive: true, force: true });
     }
 }
 export function createFolder(folderPath) {

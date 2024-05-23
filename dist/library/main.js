@@ -1,9 +1,9 @@
 import _ from "lodash";
 import { verifyBlock, verifyGenesisBlock, blockify } from "./block.js";
 import ChainStore from "./chain.js";
-import Database from "./git-database.js";
+import Database from "./database.js";
 import Nodes from "./nodes.js";
-import Transaction from "./transactions.js";
+import Transaction from "./transaction.js";
 import { calculateMiningFee, computeHash } from "./utils.js";
 import Wallet from "./wallet.js";
 export default class Blockchain {

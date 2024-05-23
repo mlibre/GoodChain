@@ -1,4 +1,4 @@
-import Transaction from "../library/transactions.js";
+import Transaction from "../library/transaction.js";
 import { initJsonFile } from "../library/utils.js";
 const minerKeys = initJsonFile("./assets/keys/miner.json");
 const userKeys = initJsonFile("./assets/keys/user.json");

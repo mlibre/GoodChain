@@ -43,6 +43,10 @@ export default class GitDatabase
 					throw error;
 				}
 			}
+			else
+			{
+				throw new Error( `Unexpected error during commit: ${error}` );
+			}
 		}
 	}
 

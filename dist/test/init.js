@@ -1,6 +1,6 @@
 import Blockchain from "../library/main.js";
 import Consensus from "../library/pow-consensus.js";
-import Transaction from "../library/transactions.js";
+import Transaction from "../library/transaction.js";
 import { createKeyPair, deleteFile, deleteFolder, initJsonFile } from "../library/utils.js";
 deleteFolder("assets/db/");
 deleteFile("./assets/keys/miner.json");

@@ -1,5 +1,5 @@
 import crypto from "crypto";
-import { existsSync, mkdirSync, readFileSync, rmdirSync, unlinkSync, writeFileSync } from "fs";
+import { existsSync, mkdirSync, readFileSync, rmSync, unlinkSync, writeFileSync } from "fs";
 import path from "path";
 import { v4 as uuidv4 } from "uuid";
 
@@ -73,7 +73,7 @@ export function deleteFolder ( folderPath: string ): void
 {
 	if ( existsSync( folderPath ) )
 	{
-		rmdirSync( folderPath, { recursive: true });
+		rmSync( folderPath, { recursive: true, force: true });
 	}
 }
 

@@ -1,31 +1,31 @@
 import _ from "lodash";
-import Transaction from "./transactions.js";
+import Transaction from "./transaction.js";
 import { computeHash } from "./utils.js";
-export function verifyBlock(block, previousBlock) {
-    const normalizedBlock = _.omit(block, ["hash"]);
-    if (block.hash !== computeHash(normalizedBlock)) {
+export function verifyBlock(currentBlock, previousBlock) {
+    const blockWithoutHash = _.omit(currentBlock, ["hash"]);
+    if (currentBlock.hash !== computeHash(blockWithoutHash)) {
         throw new Error("Invalid block hash");
     }
-    if (normalizedBlock.chainName !== previousBlock.chainName) {
+    if (blockWithoutHash.chainName !== previousBlock.chainName) {
         throw new Error("Invalid chain name");
     }
-    if (normalizedBlock.index !== previousBlock.index + 1) {
+    if (blockWithoutHash.index !== previousBlock.index + 1) {
         throw new Error("Invalid index");
     }
-    if (previousBlock.hash !== block.previousHash) {
+    if (previousBlock.hash !== currentBlock.previousHash) {
         throw new Error("Invalid previous hash");
     }
-    if (block.timestamp < previousBlock.timestamp) {
+    if (currentBlock.timestamp < previousBlock.timestamp) {
         throw new Error("Block timestamp must be greater than previous block timestamp");
     }
-    for (const transaction of block.transactions) {
+    for (const transaction of currentBlock.transactions) {
         const transactionInstance = new Transaction(transaction);
         transactionInstance.validate();
     }
 }
 export function verifyGenesisBlock(block) {
-    const normalizedBlock = _.omit(block, ["hash"]);
-    if (block.hash !== computeHash(normalizedBlock)) {
+    const blockWithoutHash = _.omit(block, ["hash"]);
+    if (block.hash !== computeHash(blockWithoutHash)) {
         throw new Error("Invalid block hash");
     }
 }

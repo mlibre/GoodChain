@@ -1,4 +1,4 @@
-import Transaction from "./transactions.js";
+import Transaction from "./transaction.js";
 import { initJsonFile, generateFilePath, updateFile } from "./utils.js";
 class Wallet {
     filePath;
