@@ -12,7 +12,7 @@ export default class Blockchain
 {
 	public consensus: ConsensusClass;
 	private chainName: string;
-	private minerKeys: { publicKey: string };
+	public minerPublicKey: string ;
 	private db: Database;
 	public chain: ChainStore;
 	public wallet: Wallet;
@@ -21,11 +21,11 @@ export default class Blockchain
 	private transactionPoolSize: number;
 	private miningReward: number;
 
-	constructor ({ dbPath, nodes, chainName, minerKeys, consensus }: BlockchainConstructorParams )
+	constructor ({ dbPath, nodes, chainName, minerPublicKey, consensus }: BlockchainConstructorParams )
 	{
 		this.consensus = consensus;
 		this.chainName = chainName;
-		this.minerKeys = minerKeys;
+		this.minerPublicKey = minerPublicKey;
 		this.db = new Database( dbPath );
 		this.chain = new ChainStore( dbPath );
 		this.wallet = new Wallet( dbPath );
@@ -57,7 +57,7 @@ export default class Blockchain
 				timestamp: Date.now(),
 				transactions: self.transactionPool,
 				previousHash: "",
-				miner: self.minerKeys.publicKey
+				miner: self.minerPublicKey
 			};
 			self.consensus.applyGenesis( block );
 			block.hash = computeHash( block );
@@ -86,7 +86,7 @@ export default class Blockchain
 				timestamp: Date.now(),
 				transactions: self.transactionPool,
 				previousHash: self.chain.latestBlock?.hash || "",
-				miner: self.minerKeys.publicKey
+				miner: self.minerPublicKey
 			};
 			self.consensus.apply( block, self.chain.get( block.index - 1 ) );
 			block.hash = computeHash( block );
@@ -193,7 +193,7 @@ export default class Blockchain
 	{
 		return {
 			from: null,
-			to: this.minerKeys.publicKey,
+			to: this.minerPublicKey,
 			amount: this.miningReward + calculateMiningFee( this.transactionPool ),
 			fee: 0,
 			transaction_number: 0,

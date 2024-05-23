@@ -12,7 +12,7 @@ export default new Blockchain({
         hostUrl
     },
     chainName: name,
-    minerKeys,
+    minerPublicKey: minerKeys.publicKey,
     consensus
 });
 //# sourceMappingURL=blockchain.js.map

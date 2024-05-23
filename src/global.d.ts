@@ -6,10 +6,7 @@ interface BlockchainConstructorParams
 		hostUrl: string;
 	};
 	chainName: string;
-	minerKeys: {
-		publicKey: string;
-		privateKey: string;
-	};
+	minerPublicKey: string;
 	consensus: Consensus;
 }
 

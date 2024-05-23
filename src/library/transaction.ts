@@ -80,7 +80,7 @@ export default class Transaction
 		return result;
 	}
 
-	sign ( privateKey: Buffer ): string
+	sign ( privateKey: string ): string
 	{
 		const signature = crypto.sign( null, Buffer.from( JSON.stringify( this.dataWithoutSignature ) ), privateKey );
 		this.signature = signature.toString( "hex" );

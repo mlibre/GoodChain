@@ -9,7 +9,7 @@ import Wallet from "./wallet.js";
 export default class Blockchain {
     consensus;
     chainName;
-    minerKeys;
+    minerPublicKey;
     db;
     chain;
     wallet;
@@ -17,10 +17,10 @@ export default class Blockchain {
     transactionPool;
     transactionPoolSize;
     miningReward;
-    constructor({ dbPath, nodes, chainName, minerKeys, consensus }) {
+    constructor({ dbPath, nodes, chainName, minerPublicKey, consensus }) {
         this.consensus = consensus;
         this.chainName = chainName;
-        this.minerKeys = minerKeys;
+        this.minerPublicKey = minerPublicKey;
         this.db = new Database(dbPath);
         this.chain = new ChainStore(dbPath);
         this.wallet = new Wallet(dbPath);
@@ -46,7 +46,7 @@ export default class Blockchain {
                 timestamp: Date.now(),
                 transactions: self.transactionPool,
                 previousHash: "",
-                miner: self.minerKeys.publicKey
+                miner: self.minerPublicKey
             };
             self.consensus.applyGenesis(block);
             block.hash = computeHash(block);
@@ -71,7 +71,7 @@ export default class Blockchain {
                 timestamp: Date.now(),
                 transactions: self.transactionPool,
                 previousHash: self.chain.latestBlock?.hash || "",
-                miner: self.minerKeys.publicKey
+                miner: self.minerPublicKey
             };
             self.consensus.apply(block, self.chain.get(block.index - 1));
             block.hash = computeHash(block);
@@ -151,7 +151,7 @@ export default class Blockchain {
     genCoinbaseTransaction() {
         return {
             from: null,
-            to: this.minerKeys.publicKey,
+            to: this.minerPublicKey,
             amount: this.miningReward + calculateMiningFee(this.transactionPool),
             fee: 0,
             transaction_number: 0,

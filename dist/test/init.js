@@ -15,7 +15,7 @@ const blockchain = new Blockchain({
         hostUrl: "http://127.0.0.1:3000"
     },
     chainName: "GoodChain",
-    minerKeys,
+    minerPublicKey: minerKeys.publicKey,
     consensus: new Consensus()
 });
 blockchain.mineNewBlock();
