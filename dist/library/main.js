@@ -121,7 +121,7 @@ export default class Blockchain {
         }
         this.wallet.validateAddress(trx.to);
         trx.validate();
-        this.isTransactionDuplicate(trx.data);
+        this.isTransactionDuplicate(trx.data.signature);
         this.transactionPool.push(trx.data);
         this.transactionPool.sort((a, b) => {
             return b.fee - a.fee;
@@ -161,8 +161,8 @@ export default class Blockchain {
             throw new Error("Transaction pool is full");
         }
     }
-    isTransactionDuplicate({ from, to, amount, fee, transaction_number, signature }) {
-        const duplicate = _.find(this.transactionPool, { from, to, amount, fee, transaction_number, signature });
+    isTransactionDuplicate(signature) {
+        const duplicate = _.find(this.transactionPool, { signature });
         if (duplicate) {
             throw new Error("Duplicate transaction");
         }

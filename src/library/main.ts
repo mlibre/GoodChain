@@ -154,7 +154,7 @@ export default class Blockchain
 		this.wallet.validateAddress( trx.to );
 
 		trx.validate();
-		this.isTransactionDuplicate( trx.data );
+		this.isTransactionDuplicate( trx.data.signature );
 
 		this.transactionPool.push( trx.data );
 		this.transactionPool.sort( ( a, b ) =>
@@ -207,9 +207,9 @@ export default class Blockchain
 		}
 	}
 
-	isTransactionDuplicate ({ from, to, amount, fee, transaction_number, signature }: TransactionData )
+	isTransactionDuplicate ( signature : string | null | undefined )
 	{
-		const duplicate = _.find( this.transactionPool, { from, to, amount, fee, transaction_number, signature });
+		const duplicate = _.find( this.transactionPool, { signature });
 		if ( duplicate )
 		{
 			throw new Error( "Duplicate transaction" );

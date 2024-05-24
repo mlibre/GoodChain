@@ -33,7 +33,7 @@ function initializeBlockchain ()
 	});
 }
 
-test( "Blockchain Test Suite", async ( t ) =>
+test( "Blockchain Test Suite", async () =>
 {
 	cleanTestDB();
 
@@ -42,10 +42,8 @@ test( "Blockchain Test Suite", async ( t ) =>
 	const senderKeys = Wallet.generateKeyPair();
 	const receiverKeys = Wallet.generateKeyPair();
 
-
 	const newBlock = blockchain.mineNewBlock(); // miner: 200
-	expect( newBlock.index ).toBe( 1 ); // Changed from assert.strictEqual
-
+	expect( newBlock.index ).toBe( 1 );
 
 	const transaction1 = new Transaction({
 		from: minerKeys.publicKey,
@@ -59,8 +57,7 @@ test( "Blockchain Test Suite", async ( t ) =>
 	blockchain.addTransaction( transaction1.data );
 
 	const blockWithTransaction1 = blockchain.mineNewBlock(); // miner: 250, miner receives his own trx fee
-	expect( blockWithTransaction1.transactions.length ).toBe( 2 ); // Changed from assert.strictEqual
-
+	expect( blockWithTransaction1.transactions.length ).toBe( 2 ); // including coinbase transaction
 
 	const transaction2 = new Transaction({
 		from: senderKeys.publicKey,
@@ -73,9 +70,8 @@ test( "Blockchain Test Suite", async ( t ) =>
 	transaction2.sign( senderKeys.privateKey );
 	blockchain.addTransaction( transaction2.data );
 
-	const blockWithTransaction2 = blockchain.mineNewBlock();
-	expect( blockWithTransaction2.transactions.length ).toBe( 2 ); // Changed from assert.strictEqual
-
+	const blockWithTransaction2 = blockchain.mineNewBlock(); // miner: 351
+	expect( blockWithTransaction2.transactions.length ).toBe( 2 ); // including coinbase transaction
 
 	const finalStateValid = blockchain.chain.validateChain();
 	expect( finalStateValid ).toBe( true );
@@ -84,12 +80,86 @@ test( "Blockchain Test Suite", async ( t ) =>
 	const receiverWalletBalance = blockchain.wallet.getBalance( receiverKeys.publicKey );
 	const minerWalletBalance = blockchain.wallet.getBalance( minerKeys.publicKey );
 
-	console.log( "Sender wallet balance:", senderWalletBalance );
-	console.log( "Receiver wallet balance:", receiverWalletBalance );
-	console.log( "Miner wallet balance:", minerWalletBalance );
-	expect( senderWalletBalance ).toBe( 24 );
-	expect( receiverWalletBalance ).toBe( 25 );
-	expect( minerWalletBalance ).toBe( 351 );
+	expect( senderWalletBalance ).toBe( 24 ); // 50 - 25 - 1 (fee)
+	expect( receiverWalletBalance ).toBe( 25 ); // received 25
+	expect( minerWalletBalance ).toBe( 351 ); // 200 (initial) + 50 + 1 + 1 + 100 (mining rewards)
+
+	// Edge case: transaction with insufficient funds
+	const transaction3 = new Transaction({
+		from: senderKeys.publicKey,
+		to: receiverKeys.publicKey,
+		amount: 30, // more than sender's balance
+		fee: 1,
+		transaction_number: 2,
+		signature: null
+	});
+	transaction3.sign( senderKeys.privateKey );
+	try
+	{
+		blockchain.addTransaction( transaction3.data );
+	}
+	catch ( e )
+	{
+		if ( e instanceof Error )
+		{
+			expect( e.message ).toBe( "Insufficient funds" );
+		}
+		else
+		{
+			throw e;
+		}
+	}
+
+	// Edge case: duplicate transaction number
+	const transaction4 = new Transaction({
+		from: senderKeys.publicKey,
+		to: receiverKeys.publicKey,
+		amount: 5,
+		fee: 1,
+		transaction_number: 1, // duplicate transaction number
+		signature: null
+	});
+	transaction4.sign( senderKeys.privateKey );
+	try
+	{
+		blockchain.addTransaction( transaction4.data );
+	}
+	catch ( e: unknown )
+	{
+		if ( e instanceof Error )
+		{
+			expect( e.message ).toBe( "Invalid transaction number" );
+		}
+		else
+		{
+			throw e;
+		}
+	}
+
+	// Edge case: invalid signature
+	const transaction5 = new Transaction({
+		from: senderKeys.publicKey,
+		to: receiverKeys.publicKey,
+		amount: 5,
+		fee: 1,
+		transaction_number: 2,
+		signature: "invalid-signature"
+	});
+	try
+	{
+		blockchain.addTransaction( transaction5.data );
+	}
+	catch ( e )
+	{
+		if ( e instanceof Error )
+		{
+			expect( e.message ).toBe( "Invalid signature" );
+		}
+		else
+		{
+			throw e;
+		}
+	}
 
 	cleanTestDB();
 });
