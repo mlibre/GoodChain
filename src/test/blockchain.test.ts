@@ -3,7 +3,7 @@ import Wallet from "../library/wallet.js";
 import Transaction from "../library/transaction.js";
 import POWConsensus from "../library/pow-consensus.js";
 import fs from "fs";
-import { describe, it, expect, beforeAll, afterAll } from "vitest";
+import { describe, test, expect, beforeAll, afterAll } from "vitest";
 
 const TEST_DB_PATH = `${import.meta.dirname}/test-db`;
 
@@ -43,7 +43,7 @@ describe( "Blockchain Test Suite", () =>
 		cleanTestDB();
 	}, 1000 );
 
-	it( "serial test", () =>
+	test( "serial test", () =>
 	{
 		const blockchain = initializeBlockchain(); // miner: 100
 
