@@ -51,7 +51,7 @@ describe( "Blockchain Test Suite", () =>
 		expect( blockWithTransaction1.transactions.length ).toBe( 2 ); // including coinbase transaction
 	});
 
-	test( "parallel test 2", () =>
+	test( "Sending a transaction from sender to receiver and mining a new block", () =>
 	{
 		const transaction2 = new Transaction({
 			from: senderKeys.publicKey,
@@ -66,19 +66,27 @@ describe( "Blockchain Test Suite", () =>
 
 		const blockWithTransaction2 = blockchain.mineNewBlock(); // miner: 351
 		expect( blockWithTransaction2.transactions.length ).toBe( 2 ); // including coinbase transaction
+	});
 
+	test( "Validating the final state of the blockchain", () =>
+	{
 		const finalStateValid = blockchain.chain.validateChain();
 		expect( finalStateValid ).toBe( true );
+	});
 
+	test( "Validating wallet balances after transactions", () =>
+	{
 		const senderWalletBalance = blockchain.wallet.getBalance( senderKeys.publicKey );
 		const receiverWalletBalance = blockchain.wallet.getBalance( receiverKeys.publicKey );
 		const minerWalletBalance = blockchain.wallet.getBalance( minerKeys.publicKey );
 
 		expect( senderWalletBalance ).toBe( 24 ); // 50 - 25 - 1 (fee)
 		expect( receiverWalletBalance ).toBe( 25 ); // received 25
-		expect( minerWalletBalance ).toBe( 351 ); // 200 (initial) + 50 + 1 + 1 + 100 (mining rewards)
+		expect( minerWalletBalance ).toBe( 351 ); // 100 + 100 + 50 + 1 + 100
+	});
 
-		// Edge case: transaction with insufficient funds
+	test( "Handling transaction with insufficient funds", () =>
+	{
 		const transaction3 = new Transaction({
 			from: senderKeys.publicKey,
 			to: receiverKeys.publicKey,
@@ -103,8 +111,10 @@ describe( "Blockchain Test Suite", () =>
 				throw e;
 			}
 		}
+	});
 
-		// Edge case: duplicate transaction number
+	test( "Handling duplicate transaction number", () =>
+	{
 		const transaction4 = new Transaction({
 			from: senderKeys.publicKey,
 			to: receiverKeys.publicKey,
@@ -129,8 +139,10 @@ describe( "Blockchain Test Suite", () =>
 				throw e;
 			}
 		}
+	});
 
-		// Edge case: invalid signature
+	test( "Handling invalid signature", () =>
+	{
 		const transaction5 = new Transaction({
 			from: senderKeys.publicKey,
 			to: receiverKeys.publicKey,
