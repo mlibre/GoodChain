@@ -7,51 +7,35 @@ import { describe, test, expect, beforeAll, afterAll } from "vitest";
 
 const TEST_DB_PATH = `${import.meta.dirname}/test-db`;
 
-// Utility function to clean the test database directory
-function cleanTestDB ()
-{
-	if ( fs.existsSync( TEST_DB_PATH ) )
-	{
-		fs.rmSync( TEST_DB_PATH, { recursive: true });
-	}
-}
-
-const minerKeys = Wallet.generateKeyPair();
-function initializeBlockchain ()
-{
-	const consensus = new POWConsensus();
-	return new Blockchain({
-		dbPath: TEST_DB_PATH,
-		nodes: {
-			list: [ "http://127.0.0.1:3001" ],
-			hostUrl: "http://127.0.0.1:3000"
-		},
-		chainName: "test-chain",
-		minerPublicKey: minerKeys.publicKey,
-		consensus
-	});
-}
-
 describe( "Blockchain Test Suite", () =>
 {
+	let blockchain: Blockchain;
+	let senderKeys: KeyPair;
+	let receiverKeys: KeyPair;
+	let minerKeys: KeyPair;
+
 	beforeAll( () =>
 	{
 		cleanTestDB();
-	}, 1000 );
+		minerKeys = Wallet.generateKeyPair();
+		blockchain = initializeBlockchain( minerKeys.publicKey ); // miner: 100
+		senderKeys = Wallet.generateKeyPair();
+		receiverKeys = Wallet.generateKeyPair();
+	});
+
 	afterAll( () =>
 	{
 		cleanTestDB();
-	}, 1000 );
+	});
 
 	test( "serial test", () =>
 	{
-		const blockchain = initializeBlockchain(); // miner: 100
-
-		const senderKeys = Wallet.generateKeyPair();
-		const receiverKeys = Wallet.generateKeyPair();
 		const newBlock = blockchain.mineNewBlock(); // miner: 200
 		expect( newBlock.index ).toBe( 1 );
+	});
 
+	test( "parallel test", () =>
+	{
 		const transaction1 = new Transaction({
 			from: minerKeys.publicKey,
 			to: senderKeys.publicKey,
@@ -169,3 +153,26 @@ describe( "Blockchain Test Suite", () =>
 		}
 	});
 });
+
+function cleanTestDB ()
+{
+	if ( fs.existsSync( TEST_DB_PATH ) )
+	{
+		fs.rmSync( TEST_DB_PATH, { recursive: true });
+	}
+}
+
+function initializeBlockchain ( minerKeysPublicKey: string )
+{
+	const consensus = new POWConsensus();
+	return new Blockchain({
+		dbPath: TEST_DB_PATH,
+		nodes: {
+			list: [ "http://127.0.0.1:3001" ],
+			hostUrl: "http://127.0.0.1:3000"
+		},
+		chainName: "test-chain",
+		minerPublicKey: minerKeysPublicKey,
+		consensus
+	});
+}
