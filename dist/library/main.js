@@ -1,15 +1,12 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const tslib_1 = require("tslib");
-const lodash_1 = tslib_1.__importDefault(require("lodash"));
-const block_js_1 = require("./block.js");
-const chain_js_1 = tslib_1.__importDefault(require("./chain.js"));
-const database_js_1 = tslib_1.__importDefault(require("./database.js"));
-const nodes_js_1 = tslib_1.__importDefault(require("./nodes.js"));
-const transaction_js_1 = tslib_1.__importDefault(require("./transaction.js"));
-const utils_js_1 = require("./utils.js");
-const wallet_js_1 = tslib_1.__importDefault(require("./wallet.js"));
-class Blockchain {
+import _ from "lodash";
+import { verifyBlock, verifyGenesisBlock, blockify } from "./block.js";
+import ChainStore from "./chain.js";
+import Database from "./database.js";
+import Nodes from "./nodes.js";
+import Transaction from "./transaction.js";
+import { calculateMiningFee, computeHash } from "./utils.js";
+import Wallet from "./wallet.js";
+export default class Blockchain {
     consensus;
     chainName;
     minerPublicKey;
@@ -24,10 +21,10 @@ class Blockchain {
         this.consensus = consensus;
         this.chainName = chainName;
         this.minerPublicKey = minerPublicKey;
-        this.db = new database_js_1.default(dbPath);
-        this.chain = new chain_js_1.default(dbPath);
-        this.wallet = new wallet_js_1.default(dbPath);
-        this.nodes = new nodes_js_1.default(dbPath, nodes);
+        this.db = new Database(dbPath);
+        this.chain = new ChainStore(dbPath);
+        this.wallet = new Wallet(dbPath);
+        this.nodes = new Nodes(dbPath, nodes);
         this.db.commit("-1");
         this.transactionPool = [];
         this.transactionPoolSize = 100;
@@ -52,7 +49,7 @@ class Blockchain {
                 miner: self.minerPublicKey
             };
             self.consensus.applyGenesis(block);
-            block.hash = (0, utils_js_1.computeHash)(block);
+            block.hash = computeHash(block);
             return self.addBlock(block);
         }
         catch (error) {
@@ -77,7 +74,7 @@ class Blockchain {
                 miner: self.minerPublicKey
             };
             self.consensus.apply(block, self.chain.get(block.index - 1));
-            block.hash = (0, utils_js_1.computeHash)(block);
+            block.hash = computeHash(block);
             return self.addBlock(block);
         }
         catch (error) {
@@ -87,7 +84,7 @@ class Blockchain {
         }
     }
     addBlock(block) {
-        const newBlock = (0, block_js_1.blockify)(block);
+        const newBlock = blockify(block);
         this.verifyCandidateBlock(newBlock);
         this.wallet.performTransactions(newBlock.transactions);
         this.wallet.checkFinalDBState(newBlock);
@@ -108,18 +105,18 @@ class Blockchain {
     }
     verifyCandidateBlock(block) {
         if (block.index == 0) {
-            (0, block_js_1.verifyGenesisBlock)(block);
+            verifyGenesisBlock(block);
             this.consensus.validateGenesis(block);
         }
         else {
-            (0, block_js_1.verifyBlock)(block, this.chain.latestBlock);
+            verifyBlock(block, this.chain.latestBlock);
             this.consensus.validate(block, this.chain.latestBlock);
         }
         return true;
     }
     addTransaction(transaction) {
         this.checkTransactionsPoolSize();
-        const trx = new transaction_js_1.default(transaction);
+        const trx = new Transaction(transaction);
         if (!trx.isCoinBase() && trx.from !== null) {
             this.wallet.validateAddress(trx.from);
             this.wallet.isTransactionNumberCorrect(trx.from, trx.transaction_number);
@@ -155,7 +152,7 @@ class Blockchain {
         return {
             from: null,
             to: this.minerPublicKey,
-            amount: this.miningReward + (0, utils_js_1.calculateMiningFee)(this.transactionPool),
+            amount: this.miningReward + calculateMiningFee(this.transactionPool),
             fee: 0,
             transaction_number: 0,
             signature: null
@@ -167,7 +164,7 @@ class Blockchain {
         }
     }
     isTransactionDuplicate({ from, to, amount, fee, transaction_number, signature }) {
-        const duplicate = lodash_1.default.find(this.transactionPool, { from, to, amount, fee, transaction_number, signature });
+        const duplicate = _.find(this.transactionPool, { from, to, amount, fee, transaction_number, signature });
         if (duplicate) {
             throw new Error("Duplicate transaction");
         }
@@ -189,5 +186,4 @@ class Blockchain {
         return this.chain.all;
     }
 }
-exports.default = Blockchain;
 //# sourceMappingURL=main.js.map

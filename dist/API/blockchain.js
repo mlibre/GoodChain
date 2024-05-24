@@ -1,20 +1,17 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const tslib_1 = require("tslib");
-const main_js_1 = tslib_1.__importDefault(require("../library/main.js"));
-const pow_consensus_js_1 = tslib_1.__importDefault(require("../library/pow-consensus.js"));
-const consensus = new pow_consensus_js_1.default();
-const utils_js_1 = require("../library/utils.js");
-const wallet_js_1 = tslib_1.__importDefault(require("../library/wallet.js"));
-const config_js_1 = require("./config.js");
-const minerKeys = (0, utils_js_1.initJsonFile)(config_js_1.minerKeysFile, wallet_js_1.default.generateKeyPair());
-exports.default = new main_js_1.default({
-    dbPath: config_js_1.dbPath,
+import Blockchain from "../library/main.js";
+import Consensus from "../library/pow-consensus.js";
+const consensus = new Consensus();
+import { initJsonFile } from "../library/utils.js";
+import Wallet from "../library/wallet.js";
+import { name, dbPath, minerKeysFile, hostUrl, nodesList } from "./config.js";
+const minerKeys = initJsonFile(minerKeysFile, Wallet.generateKeyPair());
+export default new Blockchain({
+    dbPath,
     nodes: {
-        list: config_js_1.nodesList,
-        hostUrl: config_js_1.hostUrl
+        list: nodesList,
+        hostUrl
     },
-    chainName: config_js_1.name,
+    chainName: name,
     minerPublicKey: minerKeys.publicKey,
     consensus
 });

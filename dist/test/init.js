@@ -1,17 +1,14 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const tslib_1 = require("tslib");
-const main_js_1 = tslib_1.__importDefault(require("../library/main.js"));
-const pow_consensus_js_1 = tslib_1.__importDefault(require("../library/pow-consensus.js"));
-const transaction_js_1 = tslib_1.__importDefault(require("../library/transaction.js"));
-const utils_js_1 = require("../library/utils.js");
-const wallet_js_1 = tslib_1.__importDefault(require("../library/wallet.js"));
-(0, utils_js_1.deleteFolder)("assets/db/");
-(0, utils_js_1.deleteFile)("./assets/keys/miner.json");
-(0, utils_js_1.deleteFile)("./assets/keys/user.json");
-const userKeys = (0, utils_js_1.initJsonFile)("./assets/keys/user.json", wallet_js_1.default.generateKeyPair());
-const minerKeys = (0, utils_js_1.initJsonFile)("./assets/keys/miner.json", wallet_js_1.default.generateKeyPair());
-const blockchain = new main_js_1.default({
+import Blockchain from "../library/main.js";
+import Consensus from "../library/pow-consensus.js";
+import Transaction from "../library/transaction.js";
+import { deleteFile, deleteFolder, initJsonFile } from "../library/utils.js";
+import Wallet from "../library/wallet.js";
+deleteFolder("assets/db/");
+deleteFile("./assets/keys/miner.json");
+deleteFile("./assets/keys/user.json");
+const userKeys = initJsonFile("./assets/keys/user.json", Wallet.generateKeyPair());
+const minerKeys = initJsonFile("./assets/keys/miner.json", Wallet.generateKeyPair());
+const blockchain = new Blockchain({
     dbPath: "./assets/db/",
     nodes: {
         list: ["http://127.0.0.1:3001"],
@@ -19,10 +16,10 @@ const blockchain = new main_js_1.default({
     },
     chainName: "GoodChain",
     minerPublicKey: minerKeys.publicKey,
-    consensus: new pow_consensus_js_1.default()
+    consensus: new Consensus()
 });
 blockchain.mineNewBlock();
-const trx = new transaction_js_1.default({
+const trx = new Transaction({
     from: minerKeys.publicKey,
     to: userKeys.publicKey,
     amount: 50,
@@ -33,7 +30,7 @@ trx.sign(minerKeys.privateKey);
 const blockNumber = blockchain.addTransaction(trx.data);
 blockchain.mineNewBlock();
 console.log("Mined block :", blockNumber, blockchain.chain.latestBlock);
-const trx2 = new transaction_js_1.default({
+const trx2 = new Transaction({
     from: userKeys.publicKey,
     to: "user3",
     amount: 5,

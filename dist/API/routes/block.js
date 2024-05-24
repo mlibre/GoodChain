@@ -1,27 +1,24 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const tslib_1 = require("tslib");
-const express_1 = tslib_1.__importDefault(require("express"));
-const axios_1 = tslib_1.__importDefault(require("axios"));
-const blockchain_js_1 = tslib_1.__importDefault(require("../blockchain.js"));
-const utils_js_1 = require("../utils.js");
-const router = express_1.default.Router();
+import express from "express";
+import axios from "axios";
+import blockchain from "../blockchain.js";
+import { toNum } from "../utils.js";
+const router = express.Router();
 router.get("/", function (req, res) {
     const { list } = req.query;
     const { to, index, from, firstAndLast } = req.query;
     if (!index && !from && !to && !list && !firstAndLast) {
-        res.json(blockchain_js_1.default.chain.latestBlock);
+        res.json(blockchain.chain.latestBlock);
         return;
     }
     else if (index) {
-        const blockIndex = (0, utils_js_1.toNum)(index);
-        res.json(blockchain_js_1.default.chain.get(blockIndex));
+        const blockIndex = toNum(index);
+        res.json(blockchain.chain.get(blockIndex));
         return;
     }
     else if (from || to) {
-        const blockFrom = (0, utils_js_1.toNum)(from);
-        const blockTo = (0, utils_js_1.toNum)(to);
-        const blocks = blockchain_js_1.default.getBlocks(blockFrom, blockTo);
+        const blockFrom = toNum(from);
+        const blockTo = toNum(to);
+        const blocks = blockchain.getBlocks(blockFrom, blockTo);
         res.json(blocks);
         return;
     }
@@ -29,27 +26,27 @@ router.get("/", function (req, res) {
         const blockList = list.toString().split(",");
         const blocks = [];
         for (const blcokIndex of blockList) {
-            blocks.push(blockchain_js_1.default.chain.get(blcokIndex));
+            blocks.push(blockchain.chain.get(blcokIndex));
         }
         res.json(blocks);
         return;
     }
     else if (firstAndLast) {
         const blocks = [];
-        blocks.push(blockchain_js_1.default.chain.get(0));
-        blocks.push(blockchain_js_1.default.chain.latestBlock);
+        blocks.push(blockchain.chain.get(0));
+        blocks.push(blockchain.chain.latestBlock);
         res.json(blocks);
         return;
     }
 });
 router.post("/", function (req, res) {
-    const block = blockchain_js_1.default.addBlock(req.body);
+    const block = blockchain.addBlock(req.body);
     res.send(block);
 });
 router.get("/broadcast", async function (req, res) {
-    for (const node of blockchain_js_1.default.nodes.list) {
+    for (const node of blockchain.nodes.list) {
         try {
-            await axios_1.default.post(`${node}/block`, blockchain_js_1.default.chain.latestBlock);
+            await axios.post(`${node}/block`, blockchain.chain.latestBlock);
         }
         catch (error) {
             if (error instanceof Error) {
@@ -62,5 +59,5 @@ router.get("/broadcast", async function (req, res) {
     }
     res.send("Broadcasted to all nodes");
 });
-exports.default = router;
+export default router;
 //# sourceMappingURL=block.js.map

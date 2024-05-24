@@ -1,9 +1,6 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const tslib_1 = require("tslib");
-const lodash_1 = tslib_1.__importDefault(require("lodash"));
-const utils_js_1 = require("./utils.js");
-class POW {
+import _ from "lodash";
+import { computeHash } from "./utils.js";
+export default class POW {
     name;
     difficulty;
     minDifficulty;
@@ -35,10 +32,10 @@ class POW {
             targetDifficulty = previousBlock.consensusDifficulty.toString();
         }
         block.consensusNonce = 0;
-        let hash = (0, utils_js_1.computeHash)(block);
+        let hash = computeHash(block);
         while (hash.localeCompare(targetDifficulty) != -1) {
             block.consensusNonce++;
-            hash = (0, utils_js_1.computeHash)(block);
+            hash = computeHash(block);
         }
         block.consensusHash = hash;
         return block;
@@ -48,17 +45,17 @@ class POW {
         block.consensusDifficulty = this.difficulty;
         block.consensusTotalDifficulty = "0";
         block.consensusNonce = 0;
-        let hash = (0, utils_js_1.computeHash)(block);
+        let hash = computeHash(block);
         while (hash.localeCompare(this.difficulty) != -1) {
             block.consensusNonce++;
-            hash = (0, utils_js_1.computeHash)(block);
+            hash = computeHash(block);
         }
         block.consensusHash = hash;
         return block;
     }
     validate(block, previousBlock) {
-        const pureObject = lodash_1.default.omit(block, ["consensusHash", "hash"]);
-        const hash = (0, utils_js_1.computeHash)(pureObject);
+        const pureObject = _.omit(block, ["consensusHash", "hash"]);
+        const hash = computeHash(pureObject);
         if (block.consensusHash.toString().localeCompare(hash) !== 0) {
             throw new Error("Invalid hash");
         }
@@ -70,25 +67,24 @@ class POW {
         }
     }
     validateGenesis(block) {
-        const pureObject = lodash_1.default.omit(block, ["consensusHash", "hash"]);
-        const hash = (0, utils_js_1.computeHash)(pureObject);
+        const pureObject = _.omit(block, ["consensusHash", "hash"]);
+        const hash = computeHash(pureObject);
         if (block.consensusHash.toString().localeCompare(hash) !== 0) {
             throw new Error("Invalid hash");
         }
     }
     chooseBlock(blocks) {
-        return lodash_1.default.maxBy(blocks, (block) => {
+        return _.maxBy(blocks, (block) => {
             const blockDifficulty = parseInt(this.minDifficulty, 16) - parseInt(block.consensusHash.toString(), 16);
             return parseInt(block.consensusTotalDifficulty.toString(), 16) + blockDifficulty;
         });
     }
     chooseChain(nodesBlocks) {
-        return lodash_1.default.maxBy(nodesBlocks, (nodeBlock) => {
+        return _.maxBy(nodesBlocks, (nodeBlock) => {
             const { block } = nodeBlock;
             const blockDifficulty = parseInt(this.minDifficulty, 16) - parseInt(block.consensusHash.toString(), 16);
             return parseInt(block.consensusTotalDifficulty.toString(), 16) + blockDifficulty;
         });
     }
 }
-exports.default = POW;
 //# sourceMappingURL=pow-consensus.js.map
