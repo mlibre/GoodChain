@@ -6,13 +6,13 @@ export function verifyBlock(currentBlock, previousBlock) {
     if (currentBlock.hash !== computeHash(blockWithoutHash)) {
         throw new Error("Invalid block hash");
     }
-    if (blockWithoutHash.chainName !== previousBlock.chainName) {
+    if (currentBlock.chainName !== previousBlock.chainName) {
         throw new Error("Invalid chain name");
     }
-    if (blockWithoutHash.index !== previousBlock.index + 1) {
+    if (currentBlock.index !== previousBlock.index + 1) {
         throw new Error("Invalid index");
     }
-    if (previousBlock.hash !== currentBlock.previousHash) {
+    if (currentBlock.previousHash !== previousBlock.hash) {
         throw new Error("Invalid previous hash");
     }
     if (currentBlock.timestamp < previousBlock.timestamp) {
@@ -27,6 +27,12 @@ export function verifyGenesisBlock(block) {
     const blockWithoutHash = _.omit(block, ["hash"]);
     if (block.hash !== computeHash(blockWithoutHash)) {
         throw new Error("Invalid block hash");
+    }
+    if (block.index !== 0) {
+        throw new Error("Invalid index");
+    }
+    if (block.previousHash !== "") {
+        throw new Error("Invalid previous hash");
     }
 }
 export function blockify(data) {

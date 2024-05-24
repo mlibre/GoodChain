@@ -16,10 +16,9 @@ export default class GitDatabase {
         console.log("Git repository cleaned ", cleanOutput);
     }
     commit(blockNumber) {
-        const addOutput = execSync("git add --all", { cwd: this.repoPath }).toString();
-        console.log("Git repository added files ", addOutput);
         try {
-            execSync(`git commit -m "${blockNumber}"`, { cwd: this.repoPath }).toString();
+            execSync("git add --all", { cwd: this.repoPath });
+            execSync(`git commit -m "${blockNumber}"`, { cwd: this.repoPath });
         }
         catch (error) {
             if (isErrorWithStds(error)) {
@@ -34,8 +33,7 @@ export default class GitDatabase {
         }
     }
     reset() {
-        const resetOutput = execSync("git reset --hard", { cwd: this.repoPath }).toString();
-        console.log("Git repository reset", resetOutput);
+        execSync("git reset --hard", { cwd: this.repoPath });
     }
 }
 //# sourceMappingURL=database.js.map

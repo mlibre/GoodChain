@@ -28,11 +28,11 @@ export default class Blockchain {
         this.transactionPool = [];
         this.transactionPoolSize = 100;
         if (this.chain.length === 0) {
-            this.#minGenesisBlock();
+            this.#mineGenesisBlock();
         }
         this.consensus.setValues(this.chain.latestBlock);
     }
-    #minGenesisBlock() {
+    #mineGenesisBlock() {
         const self = this;
         try {
             self.db.reset();

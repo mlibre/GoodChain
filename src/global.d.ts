@@ -1,22 +1,25 @@
 interface BlockchainConstructorParams
 {
-	dbPath: string;
+	readonly dbPath: string;
 	nodes: {
 		list: string[];
 		hostUrl: string;
 	};
-	chainName: string;
-	minerPublicKey: string;
-	consensus: Consensus;
+	readonly chainName: string;
+	readonly minerPublicKey: string;
+	readonly consensus: Consensus;
 }
 
 interface WalletData
 {
 	blockNumber: number;
-	list:	Record<string, {
-		balance: number;
-		transaction_number: number;
-	}>;
+	list: Record<string, WalletBalance>;
+}
+
+interface WalletBalance
+{
+	balance: number;
+	transaction_number: number;
 }
 
 interface BlockData
@@ -54,7 +57,7 @@ interface KeyPair
 	privateKey: string;
 }
 
-interface ErrorWithStdsOutErr
+interface ErrorWithStdsOutErr extends Error
 {
 	stderr: string;
 	stdout: string;
