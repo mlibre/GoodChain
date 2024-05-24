@@ -123,13 +123,14 @@ class Wallet
 		}
 	}
 
-	checkFinalDBState ( proposedBlock: BlockData ): void
+	checkFinalDBState ( proposedBlock: BlockData ): boolean
 	{
 		this.reloadDB();
 		if ( this.wallet.blockNumber !== proposedBlock.index )
 		{
 			throw new Error( "Block number mismatch", { cause: { proposedBlock, wallet: this.wallet } });
 		}
+		return true;
 	}
 
 	reCalculateWallet ( chain: BlockData[] ): void

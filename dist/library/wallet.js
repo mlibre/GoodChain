@@ -91,6 +91,7 @@ class Wallet {
         if (this.wallet.blockNumber !== proposedBlock.index) {
             throw new Error("Block number mismatch", { cause: { proposedBlock, wallet: this.wallet } });
         }
+        return true;
     }
     reCalculateWallet(chain) {
         this.wipe();

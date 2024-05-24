@@ -23,6 +23,7 @@ describe("Blockchain Test Suite", () => {
     test("mining first block", () => {
         const newBlock = blockchain.mineNewBlock(); // miner: 200
         expect(newBlock.index).toBe(1);
+        expect(blockchain.chain.validateChain()).toBe(true);
     });
     test("Sending a transaction from miner to sender and mining a new block", () => {
         const transaction1 = new Transaction({
@@ -37,6 +38,7 @@ describe("Blockchain Test Suite", () => {
         blockchain.addTransaction(transaction1.data);
         const blockWithTransaction1 = blockchain.mineNewBlock(); // miner: 250, miner receives his own trx fee
         expect(blockWithTransaction1.transactions.length).toBe(2); // including coinbase transaction
+        expect(blockchain.chain.validateChain()).toBe(true);
     });
     test("Sending a transaction from sender to receiver and mining a new block", () => {
         const transaction2 = new Transaction({
@@ -51,6 +53,9 @@ describe("Blockchain Test Suite", () => {
         blockchain.addTransaction(transaction2.data);
         const blockWithTransaction2 = blockchain.mineNewBlock(); // miner: 351
         expect(blockWithTransaction2.transactions.length).toBe(2); // including coinbase transaction
+        expect(blockchain.chain.validateChain()).toBe(true);
+        expect(blockchain.wallet.checkFinalDBState(blockWithTransaction2)).toBe(true);
+        expect(blockchain.chain.checkFinalDBState(blockWithTransaction2)).toBe(true);
     });
     test("Validating the final state of the blockchain", () => {
         const finalStateValid = blockchain.chain.validateChain();
@@ -123,6 +128,50 @@ describe("Blockchain Test Suite", () => {
         catch (e) {
             if (e instanceof Error) {
                 expect(e.message).toBe("Invalid signature");
+            }
+            else {
+                throw e;
+            }
+        }
+    });
+    test("Handling transaction with zero amount", () => {
+        const transaction6 = new Transaction({
+            from: senderKeys.publicKey,
+            to: receiverKeys.publicKey,
+            amount: 0,
+            fee: 1,
+            transaction_number: 3,
+            signature: null
+        });
+        transaction6.sign(senderKeys.privateKey);
+        try {
+            blockchain.addTransaction(transaction6.data);
+        }
+        catch (e) {
+            if (e instanceof Error) {
+                expect(e.message).toBe("Invalid transaction amount");
+            }
+            else {
+                throw e;
+            }
+        }
+    });
+    test("Handling transaction with negative amount", () => {
+        const transaction7 = new Transaction({
+            from: senderKeys.publicKey,
+            to: receiverKeys.publicKey,
+            amount: -10,
+            fee: 1,
+            transaction_number: 4,
+            signature: null
+        });
+        transaction7.sign(senderKeys.privateKey);
+        try {
+            blockchain.addTransaction(transaction7.data);
+        }
+        catch (e) {
+            if (e instanceof Error) {
+                expect(e.message).toBe("Invalid amount");
             }
             else {
                 throw e;
