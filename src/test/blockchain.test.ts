@@ -4,7 +4,7 @@ import Transaction from "../library/transaction.js";
 import POWConsensus from "../library/pow-consensus.js";
 import fs from "fs";
 
-const TEST_DB_PATH = "./test-db";
+const TEST_DB_PATH = `${import.meta.dirname}/test-db`;
 
 // Utility function to clean the test database directory
 function cleanTestDB ()
@@ -38,18 +38,12 @@ async function main ()
 {
 	cleanTestDB();
 
-	// Initialize blockchain
-	const blockchain = initializeBlockchain();
+	const blockchain = initializeBlockchain(); // miner: 100
 
-	// Generate key pairs for two wallets
 	const senderKeys = Wallet.generateKeyPair();
 	const receiverKeys = Wallet.generateKeyPair();
 
-	// Mine the genesis block
-	blockchain.minGenesisBlock();
-
-	// Mine a new block
-	const newBlock = blockchain.mineNewBlock();
+	const newBlock = blockchain.mineNewBlock(); // miner: 200
 	console.log( "New block mined:", newBlock );
 
 	// Create a transaction from miner to sender
@@ -67,7 +61,7 @@ async function main ()
 	blockchain.addTransaction( transaction1.data );
 
 	// Mine a block containing the transaction
-	const blockWithTransaction1 = blockchain.mineNewBlock();
+	const blockWithTransaction1 = blockchain.mineNewBlock(); // miner: 250, miner receives his own trx fee
 	console.log( "Block with transaction 1 mined:", blockWithTransaction1 );
 
 	// Create a transaction from sender to receiver
@@ -102,7 +96,7 @@ async function main ()
 
 	console.assert( senderWalletBalance === 24, "Invalid sender wallet balance" );
 	console.assert( receiverWalletBalance === 25, "Invalid receiver wallet balance" );
-	console.assert( minerWalletBalance >= 101, "Invalid miner wallet balance" ); // Including mining rewards and fees
+	console.assert( minerWalletBalance === 351, "Invalid miner wallet balance" ); // Including mining rewards and fees
 }
 
 // Run the main test function

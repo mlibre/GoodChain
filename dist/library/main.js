@@ -16,7 +16,6 @@ export default class Blockchain {
     nodes;
     transactionPool;
     transactionPoolSize;
-    miningReward;
     constructor({ dbPath, nodes, chainName, minerPublicKey, consensus }) {
         this.consensus = consensus;
         this.chainName = chainName;
@@ -28,13 +27,12 @@ export default class Blockchain {
         this.db.commit("-1");
         this.transactionPool = [];
         this.transactionPoolSize = 100;
-        this.miningReward = 100;
         if (this.chain.length === 0) {
-            this.minGenesisBlock();
+            this.#minGenesisBlock();
         }
         this.consensus.setValues(this.chain.latestBlock);
     }
-    minGenesisBlock() {
+    #minGenesisBlock() {
         const self = this;
         try {
             self.db.reset();
@@ -152,7 +150,7 @@ export default class Blockchain {
         return {
             from: null,
             to: this.minerPublicKey,
-            amount: this.miningReward + calculateMiningFee(this.transactionPool),
+            amount: this.consensus.miningReward + calculateMiningFee(this.transactionPool),
             fee: 0,
             transaction_number: 0,
             signature: null

@@ -4,10 +4,12 @@ export default class POW {
     name;
     difficulty;
     minDifficulty;
+    miningReward;
     constructor() {
         this.name = "pow";
         this.difficulty = "000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff";
         this.minDifficulty = "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff";
+        this.miningReward = 100;
     }
     setValues(block) {
         if (block.consensusDifficulty) {

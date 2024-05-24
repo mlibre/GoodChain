@@ -6,12 +6,14 @@ export default class POW
 	private name: string;
 	private difficulty: string;
 	private minDifficulty: string;
+	public miningReward: number;
 
 	constructor ()
 	{
 		this.name = "pow";
 		this.difficulty = "000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff";
 		this.minDifficulty = "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff";
+		this.miningReward = 100;
 	}
 
 	setValues ( block: BlockData )
