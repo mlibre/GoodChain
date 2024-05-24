@@ -59,7 +59,7 @@ class Wallet {
         this.validateAddress(address);
         return ++this.wallet.list[address].transaction_number;
     }
-    balance(address) {
+    getBalance(address) {
         return this.wallet.list[address].balance;
     }
     addBalance(address, amount) {
@@ -68,7 +68,7 @@ class Wallet {
     }
     minusBalance(address, amount) {
         this.validateAddress(address);
-        if (this.balance(address) < amount) {
+        if (this.getBalance(address) < amount) {
             throw new Error("Insufficient balance", { cause: { address, amount } });
         }
         return this.wallet.list[address].balance -= amount;
