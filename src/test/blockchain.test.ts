@@ -3,8 +3,7 @@ import Wallet from "../library/wallet.js";
 import Transaction from "../library/transaction.js";
 import POWConsensus from "../library/pow-consensus.js";
 import fs from "fs";
-import { test } from "node:test";
-import assert from "node:assert";
+import { expect, test } from "vitest";
 
 const TEST_DB_PATH = `${import.meta.dirname}/test-db`;
 
@@ -15,7 +14,6 @@ function cleanTestDB ()
 	{
 		fs.rmSync( TEST_DB_PATH, { recursive: true });
 	}
-	fs.mkdirSync( TEST_DB_PATH );
 }
 
 // Initialize the test environment
@@ -44,64 +42,54 @@ test( "Blockchain Test Suite", async ( t ) =>
 	const senderKeys = Wallet.generateKeyPair();
 	const receiverKeys = Wallet.generateKeyPair();
 
-	await t.test( "Mine initial block", async () =>
-	{
-		const newBlock = blockchain.mineNewBlock(); // miner: 200
-		console.log( "New block mined:", newBlock );
-		assert.strictEqual( newBlock.index, 1, "First block should be mined" );
+
+	const newBlock = blockchain.mineNewBlock(); // miner: 200
+	expect( newBlock.index ).toBe( 1 ); // Changed from assert.strictEqual
+
+
+	const transaction1 = new Transaction({
+		from: minerKeys.publicKey,
+		to: senderKeys.publicKey,
+		amount: 50,
+		fee: 1,
+		transaction_number: 1,
+		signature: null
 	});
+	transaction1.sign( minerKeys.privateKey );
+	blockchain.addTransaction( transaction1.data );
 
-	await t.test( "Create and mine transaction from miner to sender", async () =>
-	{
-		const transaction1 = new Transaction({
-			from: minerKeys.publicKey,
-			to: senderKeys.publicKey,
-			amount: 50,
-			fee: 1,
-			transaction_number: 1,
-			signature: null
-		});
-		transaction1.sign( minerKeys.privateKey );
-		blockchain.addTransaction( transaction1.data );
+	const blockWithTransaction1 = blockchain.mineNewBlock(); // miner: 250, miner receives his own trx fee
+	expect( blockWithTransaction1.transactions.length ).toBe( 2 ); // Changed from assert.strictEqual
 
-		const blockWithTransaction1 = blockchain.mineNewBlock(); // miner: 250, miner receives his own trx fee
-		console.log( "Block with transaction 1 mined:", blockWithTransaction1 );
-		assert.strictEqual( blockWithTransaction1.transactions.length, 2, "Block should contain 2 transactions" );
+
+	const transaction2 = new Transaction({
+		from: senderKeys.publicKey,
+		to: receiverKeys.publicKey,
+		amount: 25,
+		fee: 1,
+		transaction_number: 1,
+		signature: null
 	});
+	transaction2.sign( senderKeys.privateKey );
+	blockchain.addTransaction( transaction2.data );
 
-	await t.test( "Create and mine transaction from sender to receiver", async () =>
-	{
-		const transaction2 = new Transaction({
-			from: senderKeys.publicKey,
-			to: receiverKeys.publicKey,
-			amount: 25,
-			fee: 1,
-			transaction_number: 1,
-			signature: null
-		});
-		transaction2.sign( senderKeys.privateKey );
-		blockchain.addTransaction( transaction2.data );
+	const blockWithTransaction2 = blockchain.mineNewBlock();
+	expect( blockWithTransaction2.transactions.length ).toBe( 2 ); // Changed from assert.strictEqual
 
-		const blockWithTransaction2 = blockchain.mineNewBlock();
-		console.log( "Block with transaction 2 mined:", blockWithTransaction2 );
-		assert.strictEqual( blockWithTransaction2.transactions.length, 2, "Block should contain 2 transactions" );
-	});
 
-	await t.test( "Validate final blockchain state and balances", async () =>
-	{
-		const finalStateValid = blockchain.chain.validateChain();
-		assert.strictEqual( finalStateValid, true, "Blockchain state should be valid" );
+	const finalStateValid = blockchain.chain.validateChain();
+	expect( finalStateValid ).toBe( true );
 
-		const senderWalletBalance = blockchain.wallet.getBalance( senderKeys.publicKey );
-		const receiverWalletBalance = blockchain.wallet.getBalance( receiverKeys.publicKey );
-		const minerWalletBalance = blockchain.wallet.getBalance( minerKeys.publicKey );
+	const senderWalletBalance = blockchain.wallet.getBalance( senderKeys.publicKey );
+	const receiverWalletBalance = blockchain.wallet.getBalance( receiverKeys.publicKey );
+	const minerWalletBalance = blockchain.wallet.getBalance( minerKeys.publicKey );
 
-		console.log( "Sender wallet balance:", senderWalletBalance );
-		console.log( "Receiver wallet balance:", receiverWalletBalance );
-		console.log( "Miner wallet balance:", minerWalletBalance );
+	console.log( "Sender wallet balance:", senderWalletBalance );
+	console.log( "Receiver wallet balance:", receiverWalletBalance );
+	console.log( "Miner wallet balance:", minerWalletBalance );
+	expect( senderWalletBalance ).toBe( 24 );
+	expect( receiverWalletBalance ).toBe( 25 );
+	expect( minerWalletBalance ).toBe( 351 );
 
-		assert.strictEqual( senderWalletBalance, 24, "Invalid sender wallet balance" );
-		assert.strictEqual( receiverWalletBalance, 25, "Invalid receiver wallet balance" );
-		assert.strictEqual( minerWalletBalance, 351, "Invalid miner wallet balance" ); // Including mining rewards and fees
-	});
+	cleanTestDB();
 });
