@@ -1,13 +1,13 @@
 # GoodChain
 
-Welcome to **GoodChain**, a blockchain platform designed for both beginners and experienced, seeking simplicity and flexibility. Built with `TypeScript` and `LevelDB(soon)`, **GoodChain** offers a customizable environment for experimenting with consensus algorithms, including a default Simple **Proof-of-Work (PoW)** option.
+Welcome to **GoodChain**, a blockchain platform designed for both beginners and experienced users, seeking simplicity and flexibility. Built with `TypeScript` and `LevelDB (soon)`, **GoodChain** offers a customizable environment for experimenting with consensus algorithms, including a default Simple **Proof-of-Work (PoW)** option.
 
 **GoodChain** is a distributed ledger that enables secure and irreversible transactions across a peer-to-peer distributed network of nodes, ensuring the integrity of data.  
 
 ## Key Features 🚀
 
-- **Pluginable Consensus**: Have fun experimenting with your consensus algorithms or try the default PoW implementation
-- **RESTful API**: Seamlessly integrate external systems with `GoodChain` user-friendly API
+- **Pluginable Consensus**: Experiment with your consensus algorithms or use the default PoW implementation
+- **RESTful API**: Seamlessly integrate external systems with `GoodChain`'s user-friendly API
 - **Wallet Management**: Efficiently manage digital wallets, track balances, and handle transactions
 - **Node Discovery and Synchronization**: Discover and sync with other nodes in the network to maintain a consistent state across the blockchain
 - **Transaction Pool**: Manage pending transactions with our built-in transaction pool
@@ -21,19 +21,19 @@ To embark on your `GoodChain` adventure, simply clone the repository and install
 git clone https://github.com/mlibre/GoodChain.git
 cd GoodChain
 
-# install TypeScript, tsx, nodemon and Eslint
-
+# Install global dependencies
 sudo npm install -g nodemon tsx typescript eslint
-# Install dependencies
+
+# Install project dependencies
 npm install
 
-# Generate Your miner keys for the first time
+# Generate your miner keys for the first time
 tsx src/test/generateKeys.ts
 
 # Mine the very first block
 tsx src/test/init.ts
 
-# You may also run Nodejs files directly
+# You may also run Node.js files directly
 node dist/test/init.js
 
 # Run the GoodChain node
@@ -54,7 +54,7 @@ npm start -- --host "http://localhost:3000" --nodes "http://localhost:3001" --db
 
 ### Running Multiple REST Nodes 🌟
 
-Get playful and run multiple nodes in the GoodChain network! Each node will have its own unique identity and contribute to the decentralized magic. For example:
+Run multiple nodes in the GoodChain network! Each node will have its own unique identity and contribute to the decentralized network. For example:
 
 ```bash
 # Node 1
@@ -71,7 +71,7 @@ Each node will have its own blockchain data, wallets, and nodes list, but they c
 
 ### RESTful API Endpoints 🛣️
 
-`GoodChain` provides a treasure trove of **http API** endpoints for your blockchain interactions. Explore, experiment, and have fun building amazing applications!
+`GoodChain` provides a rich set of **http API** endpoints for your blockchain interactions. Explore, experiment, and have fun building amazing applications!
 
 | Endpoint              | Method | Description                                                                                    |
 | --------------------- | ------ | ---------------------------------------------------------------------------------------------- |
@@ -91,26 +91,62 @@ Each node will have its own blockchain data, wallets, and nodes list, but they c
 | `/transaction/sign`   | POST   | Signs a transaction with a private key                                                         |
 | `/wallet`             | GET    | Retrieves information about wallets in the blockchain                                          |
 
+## Testing the Project 🧪
+
+To ensure the reliability and correctness of the `GoodChain` project, you can run tests.
+
+### Running All Tests
+
+Run the entire test suite using `vitest`:
+
+```bash
+npm run test
+# OR
+vitest run
+```
+
+### Running Tests with the UI
+
+For an interactive testing experience, use the `vitest` UI:
+
+```bash
+npm run test-ui
+# OR
+vitest --ui
+```
+
+### Running Specific Tests
+
+To run a specific test file, for example, the blockchain tests:
+
+```bash
+npm run test src/test/blockchain.test.ts
+```
+
 ## Support and Resources 🤝
 
 Check out the **Bruno collection** in the `assets` folder for a quick start with API requests.
 
 ## License 📜
 
-This project is licensed under the GNU General Public License
+This project is licensed under the GNU General Public License.
 
-## Version 1
+## Version History
 
-The first version of `GoodChain`. It was a simple blockchain implementation that was used to learn about the blockchain technology. It was simply using `json` files to store the blockchain data. You can check out the [realases](https://github.com/mlibre/GoodChain/releases/tag/1.0.5) to see the code.
+### Version 1
 
-## Version 2 (latest version)
+The first version of `GoodChain` was a simple blockchain implementation used to learn about blockchain technology. It used `json` files to store the blockchain data. Check out the [releases](https://github.com/mlibre/GoodChain/releases/tag/1.0.5) to see the code.
 
-The second version of `GoodChain` is the successor to the first version. It was built using `Node.js` and `Express.js`, and uses `git` to store the blockchain data.
+### Version 2 (latest version)
 
-## Version 3 (in progress)
-The third version of `GoodChain` is the successor to the second version. It was built using `TypeScript`, `Express.js`, and `TypeORM`.
+The second version of `GoodChain` built using `Node.js` and `Express.js`, and uses `git` to store the blockchain data.
+
+### Version 3 (in progress)
+
+The third version of `GoodChain` is built using `TypeScript`, `Express.js`, and `TypeORM`.
 
 ## Donate 💖
 
-ETH:
+If you find `GoodChain` helpful and would like to support its development, you can donate ETH to the following address:
+
 > 0xc9b64496986E7b6D4A68fDF69eF132A35e91838e
