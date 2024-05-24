@@ -22,7 +22,7 @@ git clone https://github.com/mlibre/GoodChain.git
 cd GoodChain
 
 # Install global dependencies
-sudo npm install -g nodemon tsx typescript eslint
+sudo npm install -g nodemon tsx typescript eslint vitest
 
 # Install project dependencies
 npm install
