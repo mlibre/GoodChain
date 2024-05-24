@@ -111,7 +111,7 @@ export default class POW
 		});
 	}
 
-	chooseChain ( nodesBlocks: nodesBlocks[] ): nodesBlocks | undefined
+	chooseChain ( nodesBlocks: NodesBlocks[] ): NodesBlocks | undefined
 	{
 		return _.maxBy( nodesBlocks, ( nodeBlock ) =>
 		{

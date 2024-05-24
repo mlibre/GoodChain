@@ -26,12 +26,10 @@ export default class GitDatabase
 
 	commit ( blockNumber: string | number )
 	{
-		const addOutput: string = execSync( "git add --all", { cwd: this.repoPath }).toString();
-		console.log( "Git repository added files ", addOutput );
-
 		try
 		{
-			execSync( `git commit -m "${blockNumber}"`, { cwd: this.repoPath }).toString();
+			execSync( "git add --all", { cwd: this.repoPath });
+			execSync( `git commit -m "${blockNumber}"`, { cwd: this.repoPath });
 		}
 		catch ( error: unknown )
 		{
@@ -52,7 +50,6 @@ export default class GitDatabase
 
 	reset ()
 	{
-		const resetOutput: string = execSync( "git reset --hard", { cwd: this.repoPath }).toString();
-		console.log( "Git repository reset", resetOutput );
+		execSync( "git reset --hard", { cwd: this.repoPath });
 	}
 }

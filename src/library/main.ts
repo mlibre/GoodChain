@@ -35,13 +35,13 @@ export default class Blockchain
 
 		if ( this.chain.length === 0 )
 		{
-			this.#minGenesisBlock();
+			this.#mineGenesisBlock();
 		}
 
 		this.consensus.setValues( this.chain.latestBlock );
 	}
 
-	#minGenesisBlock ()
+	#mineGenesisBlock ()
 	{
 		const self = this;
 		try
