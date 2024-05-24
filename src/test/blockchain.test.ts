@@ -28,13 +28,13 @@ describe( "Blockchain Test Suite", () =>
 		cleanTestDB();
 	});
 
-	test( "serial test", () =>
+	test( "mining first block", () =>
 	{
 		const newBlock = blockchain.mineNewBlock(); // miner: 200
 		expect( newBlock.index ).toBe( 1 );
 	});
 
-	test( "parallel test", () =>
+	test( "Sending a transaction from miner to sender and mining a new block", () =>
 	{
 		const transaction1 = new Transaction({
 			from: minerKeys.publicKey,
@@ -49,7 +49,10 @@ describe( "Blockchain Test Suite", () =>
 
 		const blockWithTransaction1 = blockchain.mineNewBlock(); // miner: 250, miner receives his own trx fee
 		expect( blockWithTransaction1.transactions.length ).toBe( 2 ); // including coinbase transaction
+	});
 
+	test( "parallel test 2", () =>
+	{
 		const transaction2 = new Transaction({
 			from: senderKeys.publicKey,
 			to: receiverKeys.publicKey,
