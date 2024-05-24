@@ -3,7 +3,6 @@
   "version": "2.0.2",
   "description": "GoodChain: Blockchain for Everyone",
   "main": "index.js",
-  "type": "module",
   "repository": {
     "url": "https://github.com/mlibre/GoodChain",
     "type": "git"

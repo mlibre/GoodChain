@@ -1,13 +1,16 @@
-import _ from "lodash";
-import { initJsonFile, generateFilePath, updateFile } from "./utils.js";
-export default class Nodes {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = require("tslib");
+const lodash_1 = tslib_1.__importDefault(require("lodash"));
+const utils_js_1 = require("./utils.js");
+class Nodes {
     filePath;
     list;
     hostUrl;
     constructor(folderPath, nodes) {
-        this.filePath = generateFilePath(folderPath, "nodes", "nodes.json");
-        const nodesFile = initJsonFile(this.filePath);
-        this.list = _.uniq(nodes.list.concat(nodesFile.list || []));
+        this.filePath = (0, utils_js_1.generateFilePath)(folderPath, "nodes", "nodes.json");
+        const nodesFile = (0, utils_js_1.initJsonFile)(this.filePath);
+        this.list = lodash_1.default.uniq(nodes.list.concat(nodesFile.list || []));
         this.hostUrl = nodes.hostUrl ?? nodesFile.hostUrl;
         this.updateDB();
     }
@@ -38,10 +41,11 @@ export default class Nodes {
         return { host, port, protocol };
     }
     updateDB() {
-        updateFile(this.filePath, {
+        (0, utils_js_1.updateFile)(this.filePath, {
             list: this.list,
             hostUrl: this.hostUrl
         });
     }
 }
+exports.default = Nodes;
 //# sourceMappingURL=nodes.js.map

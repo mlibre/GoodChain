@@ -1,19 +1,22 @@
-import express from "express";
-const router = express.Router();
-import blockchain from "../blockchain.js";
-import axios from "axios";
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = require("tslib");
+const express_1 = tslib_1.__importDefault(require("express"));
+const router = express_1.default.Router();
+const blockchain_js_1 = tslib_1.__importDefault(require("../blockchain.js"));
+const axios_1 = tslib_1.__importDefault(require("axios"));
 router.get("/", function (req, res) {
-    res.send(blockchain.nodes.all);
+    res.send(blockchain_js_1.default.nodes.all);
 });
 router.post("/", function (req, res) {
-    const result = blockchain.addNode(req.body.url);
+    const result = blockchain_js_1.default.addNode(req.body.url);
     res.send(result);
 });
 router.post("/update", async function (req, res) {
-    for (const node of blockchain.nodes.list) {
+    for (const node of blockchain_js_1.default.nodes.list) {
         try {
-            const response = await axios.get(`${node}/nodes`);
-            blockchain.nodes.addBulk(response.data);
+            const response = await axios_1.default.get(`${node}/nodes`);
+            blockchain_js_1.default.nodes.addBulk(response.data);
         }
         catch (error) {
             if (error instanceof Error) {
@@ -24,13 +27,13 @@ router.post("/update", async function (req, res) {
             }
         }
     }
-    res.send(blockchain.nodes.all);
+    res.send(blockchain_js_1.default.nodes.all);
 });
 router.get("/broadcast", async function (req, res) {
-    for (const node of blockchain.nodes.list) {
+    for (const node of blockchain_js_1.default.nodes.list) {
         try {
-            await axios.post(`${node}/nodes`, {
-                url: blockchain.nodes.hostUrl
+            await axios_1.default.post(`${node}/nodes`, {
+                url: blockchain_js_1.default.nodes.hostUrl
             });
         }
         catch (error) {
@@ -44,5 +47,5 @@ router.get("/broadcast", async function (req, res) {
     }
     res.send("Introduced self to all nodes");
 });
-export default router;
+exports.default = router;
 //# sourceMappingURL=node.js.map

@@ -1,19 +1,22 @@
-import crypto from "crypto";
-import Transaction from "./transaction.js";
-import { initJsonFile, generateFilePath, updateFile } from "./utils.js";
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = require("tslib");
+const crypto_1 = tslib_1.__importDefault(require("crypto"));
+const transaction_js_1 = tslib_1.__importDefault(require("./transaction.js"));
+const utils_js_1 = require("./utils.js");
 class Wallet {
     filePath;
     wallet;
     constructor(folderPath) {
-        this.filePath = generateFilePath(folderPath, "wallet", "wallet.json");
-        this.wallet = initJsonFile(this.filePath, { blockNumber: -1, list: {} });
+        this.filePath = (0, utils_js_1.generateFilePath)(folderPath, "wallet", "wallet.json");
+        this.wallet = (0, utils_js_1.initJsonFile)(this.filePath, { blockNumber: -1, list: {} });
     }
     get allData() {
         return this.wallet;
     }
     performTransactions(transactionList) {
         for (const tmpTrx of transactionList) {
-            const trx = new Transaction(tmpTrx);
+            const trx = new transaction_js_1.default(tmpTrx);
             if (trx.isCoinBase()) {
                 this.addBalance(trx.to, trx.amount);
                 continue;
@@ -32,7 +35,7 @@ class Wallet {
         const newTransactions = [];
         for (const tmpTrx of transactions) {
             try {
-                const trx = new Transaction(tmpTrx);
+                const trx = new transaction_js_1.default(tmpTrx);
                 if (trx.isCoinBase()) {
                     console.warn("Dropping coinbase transaction");
                     continue;
@@ -99,21 +102,21 @@ class Wallet {
         }
     }
     reloadDB() {
-        this.wallet = initJsonFile(this.filePath, { blockNumber: 0, list: {} });
+        this.wallet = (0, utils_js_1.initJsonFile)(this.filePath, { blockNumber: 0, list: {} });
     }
     wipe() {
         this.wallet = { blockNumber: -1, list: {} };
         this.updateDB();
     }
     updateDB() {
-        updateFile(this.filePath, this.wallet);
+        (0, utils_js_1.updateFile)(this.filePath, this.wallet);
     }
     static generateKeyPair() {
-        const keyPair = crypto.generateKeyPairSync("ed25519");
+        const keyPair = crypto_1.default.generateKeyPairSync("ed25519");
         const publicKey = keyPair.publicKey.export({ type: "spki", format: "pem" }).toString();
         const privateKey = keyPair.privateKey.export({ type: "pkcs8", format: "pem" }).toString();
         return { publicKey, privateKey };
     }
 }
-export default Wallet;
+exports.default = Wallet;
 //# sourceMappingURL=wallet.js.map

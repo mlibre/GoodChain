@@ -14,7 +14,8 @@
 		"strict": true,
 		"skipLibCheck": true,
 		"sourceMap": true,
-		"useUnknownInCatchVariables": true
+		"useUnknownInCatchVariables": true,
+		"noUnusedLocals": true,
 		// "isolatedModules": true
 	},
 	// "include": [

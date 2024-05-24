@@ -1,42 +1,51 @@
-import crypto from "crypto";
-import { existsSync, mkdirSync, readFileSync, rmSync, unlinkSync, writeFileSync } from "fs";
-import path from "path";
-import { v4 as uuidv4 } from "uuid";
-export function calculateMiningFee(transactionPool) {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.generateFilePath = exports.removePublicKeyHeaders = exports.generateUuid = exports.createFolder = exports.deleteFolder = exports.deleteFile = exports.updateFile = exports.initJsonFile = exports.objectify = exports.computeHash = exports.calculateMiningFee = void 0;
+const tslib_1 = require("tslib");
+const crypto_1 = tslib_1.__importDefault(require("crypto"));
+const fs_1 = require("fs");
+const path_1 = tslib_1.__importDefault(require("path"));
+const uuid_1 = require("uuid");
+function calculateMiningFee(transactionPool) {
     return transactionPool.reduce((totalFee, transaction) => {
         return totalFee + transaction.fee;
     }, 0);
 }
-export function computeHash(data) {
+exports.calculateMiningFee = calculateMiningFee;
+function computeHash(data) {
     const stringData = JSON.stringify(data);
-    return crypto
+    return crypto_1.default
         .createHash("sha256")
         .update(stringData)
         .digest("hex");
 }
-export function objectify(data) {
+exports.computeHash = computeHash;
+function objectify(data) {
     return JSON.parse(JSON.stringify(data));
 }
-export function initJsonFile(filePath, defaultData = {}) {
-    const folderPath = path.dirname(filePath);
-    if (!existsSync(folderPath)) {
-        mkdirSync(folderPath, { recursive: true });
+exports.objectify = objectify;
+function initJsonFile(filePath, defaultData = {}) {
+    const folderPath = path_1.default.dirname(filePath);
+    if (!(0, fs_1.existsSync)(folderPath)) {
+        (0, fs_1.mkdirSync)(folderPath, { recursive: true });
     }
-    if (existsSync(filePath)) {
-        return JSON.parse(readFileSync(filePath, "utf8"));
+    if ((0, fs_1.existsSync)(filePath)) {
+        return JSON.parse((0, fs_1.readFileSync)(filePath, "utf8"));
     }
     else {
-        writeFileSync(filePath, JSON.stringify(defaultData, null, "\t"));
+        (0, fs_1.writeFileSync)(filePath, JSON.stringify(defaultData, null, "\t"));
         return defaultData;
     }
 }
-export function updateFile(filePath, data) {
-    writeFileSync(filePath, JSON.stringify(data, null, "\t"));
+exports.initJsonFile = initJsonFile;
+function updateFile(filePath, data) {
+    (0, fs_1.writeFileSync)(filePath, JSON.stringify(data, null, "\t"));
 }
-export function deleteFile(filePath) {
+exports.updateFile = updateFile;
+function deleteFile(filePath) {
     try {
-        if (existsSync(filePath)) {
-            unlinkSync(filePath);
+        if ((0, fs_1.existsSync)(filePath)) {
+            (0, fs_1.unlinkSync)(filePath);
             console.log(`File ${filePath} Deleted`);
         }
         else {
@@ -47,14 +56,16 @@ export function deleteFile(filePath) {
         console.error(`Error deleting ${filePath}:`, error);
     }
 }
-export function deleteFolder(folderPath) {
-    if (existsSync(folderPath)) {
-        rmSync(folderPath, { recursive: true, force: true });
+exports.deleteFile = deleteFile;
+function deleteFolder(folderPath) {
+    if ((0, fs_1.existsSync)(folderPath)) {
+        (0, fs_1.rmSync)(folderPath, { recursive: true, force: true });
     }
 }
-export function createFolder(folderPath) {
-    if (!existsSync(folderPath)) {
-        mkdirSync(folderPath);
+exports.deleteFolder = deleteFolder;
+function createFolder(folderPath) {
+    if (!(0, fs_1.existsSync)(folderPath)) {
+        (0, fs_1.mkdirSync)(folderPath);
         console.log(`Folder ${folderPath} Created`);
         return true;
     }
@@ -63,16 +74,20 @@ export function createFolder(folderPath) {
         return false;
     }
 }
-export function generateUuid() {
-    return uuidv4();
+exports.createFolder = createFolder;
+function generateUuid() {
+    return (0, uuid_1.v4)();
 }
-export function removePublicKeyHeaders(publicKey) {
+exports.generateUuid = generateUuid;
+function removePublicKeyHeaders(publicKey) {
     const headerRegex = /^-----BEGIN PUBLIC KEY-----\r?\n/;
     const footerRegex = /\n-----END PUBLIC KEY-----/;
     const strippedPublicKey = publicKey.replace(headerRegex, "");
     return strippedPublicKey.replace(footerRegex, "");
 }
-export function generateFilePath(folderPath, ...params) {
-    return path.join(folderPath, ...params);
+exports.removePublicKeyHeaders = removePublicKeyHeaders;
+function generateFilePath(folderPath, ...params) {
+    return path_1.default.join(folderPath, ...params);
 }
+exports.generateFilePath = generateFilePath;
 //# sourceMappingURL=utils.js.map

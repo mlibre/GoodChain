@@ -1,23 +1,26 @@
-import fs from "fs";
-import _ from "lodash";
-import path from "path";
-import * as Block from "./block.js";
-import { createFolder, generateFilePath } from "./utils.js";
-export default class ChainStore {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = require("tslib");
+const fs_1 = tslib_1.__importDefault(require("fs"));
+const lodash_1 = tslib_1.__importDefault(require("lodash"));
+const path_1 = tslib_1.__importDefault(require("path"));
+const Block = tslib_1.__importStar(require("./block.js"));
+const utils_js_1 = require("./utils.js");
+class ChainStore {
     folderPath;
     constructor(folderPath) {
-        this.folderPath = generateFilePath(folderPath, "chain");
-        createFolder(this.folderPath);
+        this.folderPath = (0, utils_js_1.generateFilePath)(folderPath, "chain");
+        (0, utils_js_1.createFolder)(this.folderPath);
     }
     get length() {
-        return fs.readdirSync(this.folderPath).length;
+        return fs_1.default.readdirSync(this.folderPath).length;
     }
     get all() {
-        const fileNames = fs.readdirSync(this.folderPath).sort();
+        const fileNames = fs_1.default.readdirSync(this.folderPath).sort();
         const blocks = [];
         for (const fileName of fileNames) {
-            const filePath = path.join(this.folderPath, fileName);
-            const block = JSON.parse(fs.readFileSync(filePath, "utf8"));
+            const filePath = path_1.default.join(this.folderPath, fileName);
+            const block = JSON.parse(fs_1.default.readFileSync(filePath, "utf8"));
             blocks.push(block);
         }
         return blocks;
@@ -27,7 +30,7 @@ export default class ChainStore {
         if (blockIndex >= this.length || blockIndex < 0) {
             throw new Error("Invalid block number");
         }
-        return JSON.parse(fs.readFileSync(`${this.blockFilePath(blockNumber)}.json`, "utf8"));
+        return JSON.parse(fs_1.default.readFileSync(`${this.blockFilePath(blockNumber)}.json`, "utf8"));
     }
     getRange(from, to) {
         const blocks = [];
@@ -41,15 +44,15 @@ export default class ChainStore {
         return this.get(0);
     }
     get latestBlock() {
-        const files = fs.readdirSync(this.folderPath);
+        const files = fs_1.default.readdirSync(this.folderPath);
         const lastFile = files.sort().pop();
         if (!lastFile) {
             throw new Error("No blocks found");
         }
-        return JSON.parse(fs.readFileSync(this.blockFilePath(lastFile), "utf8"));
+        return JSON.parse(fs_1.default.readFileSync(this.blockFilePath(lastFile), "utf8"));
     }
     push(block) {
-        fs.writeFileSync(`${this.blockFilePath(block.index)}.json`, JSON.stringify(block, null, "\t"));
+        fs_1.default.writeFileSync(`${this.blockFilePath(block.index)}.json`, JSON.stringify(block, null, "\t"));
     }
     replaceBlocks(blocks) {
         for (const block of blocks) {
@@ -62,24 +65,24 @@ export default class ChainStore {
         return [lastBlock, secondLastBlock];
     }
     blockFilePath(index) {
-        return path.join(this.folderPath, index.toString());
+        return path_1.default.join(this.folderPath, index.toString());
     }
     checkFinalDBState(proposedBlock) {
         if (proposedBlock.index === 0) {
             const lastBlock = this.latestBlock;
             Block.verifyGenesisBlock(lastBlock);
-            if (!_.isEqual(lastBlock, proposedBlock)) {
+            if (!lodash_1.default.isEqual(lastBlock, proposedBlock)) {
                 throw new Error("Invalid chain");
             }
             return true;
         }
         const [lastBlock, secondLastBlock] = [this.get(proposedBlock.index), this.get(proposedBlock.index - 1)];
         Block.verifyBlock(lastBlock, secondLastBlock);
-        if (!_.isEqual(lastBlock, proposedBlock)) {
+        if (!lodash_1.default.isEqual(lastBlock, proposedBlock)) {
             throw new Error("Invalid chain");
         }
         const [lastBlockFile, secondLastBlockFile] = this.lastTwoBlocks();
-        if (!_.isEqual(lastBlockFile, lastBlock) || !_.isEqual(secondLastBlockFile, secondLastBlock)) {
+        if (!lodash_1.default.isEqual(lastBlockFile, lastBlock) || !lodash_1.default.isEqual(secondLastBlockFile, secondLastBlock)) {
             throw new Error("Invalid chain");
         }
         return true;
@@ -99,4 +102,5 @@ export default class ChainStore {
         return true;
     }
 }
+exports.default = ChainStore;
 //# sourceMappingURL=chain.js.map

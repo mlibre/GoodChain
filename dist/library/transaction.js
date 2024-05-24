@@ -1,6 +1,9 @@
-import crypto from "crypto";
-import { generateUuid } from "./utils.js";
-export default class Transaction {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = require("tslib");
+const crypto_1 = tslib_1.__importDefault(require("crypto"));
+const utils_js_1 = require("./utils.js");
+class Transaction {
     from;
     to;
     amount;
@@ -15,7 +18,7 @@ export default class Transaction {
         this.fee = fee;
         this.transaction_number = transaction_number;
         this.signature = signature;
-        this.id = id || generateUuid();
+        this.id = id || (0, utils_js_1.generateUuid)();
     }
     get data() {
         return {
@@ -56,14 +59,14 @@ export default class Transaction {
             throw new Error("No signature or from");
         }
         const signature = Buffer.from(this.signature, "hex");
-        const result = crypto.verify(null, Buffer.from(JSON.stringify(this.dataWithoutSignature)), this.from, signature);
+        const result = crypto_1.default.verify(null, Buffer.from(JSON.stringify(this.dataWithoutSignature)), this.from, signature);
         if (!result) {
             throw new Error("Invalid signature");
         }
         return result;
     }
     sign(privateKey) {
-        const signature = crypto.sign(null, Buffer.from(JSON.stringify(this.dataWithoutSignature)), privateKey);
+        const signature = crypto_1.default.sign(null, Buffer.from(JSON.stringify(this.dataWithoutSignature)), privateKey);
         this.signature = signature.toString("hex");
         return this.signature;
     }
@@ -71,4 +74,5 @@ export default class Transaction {
         return this.from === null;
     }
 }
+exports.default = Transaction;
 //# sourceMappingURL=transaction.js.map

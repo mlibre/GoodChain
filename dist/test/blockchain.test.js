@@ -1,21 +1,24 @@
-import Blockchain from "../library/main.js";
-import Wallet from "../library/wallet.js";
-import Transaction from "../library/transaction.js";
-import POWConsensus from "../library/pow-consensus.js";
-import fs from "fs";
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = require("tslib");
+const main_js_1 = tslib_1.__importDefault(require("../library/main.js"));
+const wallet_js_1 = tslib_1.__importDefault(require("../library/wallet.js"));
+const transaction_js_1 = tslib_1.__importDefault(require("../library/transaction.js"));
+const pow_consensus_js_1 = tslib_1.__importDefault(require("../library/pow-consensus.js"));
+const fs_1 = tslib_1.__importDefault(require("fs"));
 const TEST_DB_PATH = "./test-db";
 // Utility function to clean the test database directory
 function cleanTestDB() {
-    if (fs.existsSync(TEST_DB_PATH)) {
-        fs.rmSync(TEST_DB_PATH, { recursive: true });
+    if (fs_1.default.existsSync(TEST_DB_PATH)) {
+        fs_1.default.rmSync(TEST_DB_PATH, { recursive: true });
     }
-    fs.mkdirSync(TEST_DB_PATH);
+    fs_1.default.mkdirSync(TEST_DB_PATH);
 }
 // Initialize the test environment
-const minerKeys = Wallet.generateKeyPair();
+const minerKeys = wallet_js_1.default.generateKeyPair();
 function initializeBlockchain() {
-    const consensus = new POWConsensus();
-    return new Blockchain({
+    const consensus = new pow_consensus_js_1.default();
+    return new main_js_1.default({
         dbPath: TEST_DB_PATH,
         nodes: {
             list: ["http://127.0.0.1:3001"],
@@ -32,15 +35,15 @@ async function main() {
     // Initialize blockchain
     const blockchain = initializeBlockchain();
     // Generate key pairs for two wallets
-    const senderKeys = Wallet.generateKeyPair();
-    const receiverKeys = Wallet.generateKeyPair();
+    const senderKeys = wallet_js_1.default.generateKeyPair();
+    const receiverKeys = wallet_js_1.default.generateKeyPair();
     // Mine the genesis block
     blockchain.minGenesisBlock();
     // Mine a new block
     const newBlock = blockchain.mineNewBlock();
     console.log("New block mined:", newBlock);
     // Create a transaction from miner to sender
-    const transaction1 = new Transaction({
+    const transaction1 = new transaction_js_1.default({
         from: minerKeys.publicKey,
         to: senderKeys.publicKey,
         amount: 50,
@@ -55,7 +58,7 @@ async function main() {
     const blockWithTransaction1 = blockchain.mineNewBlock();
     console.log("Block with transaction 1 mined:", blockWithTransaction1);
     // Create a transaction from sender to receiver
-    const transaction2 = new Transaction({
+    const transaction2 = new transaction_js_1.default({
         from: senderKeys.publicKey,
         to: receiverKeys.publicKey,
         amount: 25,

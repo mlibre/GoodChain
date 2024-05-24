@@ -1,31 +1,34 @@
-import http from "http";
-import express from "express";
-import cookieParser from "cookie-parser";
-import logger from "morgan";
-import { hostPort, hostAddress } from "./config.js";
-import { convertErrorToSimpleObj } from "./utils.js";
-import "./blockchain.js";
-import chainRouter from "./routes/chain.js";
-import blockRouter from "./routes/block.js";
-import walletRouter from "./routes/wallet.js";
-import transactionRouter from "./routes/transaction.js";
-import mineRouter from "./routes/mine.js";
-import nodeRouter from "./routes/node.js";
-const app = express();
-app.use(logger("dev"));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.set("port", hostPort);
-app.use("/chain", chainRouter);
-app.use("/block", blockRouter);
-app.use("/wallet", walletRouter);
-app.use("/transaction", transactionRouter);
-app.use("/mine", mineRouter);
-app.use("/nodes", nodeRouter);
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = require("tslib");
+const http_1 = tslib_1.__importDefault(require("http"));
+const express_1 = tslib_1.__importDefault(require("express"));
+const cookie_parser_1 = tslib_1.__importDefault(require("cookie-parser"));
+const morgan_1 = tslib_1.__importDefault(require("morgan"));
+const config_js_1 = require("./config.js");
+const utils_js_1 = require("./utils.js");
+require("./blockchain.js");
+const chain_js_1 = tslib_1.__importDefault(require("./routes/chain.js"));
+const block_js_1 = tslib_1.__importDefault(require("./routes/block.js"));
+const wallet_js_1 = tslib_1.__importDefault(require("./routes/wallet.js"));
+const transaction_js_1 = tslib_1.__importDefault(require("./routes/transaction.js"));
+const mine_js_1 = tslib_1.__importDefault(require("./routes/mine.js"));
+const node_js_1 = tslib_1.__importDefault(require("./routes/node.js"));
+const app = (0, express_1.default)();
+app.use((0, morgan_1.default)("dev"));
+app.use(express_1.default.json());
+app.use(express_1.default.urlencoded({ extended: false }));
+app.use((0, cookie_parser_1.default)());
+app.set("port", config_js_1.hostPort);
+app.use("/chain", chain_js_1.default);
+app.use("/block", block_js_1.default);
+app.use("/wallet", wallet_js_1.default);
+app.use("/transaction", transaction_js_1.default);
+app.use("/mine", mine_js_1.default);
+app.use("/nodes", node_js_1.default);
 app.use(errorHandler);
-const server = http.createServer(app);
-server.listen({ port: hostPort, host: hostAddress });
+const server = http_1.default.createServer(app);
+server.listen({ port: config_js_1.hostPort, host: config_js_1.hostAddress });
 server.on("error", onError);
 server.on("listening", onListening);
 function onListening() {
@@ -38,13 +41,13 @@ function onError(error) {
     // handle specific listen errors with friendly messages
     switch (error.code) {
         case "EACCES":
-            console.error(`${hostPort} requires elevated privileges`);
+            console.error(`${config_js_1.hostPort} requires elevated privileges`);
             if (!process.exit(1)) {
                 console.error("Cant Exit");
             }
             break;
         case "EADDRINUSE":
-            console.error(`${hostPort} is already in use`);
+            console.error(`${config_js_1.hostPort} is already in use`);
             if (!process.exit(1)) {
                 console.error("Cant Exit");
             }
@@ -57,6 +60,6 @@ function errorHandler(err, req, res, next) {
     if (res.headersSent) {
         return next(err);
     }
-    res.status(500).send(convertErrorToSimpleObj(err));
+    res.status(500).send((0, utils_js_1.convertErrorToSimpleObj)(err));
 }
 //# sourceMappingURL=app.js.map
