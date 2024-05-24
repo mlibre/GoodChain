@@ -33,7 +33,7 @@ function initializeBlockchain ()
 	});
 }
 
-test( "Blockchain Test Suite", async () =>
+test( "Blockchain Test Suite", () =>
 {
 	cleanTestDB();
 
