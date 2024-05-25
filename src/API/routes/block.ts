@@ -5,52 +5,47 @@ import { toNum } from "../utils.js";
 
 const router = express.Router();
 
-router.get( "/", function ( req, res )
+router.get( "/", ( req, res ) =>
 {
-	const { list } = req.query;
-	const { to, index, from, firstAndLast } = req.query;
+	const { list, to, index, from, firstAndLast } = req.query;
 	if ( !index && !from && !to && !list && !firstAndLast )
 	{
 		res.json( blockchain.chain.latestBlock );
+		return;
 	}
-	else if ( index )
+	if ( index )
 	{
-		const blockIndex = toNum( index );
-		res.json( blockchain.chain.get( blockIndex ) );
+		res.json( blockchain.chain.get( toNum( index ) ) );
+		return;
 	}
-	else if ( from || to )
+	if ( from || to )
 	{
-		const blockFrom = toNum( from );
-		const blockTo = toNum( to );
-		const blocks = blockchain.getBlocks( blockFrom, blockTo );
-		res.json( blocks );
+		res.json( blockchain.getBlocks( toNum( from ), toNum( to ) ) );
+		return;
 	}
-	else if ( list )
+	if ( list )
 	{
-		const blockList = list.toString().split( "," );
-		const blocks = [];
-		for ( const blcokIndex of blockList )
+		const blocks = list.toString().split( "," ).map( ( index ) =>
 		{
-			blocks.push( blockchain.chain.get( blcokIndex ) );
-		}
+			return blockchain.chain.get( toNum( index ) );
+		});
 		res.json( blocks );
+		return;
 	}
-	else if ( firstAndLast )
+	if ( firstAndLast )
 	{
-		const blocks = [];
-		blocks.push( blockchain.chain.get( 0 ) );
-		blocks.push( blockchain.chain.latestBlock );
-		res.json( blocks );
+		res.json( [ blockchain.chain.get( 0 ), blockchain.chain.latestBlock ] );
+		return;
 	}
 });
 
-router.post( "/", function ( req, res )
+router.post( "/", ( req, res ) =>
 {
 	const block = blockchain.addBlock( req.body );
-	res.send( block );
+	res.json( block );
 });
 
-router.get( "/broadcast", async function ( req, res )
+router.get( "/broadcast", async ( req, res ) =>
 {
 	for ( const node of blockchain.nodes.list )
 	{
