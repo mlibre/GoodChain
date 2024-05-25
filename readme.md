@@ -12,15 +12,13 @@ Welcome to **GoodChain**, a blockchain platform designed for both beginners and 
 - **Node Discovery and Synchronization**: Discover and sync with other nodes in the network to maintain a consistent state across the blockchain
 - **Transaction Pool**: Manage pending transactions with our built-in transaction pool
 - **Chain Validation**: Verify the integrity of the blockchain by validating blocks and transactions
+- **EKVS**: `Embeddable persistent key-value stores` are databases that can be embedded into your application. Which means `no separate server` or process is needed to manage the database. `LevelDb` is a popular example of an `EKVS`. `GoodChain` uses `Level` library, a `Nodejs` wrapper for `LevelDB`.
 
 ## Getting Started 🛠️
 
 To embark on your `GoodChain` adventure, simply clone the repository and install the dependencies:
 
 ```bash
-# Install leveldb
-sudo pacman -S leveldb
-
 # Clone the repository
 git clone https://github.com/mlibre/GoodChain.git
 cd GoodChain
