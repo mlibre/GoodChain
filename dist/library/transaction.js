@@ -42,11 +42,11 @@ export default class Transaction {
         if (this.amount < 0) {
             throw new Error("Invalid amount");
         }
-        if (this.isCoinBase()) {
-            return true;
-        }
         if (!this.to) {
             throw new Error("Invalid transaction: missing 'to' address");
+        }
+        if (this.isCoinBase()) {
+            return true;
         }
         this.verifySignature();
         return true;
