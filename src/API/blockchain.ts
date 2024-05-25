@@ -1,7 +1,7 @@
 import Blockchain from "../library/main.js";
+import Wallet from "../library/wallet.js";
 import Consensus from "../library/pow-consensus.js";
 import { initJsonFile } from "../library/utils.js";
-import Wallet from "../library/wallet.js";
 import { name, dbPath, minerKeysFile, hostUrl, nodesList } from "./config.js";
 const consensus = new Consensus();
 
