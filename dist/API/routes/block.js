@@ -8,19 +8,16 @@ router.get("/", function (req, res) {
     const { to, index, from, firstAndLast } = req.query;
     if (!index && !from && !to && !list && !firstAndLast) {
         res.json(blockchain.chain.latestBlock);
-        return;
     }
     else if (index) {
         const blockIndex = toNum(index);
         res.json(blockchain.chain.get(blockIndex));
-        return;
     }
     else if (from || to) {
         const blockFrom = toNum(from);
         const blockTo = toNum(to);
         const blocks = blockchain.getBlocks(blockFrom, blockTo);
         res.json(blocks);
-        return;
     }
     else if (list) {
         const blockList = list.toString().split(",");
@@ -29,14 +26,12 @@ router.get("/", function (req, res) {
             blocks.push(blockchain.chain.get(blcokIndex));
         }
         res.json(blocks);
-        return;
     }
     else if (firstAndLast) {
         const blocks = [];
         blocks.push(blockchain.chain.get(0));
         blocks.push(blockchain.chain.latestBlock);
         res.json(blocks);
-        return;
     }
 });
 router.post("/", function (req, res) {

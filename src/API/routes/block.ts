@@ -12,13 +12,11 @@ router.get( "/", function ( req, res )
 	if ( !index && !from && !to && !list && !firstAndLast )
 	{
 		res.json( blockchain.chain.latestBlock );
-		return;
 	}
 	else if ( index )
 	{
 		const blockIndex = toNum( index );
 		res.json( blockchain.chain.get( blockIndex ) );
-		return;
 	}
 	else if ( from || to )
 	{
@@ -26,7 +24,6 @@ router.get( "/", function ( req, res )
 		const blockTo = toNum( to );
 		const blocks = blockchain.getBlocks( blockFrom, blockTo );
 		res.json( blocks );
-		return;
 	}
 	else if ( list )
 	{
@@ -37,7 +34,6 @@ router.get( "/", function ( req, res )
 			blocks.push( blockchain.chain.get( blcokIndex ) );
 		}
 		res.json( blocks );
-		return;
 	}
 	else if ( firstAndLast )
 	{
@@ -45,7 +41,6 @@ router.get( "/", function ( req, res )
 		blocks.push( blockchain.chain.get( 0 ) );
 		blocks.push( blockchain.chain.latestBlock );
 		res.json( blocks );
-		return;
 	}
 });
 

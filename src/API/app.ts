@@ -46,21 +46,22 @@ function onError ( error: NodeJS.ErrnoException )
 	{
 		throw error;
 	}
-	// handle specific listen errors with friendly messages
 	switch ( error.code )
 	{
 	case "EACCES":
 		console.error( `${hostPort} requires elevated privileges` );
-		break;
+		process.exit( 1 );
+	// eslint-disable-next-line no-fallthrough
 	case "EADDRINUSE":
 		console.error( `${hostPort} is already in use` );
-		break;
+		process.exit( 1 );
+	// eslint-disable-next-line no-fallthrough
 	default:
 		throw error;
 	}
 }
 
-function errorHandler ( err: CustomError, req: express.Request, res: express.Response, next: express.NextFunction )
+function errorHandler ( err: SimpleError, req: express.Request, res: express.Response, next: express.NextFunction )
 {
 	if ( res.headersSent )
 	{

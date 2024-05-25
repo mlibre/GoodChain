@@ -64,11 +64,6 @@ interface ErrorWithStdsOutErr extends Error
 	status?: number;
 }
 
-interface CustomError extends Error
-{
-	[x: string]: CustomError;
-}
-
 interface SimpleError
 {
 	message?: string;

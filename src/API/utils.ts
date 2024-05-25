@@ -20,7 +20,7 @@ export function toNum ( value: unknown ): number
 	return Number( value );
 }
 
-export function convertErrorToSimpleObj ( err: CustomError )
+export function convertErrorToSimpleObj ( err: SimpleError )
 {
 	if ( err.isAxiosError )
 	{
