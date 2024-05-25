@@ -18,6 +18,10 @@ Welcome to **GoodChain**, a blockchain platform designed for both beginners and 
 To embark on your `GoodChain` adventure, simply clone the repository and install the dependencies:
 
 ```bash
+# Install leveldb
+sudo pacman -S leveldb
+
+# Clone the repository
 git clone https://github.com/mlibre/GoodChain.git
 cd GoodChain
 
