@@ -39,15 +39,9 @@ function onError(error) {
     switch (error.code) {
         case "EACCES":
             console.error(`${hostPort} requires elevated privileges`);
-            if (!process.exit(1)) {
-                console.error("Cant Exit");
-            }
             break;
         case "EADDRINUSE":
             console.error(`${hostPort} is already in use`);
-            if (!process.exit(1)) {
-                console.error("Cant Exit");
-            }
             break;
         default:
             throw error;

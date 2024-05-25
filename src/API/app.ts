@@ -40,7 +40,7 @@ function onListening ()
 	console.log( "Listening on", ( server.address() as AddressInfo ).address, ( server.address() as AddressInfo ).port );
 }
 
-function onError ( error: AnyError )
+function onError ( error: NodeJS.ErrnoException )
 {
 	if ( error.syscall !== "listen" )
 	{
@@ -51,17 +51,9 @@ function onError ( error: AnyError )
 	{
 	case "EACCES":
 		console.error( `${hostPort} requires elevated privileges` );
-		if ( !process.exit( 1 ) )
-		{
-			console.error( "Cant Exit" );
-		}
 		break;
 	case "EADDRINUSE":
 		console.error( `${hostPort} is already in use` );
-		if ( !process.exit( 1 ) )
-		{
-			console.error( "Cant Exit" );
-		}
 		break;
 	default:
 		throw error;

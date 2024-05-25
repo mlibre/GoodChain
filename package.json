@@ -12,14 +12,14 @@
     "node": ">=20"
   },
   "scripts": {
+    "3000": "tsx ./src/API/app.ts --host 'http://127.0.0.1:3000' --nodes 'http://127.0.0.1:3001' --dbPath './assets/db/' --minerKeysFile './assets/keys/miner.json' --name 'GoodChain'",
+    "3001": "tsx ./src/API/app.ts --host 'http://127.0.0.1:3001' --nodes 'http://127.0.0.1:3000' --dbPath './assets/db/' --minerKeysFile './assets/keys/miner.json' --name 'GoodChain'",
+    "3002": "tsx ./src/API/app.ts --host 'http://127.0.0.1:3002' --nodes 'http://127.0.0.1:3000' --dbPath './assets/db/' --minerKeysFile './assets/keys/miner.json' --name 'GoodChain'",
     "build": "rm -r dist && tsc",
     "watch": "rm -r dist && tsc --watch",
     "dev": "tsc && nodemon ./src/API/app.ts",
     "start": "tsx ./src/API/app.ts",
     "startjs": "node ./src/API/app.js",
-    "3000": "tsx ./src/API/app.ts --host 'http://127.0.0.1:3000' --nodes 'http://127.0.0.1:3001' --dbPath './assets/db/' --minerKeysFile './assets/keys/miner.json' --name 'GoodChain'",
-    "3001": "tsx ./src/API/app.ts --host 'http://127.0.0.1:3001' --nodes 'http://127.0.0.1:3000' --dbPath './assets/db/' --minerKeysFile './assets/keys/miner.json' --name 'GoodChain'",
-    "3002": "tsx ./src/API/app.ts --host 'http://127.0.0.1:3002' --nodes 'http://127.0.0.1:3000' --dbPath './assets/db/' --minerKeysFile './assets/keys/miner.json' --name 'GoodChain'",
     "test": "vitest run",
     "test-ui": "vitest --ui"
   },

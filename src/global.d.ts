@@ -75,9 +75,3 @@ interface SimpleError
 	stack?: string;
 	[key: string]: SimpleError;
 }
-
-interface AnyError extends Error
-{
-	[x: string]: string;
-	[key: string]: string;
-}
