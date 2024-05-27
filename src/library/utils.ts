@@ -81,7 +81,7 @@ export function createFolder ( folderPath: string ): boolean
 {
 	if ( !existsSync( folderPath ) )
 	{
-		mkdirSync( folderPath );
+		mkdirSync( folderPath, { recursive: true });
 		console.log( `Folder ${folderPath} Created` );
 		return true;
 	}

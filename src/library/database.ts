@@ -11,9 +11,7 @@ export default class levelDB
 	constructor ( repoPath: string )
 	{
 		this.repoPath = repoPath;
-		createFolder( this.repoPath );
 		this.db = new Level<string, unknown>( repoPath, { valueEncoding: "json" });
-		this.db.put( "a", { x: 123 });
 		// this.cleanInit();
 	}
 
