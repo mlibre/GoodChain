@@ -1,4 +1,9 @@
 {
-	"blockNumber": -1,
-	"list": {}
+	"blockNumber": 0,
+	"list": {
+		"-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAn26eti97/SaN9HwF5i6n3RlThfA/L72zqo/KdfZG09w=\n-----END PUBLIC KEY-----\n": {
+			"balance": 100,
+			"transaction_number": 0
+		}
+	}
 }
