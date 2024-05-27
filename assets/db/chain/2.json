@@ -1,0 +1,33 @@
+{
+	"index": 2,
+	"chainName": "GoodChain",
+	"timestamp": 1716787546524,
+	"transactions": [
+		{
+			"from": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAn26eti97/SaN9HwF5i6n3RlThfA/L72zqo/KdfZG09w=\n-----END PUBLIC KEY-----\n",
+			"to": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEASGE7gB1PZaqrxGX6G2OZm2RoAyRU7PDeBu5nA/u7hc8=\n-----END PUBLIC KEY-----\n",
+			"amount": 50,
+			"fee": 0,
+			"transaction_number": 1,
+			"signature": "1594416a0786b247537dc40eaabcce8a01c3cca85a8163ac195abff5bf34fec08259c1a2019f1d501418239340b06898534ebb4d757ea33df73acf6abc0b190d",
+			"id": "c5befb60-e53c-4784-8d39-07dd69a3810c"
+		},
+		{
+			"from": null,
+			"to": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAn26eti97/SaN9HwF5i6n3RlThfA/L72zqo/KdfZG09w=\n-----END PUBLIC KEY-----\n",
+			"amount": 100,
+			"fee": 0,
+			"transaction_number": 0,
+			"signature": null,
+			"id": "a3fd151c-28d4-4526-adee-34999f4d8d27"
+		}
+	],
+	"previousHash": "ae4c69ba37a4fe0fe7769f16ab0a4bd32ec9b18a55cf00a2613cb8ebfc38d145",
+	"miner": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAn26eti97/SaN9HwF5i6n3RlThfA/L72zqo/KdfZG09w=\n-----END PUBLIC KEY-----\n",
+	"consensusName": "pow",
+	"consensusDifficulty": "000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+	"consensusTotalDifficulty": "1ffecbe6630994000000000000000000000000000000000000000000000000000",
+	"consensusNonce": 5802,
+	"consensusHash": "000a9cb1598f4d385b5b64b337f4e6eeac353fbc5b60ff3a08cf795d563a505f",
+	"hash": "7e95d6f3a6ea70ee14d7d7ca913ef20b2cc0c8c1c975fa259ce02873fdd8a754"
+}
