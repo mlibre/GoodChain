@@ -1,18 +1,15 @@
 import { execSync } from "child_process";
 import { createFolder } from "./utils.js";
 import { isErrorWithStds } from "../guards.js";
-import { Level } from "level";
 
-export default class levelDB
+export default class GitDatabase
 {
 	repoPath: string;
-	db: Level<string, unknown>;
 
 	constructor ( repoPath: string )
 	{
 		this.repoPath = repoPath;
-		this.db = new Level<string, unknown>( repoPath, { valueEncoding: "json" });
-		// this.cleanInit();
+		this.cleanInit();
 	}
 
 	cleanInit ()

@@ -3,14 +3,17 @@ import _ from "lodash";
 import path from "path";
 import * as Block from "./block.js";
 import { createFolder, generateFilePath } from "./utils.js";
+import { Level } from "level";
 
 export default class ChainStore
 {
 	folderPath: string;
+	db: Level<string, unknown>;
 
 	constructor ( folderPath: string )
 	{
 		this.folderPath = generateFilePath( folderPath, "chain" );
+		this.db = new Level<string, unknown>( folderPath, { valueEncoding: "json" });
 		createFolder( this.folderPath );
 	}
 
