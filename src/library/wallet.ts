@@ -1,47 +1,52 @@
 import crypto from "crypto";
 import { Level } from "level";
+import _ from "lodash";
 import Transaction from "./transaction.js";
-import { initJsonFile, updateFile } from "./utils.js";
 
 class Wallet
 {
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	public wallet: any;
+	public db: any;
+	sublevel: string;
 	constructor ( leveldb: Level<string, BlockData> )
 	{
-		this.wallet = leveldb.sublevel<string, BlockData>( "wallet", { valueEncoding: "json" });
+		this.sublevel = "wallet";
+		this.db = leveldb.sublevel<string, UserWallet>( this.sublevel, { valueEncoding: "json" });
 	}
 
-	get allData (): WalletData
+	async allWallets (): Promise<AllWallets>
 	{
-		return this.wallet;
+		const result = await this.db.iterator().all();
+		return _.fromPairs( result );
 	}
 
-	performTransactions ( transactionList: TransactionData[] ): TransactionData[]
+	async processTrxActionList ( transactionList: TransactionData[] ): Promise<PutAction[]>
 	{
+		const actionList: PutAction[] = [];
 		for ( const tmpTrx of transactionList )
 		{
 			const trx = new Transaction( tmpTrx );
 			if ( trx.isCoinBase() )
 			{
-				this.addBalance( trx.to, trx.amount );
+				const action = await this.addBalance( trx.to, trx.amount );
+				actionList.push( action );
 				continue;
 			}
 			if ( trx.from !== null )
 			{
-				this.minusBalance( trx.from, trx.amount + trx.fee );
-				this.incrementTN( trx.from );
+				const action = await this.minusBalance( trx.from, trx.amount + trx.fee );
+				actionList.push( action );
 			}
-			this.addBalance( trx.to, trx.amount );
+			const action = await this.addBalance( trx.to, trx.amount );
+			actionList.push( action );
 		}
-		this.wallet.blockNumber++;
-		this.updateDB();
-		return transactionList;
+		return actionList;
 	}
 
-	cleanupTransactions ( transactions: TransactionData[] ): TransactionData[]
+	async cleanupTransactions ( transactions: TransactionData[] ): Promise<TransactionData[]>
 	{
 		const newTransactions: TransactionData[] = [];
+		const wallets = await this.allWallets();
 		for ( const tmpTrx of transactions )
 		{
 			try
@@ -54,15 +59,15 @@ class Wallet
 				}
 				if ( trx.from !== null )
 				{
-					if ( trx.transaction_number <= this.transactionNumber( trx.from ) )
+					const userWallet = await this.getBalance( trx.from );
+					if ( trx.transaction_number <= userWallet.transaction_number )
 					{
 						console.warn( "Dropping transaction with transaction number less than wallet transaction number" );
 						continue;
 					}
-					this.minusBalance( trx.from, trx.amount + trx.fee );
-					this.incrementTN( trx.from );
+					minusBalance( trx.from, trx.amount + trx.fee );
 				}
-				this.addBalance( trx.to, trx.amount );
+				await addBalance( trx.to, trx.amount );
 				newTransactions.push( trx.data );
 			}
 			catch ( error )
@@ -70,65 +75,92 @@ class Wallet
 				console.error( error );
 			}
 		}
-		this.reloadDB();
 		return newTransactions;
+
+		function minusBalance ( address: string, amount: number )
+		{
+			if ( !wallets[address] )
+			{
+				wallets[address] = {
+					balance: 0,
+					transaction_number: 0
+				};
+			}
+			if ( wallets[address].balance < amount )
+			{
+				throw new Error( "Insufficient balance", { cause: { address, amount } });
+			}
+			wallets[address].balance -= amount;
+			wallets[address].transaction_number++;
+		}
+
+		function addBalance ( address: string, amount: number )
+		{
+			if ( !wallets[address] )
+			{
+				wallets[address] = {
+					balance: 0,
+					transaction_number: 0
+				};
+			}
+			wallets[address].balance += amount;
+		}
 	}
 
-	incrementTN ( address: string ): number
+	async getBalance ( address: string ): Promise<UserWallet>
 	{
-		this.validateAddress( address );
-		return ++this.wallet.list[address].transaction_number;
+		const wallet = await this.db.get( address.toString() );
+		return wallet;
 	}
 
-	getBalance ( address: string ): number
+	async addBalance ( address: string, amount: number ): Promise<PutAction>
 	{
-		return this.wallet.list[address].balance;
+		await this.validateAddress( address );
+		const wallet = await this.getBalance( address );
+		wallet.balance += amount;
+		const action: PutAction = {
+			type: "put",
+			sublevel: this.sublevel,
+			key: address,
+			value: wallet
+		};
+		return action;
 	}
 
-	addBalance ( address: string, amount: number ): number
+	async minusBalance ( address: string, amount: number ): Promise<PutAction>
 	{
-		this.validateAddress( address );
-		return this.wallet.list[address].balance += amount;
-	}
-
-	minusBalance ( address: string, amount: number ): number
-	{
-		this.validateAddress( address );
-		if ( this.getBalance( address ) < amount )
+		await this.validateAddress( address );
+		const wallet = await this.getBalance( address );
+		if ( wallet.balance < amount )
 		{
 			throw new Error( "Insufficient balance", { cause: { address, amount } });
 		}
-		return this.wallet.list[address].balance -= amount;
+		wallet.balance -= amount;
+		wallet.transaction_number++;
+		const action: PutAction = {
+			type: "put",
+			sublevel: this.sublevel,
+			key: address,
+			value: wallet
+		};
+		return action;
 	}
 
-	transactionNumber ( address: string ): number
+	async validateAddress ( address: string ): Promise<void>
 	{
-		return this.wallet.list[address].transaction_number;
-	}
-
-	validateAddress ( address: string ): void
-	{
-		if ( !this.wallet.list[address] )
+		if ( !await this.getBalance( address ) )
 		{
-			this.wallet.list[address] = { balance: 0, transaction_number: 0 };
+			await this.db.put( address, { balance: 0, transaction_number: 0 });
 		}
 	}
 
-	isTransactionNumberCorrect ( address: string, transaction_number: number ): void
+	async isTransactionNumberCorrect ( address: string, transaction_number: number ): Promise<void>
 	{
-		if ( transaction_number <= this.transactionNumber( address ) )
+		const wallet = await this.getBalance( address );
+		if ( transaction_number <= wallet.transaction_number )
 		{
 			throw new Error( "Invalid transaction number", { cause: { address, transaction_number } });
 		}
-	}
-
-	checkFinalDBState ( proposedBlock: BlockData ): boolean
-	{
-		if ( this.wallet.blockNumber !== proposedBlock.index )
-		{
-			throw new Error( "Block number mismatch", { cause: { proposedBlock, wallet: this.wallet } });
-		}
-		return true;
 	}
 
 	reCalculateWallet ( chain: BlockData[] ): void
@@ -136,24 +168,13 @@ class Wallet
 		this.wipe();
 		for ( const block of chain )
 		{
-			this.performTransactions( block.transactions );
+			this.processTrxActionList( block.transactions );
 		}
 	}
 
-	reloadDB (): void
+	async wipe (): Promise<void>
 	{
-		this.wallet = initJsonFile( this.filePath, { blockNumber: 0, list: {} });
-	}
-
-	wipe (): void
-	{
-		this.wallet = { blockNumber: -1, list: {} };
-		this.updateDB();
-	}
-
-	updateDB (): void
-	{
-		updateFile( this.filePath, this.wallet );
+		await this.db.clear();
 	}
 
 	static generateKeyPair (): KeyPair

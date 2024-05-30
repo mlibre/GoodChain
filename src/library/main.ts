@@ -1,13 +1,13 @@
-import _ from "lodash";
 import { Level } from "level";
-import LevelDatabase from "./database.js";
-import { verifyBlock, verifyGenesisBlock, blockify } from "./block.js";
+import _ from "lodash";
+import { blockify, verifyBlock, verifyGenesisBlock } from "./block.js";
 import ChainStore from "./chain.js";
+import LevelDatabase from "./database.js";
 import Nodes from "./nodes.js";
+import ConsensusClass from "./pow-consensus.js";
 import Transaction from "./transaction.js";
 import { calculateMiningFee, computeHash, createFolder } from "./utils.js";
 import Wallet from "./wallet.js";
-import ConsensusClass from "./pow-consensus.js";
 
 export default class Blockchain
 {
@@ -38,7 +38,7 @@ export default class Blockchain
 
 	async init ()
 	{
-		if ( await this.chain.length() === 0 )
+		if ( await this.chain.isEmpty() )
 		{
 			await this.#mineGenesisBlock();
 		}
@@ -48,76 +48,60 @@ export default class Blockchain
 	async #mineGenesisBlock ()
 	{
 		const self = this;
-		try
-		{
-			await self.database.clear();
-			const coinbaseTrx = self.genCoinbaseTransaction();
-			self.addTransaction( coinbaseTrx );
-			const block: BlockData = {
-				index: 0,
-				chainName: self.chainName,
-				timestamp: Date.now(),
-				transactions: self.transactionPool,
-				previousHash: "",
-				miner: self.minerPublicKey
-			};
-			self.consensus.applyGenesis( block );
-			block.hash = computeHash( block );
-			return self.addBlock( block );
-		}
-		catch ( error )
-		{
-			await self.database.clear();
-			throw error;
-		}
+		await self.database.clear();
+		const coinbaseTrx = self.genCoinbaseTransaction();
+		self.addTransaction( coinbaseTrx );
+		const block: BlockData = {
+			index: 0,
+			chainName: self.chainName,
+			timestamp: Date.now(),
+			transactions: self.transactionPool,
+			previousHash: "",
+			miner: self.minerPublicKey
+		};
+		self.consensus.applyGenesis( block );
+		block.hash = computeHash( block );
+		return self.addBlock( block );
+
 
 	}
 	async mineNewBlock ()
 	{
 		const self = this;
 		const blockIndex = await self.chain.length();
-		try
-		{
-			self.transactionPool = self.wallet.cleanupTransactions( self.transactionPool );
-			const coinbaseTrx = self.genCoinbaseTransaction();
-			self.addTransaction( coinbaseTrx );
-			const lastBlock = await self.chain.latestBlock();
-			const block: BlockData = {
-				index: blockIndex + 1,
-				chainName: self.chainName,
-				timestamp: Date.now(),
-				transactions: self.transactionPool,
-				previousHash: lastBlock?.hash || "",
-				miner: self.minerPublicKey
-			};
-			self.consensus.apply( block, await self.chain.get( block.index - 1 ) );
-			block.hash = computeHash( block );
-			return self.addBlock( block );
-		}
-		catch ( error )
-		{
-			self.database.revert( blockIndex.toString() );
-			throw error;
-		}
+		self.transactionPool = await self.wallet.cleanupTransactions( self.transactionPool );
+		const coinbaseTrx = self.genCoinbaseTransaction();
+		self.addTransaction( coinbaseTrx );
+		const lastBlock = await self.chain.latestBlock();
+		const block: BlockData = {
+			index: blockIndex + 1,
+			chainName: self.chainName,
+			timestamp: Date.now(),
+			transactions: self.transactionPool,
+			previousHash: lastBlock?.hash || "",
+			miner: self.minerPublicKey
+		};
+		self.consensus.apply( block, await self.chain.get( block.index - 1 ) );
+		block.hash = computeHash( block );
+		return self.addBlock( block );
 	}
 
-	addBlock ( block: BlockData )
+	async addBlock ( block: BlockData )
 	{
 		const newBlock = blockify( block );
 		this.verifyCandidateBlock( newBlock );
-		this.wallet.performTransactions( newBlock.transactions );
-		this.wallet.checkFinalDBState( newBlock );
-		this.chain.push( newBlock );
-		this.chain.checkFinalDBState( newBlock );
+		const actions = await this.wallet.processTrxActionList( newBlock.transactions );
+		actions.push( this.chain.pushAction( newBlock ) );
+		await this.database.batch( actions );
 		this.transactionPool = [];
 		return newBlock;
 	}
 
-	addBlocks ( blocks: BlockData[] )
+	async addBlocks ( blocks: BlockData[] )
 	{
 		for ( const block of blocks )
 		{
-			this.addBlock( block );
+			await this.addBlock( block );
 		}
 		return blocks;
 	}
@@ -142,7 +126,7 @@ export default class Blockchain
 		return true;
 	}
 
-	addTransaction ( transaction: TransactionData )
+	async addTransaction ( transaction: TransactionData ): Promise<number>
 	{
 		this.checkTransactionsPoolSize();
 
@@ -151,7 +135,7 @@ export default class Blockchain
 		if ( !trx.isCoinBase() && trx.from !== null )
 		{
 			this.wallet.validateAddress( trx.from );
-			this.wallet.isTransactionNumberCorrect( trx.from, trx.transaction_number );
+			await this.wallet.isTransactionNumberCorrect( trx.from, trx.transaction_number );
 		}
 		this.wallet.validateAddress( trx.to );
 
@@ -163,10 +147,10 @@ export default class Blockchain
 		{
 			return b.fee - a.fee;
 		});
-		return this.chain.length;
+		return this.chain.length();
 	}
 
-	addTransactions ( transactions: TransactionData[] )
+	async addTransactions ( transactions: TransactionData[] )
 	{
 		const results = [];
 		for ( const transaction of transactions )
@@ -175,7 +159,7 @@ export default class Blockchain
 			{
 				results.push({
 					id: transaction.id,
-					blockNumber: this.addTransaction( transaction )
+					blockNumber: await this.addTransaction( transaction )
 				});
 			}
 			catch ( error )
@@ -225,15 +209,14 @@ export default class Blockchain
 
 	async replaceChain ( newChain: BlockData[] )
 	{
-		try
+		await this.database.clear();
+		const actions: PutAction[] = [];
+		for ( const block of newChain )
 		{
-			await this.chain.replaceChain( newChain );
-			this.wallet.reCalculateWallet( await this.chain.getAll() );
-		}
-		catch ( error )
-		{
-			this.database.clear();
-			throw error;
+			const putAction = await this.chain.pushAction( block );
+			actions.push( putAction );
+			actions.push( ...await this.wallet.processTrxActionList( block.transactions ) );
+			this.database.batch( actions );
 		}
 		return this.chain.getAll();
 	}

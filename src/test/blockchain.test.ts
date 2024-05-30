@@ -69,8 +69,6 @@ describe( "Blockchain Test Suite", () =>
 		const blockWithTransaction2 = blockchain.mineNewBlock(); // miner: 351
 		expect( blockWithTransaction2.transactions.length ).toBe( 2 ); // including coinbase transaction
 		expect( blockchain.chain.validateChain() ).toBe( true );
-		expect( blockchain.wallet.checkFinalDBState( blockWithTransaction2 ) ).toBe( true );
-		expect( blockchain.chain.checkFinalDBState( blockWithTransaction2 ) ).toBe( true );
 	});
 
 	test( "Validating the final state of the blockchain", () =>

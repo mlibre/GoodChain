@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 interface BlockchainConstructorParams
 {
 	readonly dbPath: string;
@@ -10,16 +11,22 @@ interface BlockchainConstructorParams
 	readonly consensus: Consensus;
 }
 
-interface WalletData
-{
-	blockNumber: number;
-	list: Record<string, WalletBalance>;
-}
+type AllWallets = Record<string, UserWallet>;
 
-interface WalletBalance
+type UserWallets = UserWallet[];
+
+interface UserWallet
 {
 	balance: number;
 	transaction_number: number;
+}
+
+interface PutAction
+{
+	type: "put",
+	sublevel: any,
+	key: string,
+	value: any
 }
 
 interface BlockData

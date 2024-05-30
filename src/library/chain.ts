@@ -1,20 +1,20 @@
-import _ from "lodash";
-import * as Block from "./block.js";
 import { Level } from "level";
+import * as Block from "./block.js";
 
 export default class ChainStore
 {
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	public db: any;
+	sublevel: string;
 	constructor ( leveldb: Level<string, BlockData> )
 	{
-		this.db = leveldb.sublevel<string, BlockData>( "chain", { valueEncoding: "json" });
+		this.sublevel = "chain";
+		this.db = leveldb.sublevel<string, BlockData>( this.sublevel, { valueEncoding: "json" });
 	}
 
 	async length (): Promise<number>
 	{
-		const lastKey = await this.lastKey();
-		return lastKey;
+		return await this.lastKey();
 	}
 
 	async lastKey (): Promise<number>
@@ -29,7 +29,7 @@ export default class ChainStore
 		}
 		if ( !lastKey )
 		{
-			return 0;
+			throw new Error( "No blocks found" );
 		}
 		return Number( lastKey );
 	}
@@ -54,7 +54,7 @@ export default class ChainStore
 	async getRange ( from: number, to?: number ): Promise<BlockData[]>
 	{
 		const blocks: BlockData[] = [];
-		to = to ?? await this.length() - 1;
+		to = to ?? await this.length();
 		for ( let i = from; i <= to; i++ )
 		{
 			blocks.push( await this.get( i ) );
@@ -78,18 +78,15 @@ export default class ChainStore
 		return lastBlock;
 	}
 
-	async push ( block: BlockData ): Promise<void>
+	pushAction ( block: BlockData ): PutAction
 	{
-		await this.db.put( block.index.toString(), block );
-	}
-
-	async replaceChain ( blocks: BlockData[] ): Promise<void>
-	{
-		await this.db.clear();
-		for ( const block of blocks )
-		{
-			await this.push( block );
-		}
+		const action: PutAction = {
+			type: "put",
+			sublevel: this.sublevel,
+			key: block.index.toString(),
+			value: block
+		};
+		return action;
 	}
 
 	async lastTwoBlocks (): Promise<[BlockData, BlockData]>
@@ -99,40 +96,9 @@ export default class ChainStore
 		return [ lastBlock, secondLastBlock ];
 	}
 
-
-	async checkFinalDBState ( proposedBlock: BlockData ): Promise<boolean>
-	{
-		if ( proposedBlock.index === 0 )
-		{
-			const lastBlock = await this.latestBlock();
-			Block.verifyGenesisBlock( lastBlock );
-			if ( !_.isEqual( lastBlock, proposedBlock ) )
-			{
-				throw new Error( "Invalid chain" );
-			}
-			return true;
-		}
-		const [ lastBlock, secondLastBlock ] = [ await this.get( proposedBlock.index ), await this.get( proposedBlock.index - 1 ) ];
-		Block.verifyBlock( lastBlock, secondLastBlock );
-		if ( !_.isEqual( lastBlock, proposedBlock ) )
-		{
-			throw new Error( "Invalid chain" );
-		}
-		const [ lastBlockFile, secondLastBlockFile ] = await this.lastTwoBlocks();
-		if ( !_.isEqual( lastBlockFile, lastBlock ) || !_.isEqual( secondLastBlockFile, secondLastBlock ) )
-		{
-			throw new Error( "Invalid chain" );
-		}
-		return true;
-	}
-
 	async validateChain (): Promise<boolean>
 	{
-		if ( await this.length() === 0 )
-		{
-			return true;
-		}
-		for ( let i = 0; i < await this.length(); i++ )
+		for ( let i = 0; i <= await this.length(); i++ )
 		{
 			if ( i === 0 )
 			{
@@ -144,5 +110,22 @@ export default class ChainStore
 			}
 		}
 		return true;
+	}
+
+	async isEmpty (): Promise<boolean>
+	{
+		try
+		{
+			await this.lastKey();
+			return false;
+		}
+		catch ( error: unknown )
+		{
+			if ( error instanceof Error && error.message === "No blocks found" )
+			{
+				return true;
+			}
+			throw error;
+		}
 	}
 }

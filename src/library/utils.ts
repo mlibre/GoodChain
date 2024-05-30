@@ -20,11 +20,6 @@ export function computeHash ( data: object ): string
 	.digest( "hex" );
 }
 
-export function objectify ( data: object ): object
-{
-	return JSON.parse( JSON.stringify( data ) );
-}
-
 export function initJsonFile ( filePath: string, defaultData: object = {})
 {
 	const folderPath = path.dirname( filePath );
@@ -95,15 +90,6 @@ export function createFolder ( folderPath: string ): boolean
 export function generateUuid (): string
 {
 	return uuidv4();
-}
-
-export function removePublicKeyHeaders ( publicKey: string ): string
-{
-	const headerRegex = /^-----BEGIN PUBLIC KEY-----\r?\n/;
-	const footerRegex = /\n-----END PUBLIC KEY-----/;
-
-	const strippedPublicKey = publicKey.replace( headerRegex, "" );
-	return strippedPublicKey.replace( footerRegex, "" );
 }
 
 export function generateFilePath ( folderPath: string, ...params: string[] ): string

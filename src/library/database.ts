@@ -9,16 +9,11 @@ export default class levelDatabase
 		this.db = leveldb;
 	}
 
-	async revert ( key: string )
+	async batch ( batch: PutAction[] )
 	{
-		const batch: { type: "del"; key: string; }[] = [];
-
-		for await ( const [ k ] of this.db.iterator({ reverse: true }) )
+		if ( batch.length === 0 )
 		{
-			if ( k > key )
-			{
-				batch.push({ type: "del", key: k });
-			}
+			return;
 		}
 		await this.db.batch( batch );
 	}
