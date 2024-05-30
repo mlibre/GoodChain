@@ -54,7 +54,7 @@ export function deleteFolder(folderPath) {
 }
 export function createFolder(folderPath) {
     if (!existsSync(folderPath)) {
-        mkdirSync(folderPath);
+        mkdirSync(folderPath, { recursive: true });
         console.log(`Folder ${folderPath} Created`);
         return true;
     }

@@ -241,7 +241,7 @@ function cleanTestDB ()
 function initializeBlockchain ( minerKeysPublicKey: string )
 {
 	const consensus = new POWConsensus();
-	return new Blockchain({
+	const blockchain = new Blockchain({
 		dbPath: TEST_DB_PATH,
 		nodes: {
 			list: [ "http://127.0.0.1:3001" ],
@@ -251,4 +251,6 @@ function initializeBlockchain ( minerKeysPublicKey: string )
 		minerPublicKey: minerKeysPublicKey,
 		consensus
 	});
+	blockchain.init();
+	return blockchain;
 }

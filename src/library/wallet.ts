@@ -1,16 +1,15 @@
 import crypto from "crypto";
+import { Level } from "level";
 import Transaction from "./transaction.js";
-import { initJsonFile, generateFilePath, updateFile } from "./utils.js";
+import { initJsonFile, updateFile } from "./utils.js";
 
 class Wallet
 {
-	private filePath: string;
-	private wallet: WalletData;
-
-	constructor ( folderPath: string )
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	public wallet: any;
+	constructor ( leveldb: Level<string, BlockData> )
 	{
-		this.filePath = generateFilePath( folderPath, "wallet", "wallet.json" );
-		this.wallet = initJsonFile( this.filePath, { blockNumber: -1, list: {} });
+		this.wallet = leveldb.sublevel<string, BlockData>( "wallet", { valueEncoding: "json" });
 	}
 
 	get allData (): WalletData
@@ -125,7 +124,6 @@ class Wallet
 
 	checkFinalDBState ( proposedBlock: BlockData ): boolean
 	{
-		this.reloadDB();
 		if ( this.wallet.blockNumber !== proposedBlock.index )
 		{
 			throw new Error( "Block number mismatch", { cause: { proposedBlock, wallet: this.wallet } });

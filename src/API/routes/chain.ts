@@ -4,9 +4,9 @@ import blockchain from "../blockchain.js";
 import axios from "axios";
 import { isEqualBlock, axiosErrorHandling } from "../utils.js";
 
-router.get( "/", function ( req, res )
+router.get( "/", async function ( req, res )
 {
-	res.send( blockchain.chain.all );
+	res.send( await blockchain.chain.getAll() );
 });
 
 router.post( "/update", async function ( req, res )

@@ -21,6 +21,7 @@ const blockchain = new Blockchain({
 	minerPublicKey: minerKeys.publicKey,
 	consensus: new Consensus()
 });
+blockchain.init();
 blockchain.mineNewBlock();
 
 const trx = new Transaction({

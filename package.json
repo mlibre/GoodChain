@@ -26,6 +26,7 @@
   "author": "mlibre",
   "license": "GPL-3.0-only",
   "dependencies": {
+    "@types/level": "^6.0.3",
     "axios": "^1.6.7",
     "cookie-parser": "~1.4.4",
     "express": "^4.19.2",

@@ -3,8 +3,8 @@ const router = express.Router();
 import blockchain from "../blockchain.js";
 import axios from "axios";
 import { isEqualBlock, axiosErrorHandling } from "../utils.js";
-router.get("/", function (req, res) {
-    res.send(blockchain.chain.all);
+router.get("/", async function (req, res) {
+    res.send(await blockchain.chain.getAll());
 });
 router.post("/update", async function (req, res) {
     let continueUpdate = true;

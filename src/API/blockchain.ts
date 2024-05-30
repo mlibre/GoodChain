@@ -6,7 +6,8 @@ import { name, dbPath, minerKeysFile, hostUrl, nodesList } from "./config.js";
 const consensus = new Consensus();
 
 const minerKeys = initJsonFile( minerKeysFile, Wallet.generateKeyPair() );
-export default new Blockchain({
+
+const blockchain = new Blockchain({
 	dbPath,
 	nodes: {
 		list: nodesList,
@@ -16,3 +17,6 @@ export default new Blockchain({
 	minerPublicKey: minerKeys.publicKey,
 	consensus
 });
+blockchain.init();
+
+export default blockchain;
