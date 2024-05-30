@@ -50,7 +50,7 @@ export default class Blockchain
 		const self = this;
 		await self.database.clear();
 		const coinbaseTrx = self.genCoinbaseTransaction();
-		self.addTransaction( coinbaseTrx );
+		await self.addTransaction( coinbaseTrx );
 		const block: BlockData = {
 			index: 0,
 			chainName: self.chainName,
@@ -71,7 +71,7 @@ export default class Blockchain
 		const blockIndex = await self.chain.length();
 		self.transactionPool = await self.wallet.cleanupTransactions( self.transactionPool );
 		const coinbaseTrx = self.genCoinbaseTransaction();
-		self.addTransaction( coinbaseTrx );
+		await self.addTransaction( coinbaseTrx );
 		const lastBlock = await self.chain.latestBlock();
 		const block: BlockData = {
 			index: blockIndex + 1,
@@ -106,9 +106,9 @@ export default class Blockchain
 		return blocks;
 	}
 
-	getBlocks ( from: number, to: number )
+	async getBlocks ( from: number, to: number )
 	{
-		return this.chain.getRange( from, to );
+		return await this.chain.getRange( from, to );
 	}
 
 	async verifyCandidateBlock ( block: BlockData )
@@ -134,10 +134,10 @@ export default class Blockchain
 
 		if ( !trx.isCoinBase() && trx.from !== null )
 		{
-			this.wallet.validateAddress( trx.from );
+			await this.wallet.validateAddress( trx.from );
 			await this.wallet.isTransactionNumberCorrect( trx.from, trx.transaction_number );
 		}
-		this.wallet.validateAddress( trx.to );
+		await this.wallet.validateAddress( trx.to );
 
 		trx.validate();
 		this.isTransactionDuplicate( trx.data.signature );
@@ -147,7 +147,7 @@ export default class Blockchain
 		{
 			return b.fee - a.fee;
 		});
-		return this.chain.length();
+		return await this.chain.length() + 1;
 	}
 
 	async addTransactions ( transactions: TransactionData[] )
@@ -202,11 +202,6 @@ export default class Blockchain
 		}
 	}
 
-	addNode ( url: string )
-	{
-		return this.nodes.add( url );
-	}
-
 	async replaceChain ( newChain: BlockData[] )
 	{
 		await this.database.clear();
@@ -219,5 +214,10 @@ export default class Blockchain
 			this.database.batch( actions );
 		}
 		return this.chain.getAll();
+	}
+
+	addNode ( url: string )
+	{
+		return this.nodes.add( url );
 	}
 }
