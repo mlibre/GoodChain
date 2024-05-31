@@ -37,7 +37,6 @@ class Wallet {
     async cleanupTransactions(transactions) {
         this.cacheWallet = {};
         const newTransactions = [];
-        const wallets = await this.allWallets();
         for (const tmpTrx of transactions) {
             try {
                 const trx = new Transaction(tmpTrx);
@@ -51,9 +50,9 @@ class Wallet {
                         console.warn("Dropping transaction with transaction number less than wallet transaction number");
                         continue;
                     }
-                    minusBalance(trx.from, trx.amount + trx.fee);
+                    await this.minusBalance(trx.from, trx.amount + trx.fee);
                 }
-                await addBalance(trx.to, trx.amount); // todo you can use this.addbalance again
+                await this.addBalance(trx.to, trx.amount); // todo you can use this.addbalance again
                 newTransactions.push(trx.data);
             }
             catch (error) {
@@ -62,28 +61,6 @@ class Wallet {
         }
         this.cacheWallet = {};
         return newTransactions;
-        function minusBalance(address, amount) {
-            if (!wallets[address]) {
-                wallets[address] = {
-                    balance: 0,
-                    transaction_number: 0
-                };
-            }
-            if (wallets[address].balance < amount) {
-                throw new Error("Insufficient balance", { cause: { address, amount } });
-            }
-            wallets[address].balance -= amount;
-            wallets[address].transaction_number++;
-        }
-        function addBalance(address, amount) {
-            if (!wallets[address]) {
-                wallets[address] = {
-                    balance: 0,
-                    transaction_number: 0
-                };
-            }
-            wallets[address].balance += amount;
-        }
     }
     async getBalance(address) {
         if (this.cacheWallet[address]) {

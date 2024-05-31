@@ -1,6 +1,6 @@
 {
   "name": "goodchain",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "description": "GoodChain: Blockchain for Everyone",
   "main": "index.js",
   "type": "module",
