@@ -15,6 +15,6 @@ const blockchain = new Blockchain({
     minerPublicKey: minerKeys.publicKey,
     consensus
 });
-blockchain.init();
+await blockchain.init();
 export default blockchain;
 //# sourceMappingURL=blockchain.js.map

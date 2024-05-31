@@ -25,7 +25,7 @@ router.post( "/update", async function ( req, res )
 						index: currentIndex + 1
 					}
 				});
-				blockchain.verifyCandidateBlock( response.data );
+				await blockchain.verifyCandidateBlock( response.data );
 				nodesLatestBlocks.push( response.data );
 			}
 			catch ( error )
@@ -37,14 +37,14 @@ router.post( "/update", async function ( req, res )
 		const chosenBlockResult = blockchain.consensus.chooseBlock( nodesLatestBlocks );
 		if ( chosenBlockResult )
 		{
-			blockchain.addBlock( chosenBlockResult );
+			await blockchain.addBlock( chosenBlockResult );
 		}
 		else
 		{
 			continueUpdate = false;
 		}
 	}
-	res.send( blockchain.chain.latestBlock );
+	res.send( await blockchain.chain.latestBlock() );
 });
 
 router.put( "/sync", async function ( req, res )
@@ -73,13 +73,13 @@ router.put( "/sync", async function ( req, res )
 	}
 	const allNodesLastBlocks = [
 		...otherNodesLastestBlocks,
-		{ block: blockchain.chain.latestBlock, node: blockchain.nodes.hostUrl }
+		{ block: await blockchain.chain.latestBlock(), node: blockchain.nodes.hostUrl }
 	];
 	const chosenNodeBlock = blockchain.consensus.chooseChain( allNodesLastBlocks );
 	if ( chosenNodeBlock )
 	{
 		const chosenChain = await axios.get( `${chosenNodeBlock.node}/chain` );
-		blockchain.replaceChain( chosenChain.data );
+		await blockchain.replaceChain( chosenChain.data );
 	}
 	res.send( "ok" );
 });

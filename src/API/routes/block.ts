@@ -5,44 +5,61 @@ import { toNum } from "../utils.js";
 
 const router = express.Router();
 
-router.get( "/", ( req, res ) =>
+router.get( "/", async ( req, res, next ) =>
 {
-	const { list, to, index, from, firstAndLast } = req.query;
-	if ( !index && !from && !to && !list && !firstAndLast )
+	try
 	{
-		res.json( blockchain.chain.latestBlock );
-		return;
-	}
-	if ( index )
-	{
-		res.json( blockchain.chain.get( toNum( index ) ) );
-		return;
-	}
-	if ( from || to )
-	{
-		res.json( blockchain.getBlocks( toNum( from ), toNum( to ) ) );
-		return;
-	}
-	if ( list )
-	{
-		const blocks = list.toString().split( "," ).map( ( index ) =>
+		const { list, to, index, from, firstAndLast } = req.query;
+		if ( !index && !from && !to && !list && !firstAndLast )
 		{
-			return blockchain.chain.get( toNum( index ) );
-		});
-		res.json( blocks );
-		return;
+			res.json( await blockchain.chain.latestBlock() );
+			return;
+		}
+		if ( index )
+		{
+			res.json( await blockchain.chain.get( toNum( index ) ) );
+			return;
+		}
+		if ( from || to )
+		{
+			const result = await blockchain.getBlocks( toNum( from ), toNum( to ) );
+			res.json( result );
+			return;
+		}
+		if ( list )
+		{
+			const blocks = [];
+			for ( const index of await list.toString().split( "," ) )
+			{
+				blocks.push( await blockchain.chain.get( toNum( index ) ) );
+			}
+			res.json( blocks );
+			return;
+		}
+		if ( firstAndLast )
+		{
+			res.json( [ await blockchain.chain.get( 0 ), await blockchain.chain.latestBlock() ] );
+			return;
+		}
 	}
-	if ( firstAndLast )
+	catch ( error )
 	{
-		res.json( [ blockchain.chain.get( 0 ), blockchain.chain.latestBlock ] );
-		return;
+		next( error );
 	}
 });
 
-router.post( "/", ( req, res ) =>
+router.post( "/", async ( req, res, next ) =>
 {
-	const block = blockchain.addBlock( req.body );
-	res.json( block );
+	try
+	{
+		const block =
+		await blockchain.addBlock( req.body );
+		res.json( block );
+	}
+	catch ( error )
+	{
+		next( error );
+	}
 });
 
 router.get( "/broadcast", async ( req, res ) =>
@@ -51,7 +68,7 @@ router.get( "/broadcast", async ( req, res ) =>
 	{
 		try
 		{
-			await axios.post( `${node}/block`, blockchain.chain.latestBlock );
+			await axios.post( `${node}/block`, await blockchain.chain.latestBlock() );
 		}
 		catch ( error )
 		{

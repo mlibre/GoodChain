@@ -89,7 +89,7 @@ export default class Blockchain
 	async addBlock ( block: BlockData )
 	{
 		const newBlock = blockify( block );
-		this.verifyCandidateBlock( newBlock );
+		await this.verifyCandidateBlock( newBlock );
 		const actions = await this.wallet.processTrxActionList( newBlock.transactions );
 		actions.push( this.chain.pushAction( newBlock ) );
 		await this.database.batch( actions );

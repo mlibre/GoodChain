@@ -6,15 +6,20 @@ import axios from "axios";
 router.get("/", function (req, res) {
     res.json(blockchain.transactionPool);
 });
-router.post("/", function (req, res) {
-    const blockNumber = blockchain.addTransaction(req.body);
-    res.send(blockNumber.toString());
+router.post("/", async function (req, res, next) {
+    try {
+        const blockNumber = await blockchain.addTransaction(req.body);
+        res.send(blockNumber.toString());
+    }
+    catch (error) {
+        next(error);
+    }
 });
 router.get("/update", async function (req, res) {
     try {
         for (const node of blockchain.nodes.list) {
             const response = await axios.get(`${node}/transaction`);
-            blockchain.addTransactions(response.data);
+            await blockchain.addTransactions(response.data);
         }
     }
     catch (error) {

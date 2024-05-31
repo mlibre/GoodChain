@@ -34,7 +34,7 @@ export default class ChainStore {
     }
     async getRange(from, to) {
         const blocks = [];
-        to = to ?? await this.length();
+        to = to || await this.length();
         for (let i = from; i <= to; i++) {
             blocks.push(await this.get(i));
         }
