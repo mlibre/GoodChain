@@ -1,14 +1,14 @@
-import _ from "lodash";
 import * as Block from "./block.js";
 export default class ChainStore {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     db;
+    sublevel;
     constructor(leveldb) {
-        this.db = leveldb.sublevel("chain", { valueEncoding: "json" });
+        this.sublevel = "chain";
+        this.db = leveldb.sublevel(this.sublevel, { valueEncoding: "json" });
     }
     async length() {
-        const lastKey = await this.lastKey();
-        return lastKey;
+        return await this.lastKey();
     }
     async lastKey() {
         let lastKey;
@@ -18,7 +18,7 @@ export default class ChainStore {
             break;
         }
         if (!lastKey) {
-            return 0;
+            throw new Error("No blocks found");
         }
         return Number(lastKey);
     }
@@ -36,7 +36,7 @@ export default class ChainStore {
     }
     async getRange(from, to) {
         const blocks = [];
-        to = to ?? await this.length() - 1;
+        to = to ?? await this.length();
         for (let i = from; i <= to; i++) {
             blocks.push(await this.get(i));
         }
@@ -53,45 +53,22 @@ export default class ChainStore {
         }
         return lastBlock;
     }
-    async push(block) {
-        await this.db.put(block.index.toString(), block);
-    }
-    async replaceChain(blocks) {
-        await this.db.clear();
-        for (const block of blocks) {
-            await this.push(block);
-        }
+    pushAction(block) {
+        const action = {
+            type: "put",
+            sublevel: this.sublevel,
+            key: block.index.toString(),
+            value: block
+        };
+        return action;
     }
     async lastTwoBlocks() {
         const lastBlock = await this.latestBlock();
         const secondLastBlock = await this.get(lastBlock.index - 1);
         return [lastBlock, secondLastBlock];
     }
-    async checkFinalDBState(proposedBlock) {
-        if (proposedBlock.index === 0) {
-            const lastBlock = await this.latestBlock();
-            Block.verifyGenesisBlock(lastBlock);
-            if (!_.isEqual(lastBlock, proposedBlock)) {
-                throw new Error("Invalid chain");
-            }
-            return true;
-        }
-        const [lastBlock, secondLastBlock] = [await this.get(proposedBlock.index), await this.get(proposedBlock.index - 1)];
-        Block.verifyBlock(lastBlock, secondLastBlock);
-        if (!_.isEqual(lastBlock, proposedBlock)) {
-            throw new Error("Invalid chain");
-        }
-        const [lastBlockFile, secondLastBlockFile] = await this.lastTwoBlocks();
-        if (!_.isEqual(lastBlockFile, lastBlock) || !_.isEqual(secondLastBlockFile, secondLastBlock)) {
-            throw new Error("Invalid chain");
-        }
-        return true;
-    }
     async validateChain() {
-        if (await this.length() === 0) {
-            return true;
-        }
-        for (let i = 0; i < await this.length(); i++) {
+        for (let i = 0; i <= await this.length(); i++) {
             if (i === 0) {
                 Block.verifyGenesisBlock(await this.get(i));
             }
@@ -100,6 +77,18 @@ export default class ChainStore {
             }
         }
         return true;
+    }
+    async isEmpty() {
+        try {
+            await this.lastKey();
+            return false;
+        }
+        catch (error) {
+            if (error instanceof Error && error.message === "No blocks found") {
+                return true;
+            }
+            throw error;
+        }
     }
 }
 //# sourceMappingURL=chain.js.map

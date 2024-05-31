@@ -3,12 +3,9 @@ export default class levelDatabase {
     constructor(leveldb) {
         this.db = leveldb;
     }
-    async revert(key) {
-        const batch = [];
-        for await (const [k] of this.db.iterator({ reverse: true })) {
-            if (k > key) {
-                batch.push({ type: "del", key: k });
-            }
+    async batch(batch) {
+        if (batch.length === 0) {
+            return;
         }
         await this.db.batch(batch);
     }

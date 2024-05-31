@@ -18,8 +18,8 @@ const blockchain = new Blockchain({
     minerPublicKey: minerKeys.publicKey,
     consensus: new Consensus()
 });
-blockchain.init();
-blockchain.mineNewBlock();
+await blockchain.init();
+await blockchain.mineNewBlock();
 const trx = new Transaction({
     from: minerKeys.publicKey,
     to: userKeys.publicKey,
@@ -28,9 +28,9 @@ const trx = new Transaction({
     transaction_number: 1
 });
 trx.sign(minerKeys.privateKey);
-const blockNumber = blockchain.addTransaction(trx.data);
-blockchain.mineNewBlock();
-console.log("Mined block :", blockNumber, blockchain.chain.latestBlock);
+const blockNumber = await blockchain.addTransaction(trx.data);
+await blockchain.mineNewBlock();
+console.log("Mined block :", blockNumber, await blockchain.chain.latestBlock());
 const trx2 = new Transaction({
     from: userKeys.publicKey,
     to: "user3",
@@ -39,9 +39,9 @@ const trx2 = new Transaction({
     transaction_number: 1
 });
 trx2.sign(userKeys.privateKey);
-blockchain.addTransaction(trx2.data);
-blockchain.mineNewBlock();
-console.log("Latest Block :", blockchain.chain.latestBlock);
-console.log("Wallets : ", blockchain.wallet);
-console.log("chain validation:", blockchain.chain.validateChain());
+await blockchain.addTransaction(trx2.data);
+await blockchain.mineNewBlock();
+console.log("Latest Block :", await blockchain.chain.latestBlock());
+console.log("Wallets : ", await blockchain.wallet.allWallets());
+console.log("chain validation:", await blockchain.chain.validateChain());
 //# sourceMappingURL=init.js.map

@@ -77,3 +77,13 @@ interface SimpleError
 	stack?: string;
 	[key: string]: SimpleError;
 }
+
+interface LevelNotFoundError
+{
+	code: string;
+	notFound: boolean;
+	status: number;
+	message: string;
+	stack: string;
+	[key: string]: SimpleError;
+}

@@ -20,12 +20,12 @@ describe("Blockchain Test Suite", () => {
     afterAll(() => {
         cleanTestDB();
     });
-    test("mining first block", () => {
-        const newBlock = blockchain.mineNewBlock(); // miner: 200
+    test("mining first block", async () => {
+        const newBlock = await blockchain.mineNewBlock(); // miner: 200
         expect(newBlock.index).toBe(1);
         expect(blockchain.chain.validateChain()).toBe(true);
     });
-    test("Sending a transaction from miner to sender and mining a new block", () => {
+    test("Sending a transaction from miner to sender and mining a new block", async () => {
         const transaction1 = new Transaction({
             from: minerKeys.publicKey,
             to: senderKeys.publicKey,
@@ -35,12 +35,12 @@ describe("Blockchain Test Suite", () => {
             signature: null
         });
         transaction1.sign(minerKeys.privateKey);
-        blockchain.addTransaction(transaction1.data);
-        const blockWithTransaction1 = blockchain.mineNewBlock(); // miner: 250, miner receives his own trx fee
+        await blockchain.addTransaction(transaction1.data);
+        const blockWithTransaction1 = await blockchain.mineNewBlock(); // miner: 250, miner receives his own trx fee
         expect(blockWithTransaction1.transactions.length).toBe(2); // including coinbase transaction
         expect(blockchain.chain.validateChain()).toBe(true);
     });
-    test("Sending a transaction from sender to receiver and mining a new block", () => {
+    test("Sending a transaction from sender to receiver and mining a new block", async () => {
         const transaction2 = new Transaction({
             from: senderKeys.publicKey,
             to: receiverKeys.publicKey,
@@ -50,12 +50,10 @@ describe("Blockchain Test Suite", () => {
             signature: null
         });
         transaction2.sign(senderKeys.privateKey);
-        blockchain.addTransaction(transaction2.data);
-        const blockWithTransaction2 = blockchain.mineNewBlock(); // miner: 351
+        await blockchain.addTransaction(transaction2.data);
+        const blockWithTransaction2 = await blockchain.mineNewBlock(); // miner: 351
         expect(blockWithTransaction2.transactions.length).toBe(2); // including coinbase transaction
         expect(blockchain.chain.validateChain()).toBe(true);
-        expect(blockchain.wallet.checkFinalDBState(blockWithTransaction2)).toBe(true);
-        expect(blockchain.chain.checkFinalDBState(blockWithTransaction2)).toBe(true);
     });
     test("Validating the final state of the blockchain", () => {
         const finalStateValid = blockchain.chain.validateChain();
@@ -69,7 +67,7 @@ describe("Blockchain Test Suite", () => {
         expect(receiverWalletBalance).toBe(25); // received 25
         expect(minerWalletBalance).toBe(351); // 100 + 100 + 50 + 1 + 100
     });
-    test("Handling transaction with insufficient funds", () => {
+    test("Handling transaction with insufficient funds", async () => {
         const transaction3 = new Transaction({
             from: senderKeys.publicKey,
             to: receiverKeys.publicKey,
@@ -80,7 +78,7 @@ describe("Blockchain Test Suite", () => {
         });
         transaction3.sign(senderKeys.privateKey);
         try {
-            blockchain.addTransaction(transaction3.data);
+            await blockchain.addTransaction(transaction3.data);
         }
         catch (e) {
             if (e instanceof Error) {
@@ -91,7 +89,7 @@ describe("Blockchain Test Suite", () => {
             }
         }
     });
-    test("Handling duplicate transaction number", () => {
+    test("Handling duplicate transaction number", async () => {
         const transaction4 = new Transaction({
             from: senderKeys.publicKey,
             to: receiverKeys.publicKey,
@@ -102,7 +100,7 @@ describe("Blockchain Test Suite", () => {
         });
         transaction4.sign(senderKeys.privateKey);
         try {
-            blockchain.addTransaction(transaction4.data);
+            await blockchain.addTransaction(transaction4.data);
         }
         catch (e) {
             if (e instanceof Error) {
@@ -113,7 +111,7 @@ describe("Blockchain Test Suite", () => {
             }
         }
     });
-    test("Handling invalid signature", () => {
+    test("Handling invalid signature", async () => {
         const transaction5 = new Transaction({
             from: senderKeys.publicKey,
             to: receiverKeys.publicKey,
@@ -123,7 +121,7 @@ describe("Blockchain Test Suite", () => {
             signature: "invalid-signature"
         });
         try {
-            blockchain.addTransaction(transaction5.data);
+            await blockchain.addTransaction(transaction5.data);
         }
         catch (e) {
             if (e instanceof Error) {
@@ -134,7 +132,7 @@ describe("Blockchain Test Suite", () => {
             }
         }
     });
-    test("Handling transaction with zero amount", () => {
+    test("Handling transaction with zero amount", async () => {
         const transaction6 = new Transaction({
             from: senderKeys.publicKey,
             to: receiverKeys.publicKey,
@@ -145,7 +143,7 @@ describe("Blockchain Test Suite", () => {
         });
         transaction6.sign(senderKeys.privateKey);
         try {
-            blockchain.addTransaction(transaction6.data);
+            await blockchain.addTransaction(transaction6.data);
         }
         catch (e) {
             if (e instanceof Error) {
@@ -156,7 +154,7 @@ describe("Blockchain Test Suite", () => {
             }
         }
     });
-    test("Handling transaction with negative amount", () => {
+    test("Handling transaction with negative amount", async () => {
         const transaction7 = new Transaction({
             from: senderKeys.publicKey,
             to: receiverKeys.publicKey,
@@ -167,7 +165,7 @@ describe("Blockchain Test Suite", () => {
         });
         transaction7.sign(senderKeys.privateKey);
         try {
-            blockchain.addTransaction(transaction7.data);
+            await blockchain.addTransaction(transaction7.data);
         }
         catch (e) {
             if (e instanceof Error) {

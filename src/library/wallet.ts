@@ -2,6 +2,7 @@ import crypto from "crypto";
 import { Level } from "level";
 import _ from "lodash";
 import Transaction from "./transaction.js";
+import { isLevelNotFoundError } from "../guards.js";
 
 class Wallet
 {
@@ -148,9 +149,21 @@ class Wallet
 
 	async validateAddress ( address: string ): Promise<void>
 	{
-		if ( !await this.getBalance( address ) )
+		try
 		{
-			await this.db.put( address, { balance: 0, transaction_number: 0 });
+			await this.getBalance( address );
+		}
+		catch ( error: unknown )
+		{
+			if ( isLevelNotFoundError( error ) && error.code === "LEVEL_NOT_FOUND" )
+			{
+				await this.db.put( address, { balance: 0, transaction_number: 0 });
+			}
+			else
+			{
+				console.log( error );
+				throw error;
+			}
 		}
 	}
 

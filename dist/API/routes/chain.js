@@ -9,7 +9,7 @@ router.get("/", async function (req, res) {
 router.post("/update", async function (req, res) {
     let continueUpdate = true;
     while (continueUpdate) {
-        const currentIndex = blockchain.chain.latestBlock.index;
+        const currentIndex = (await blockchain.chain.latestBlock()).index;
         const nodesLatestBlocks = [];
         for (const node of blockchain.nodes.list) {
             try {
@@ -36,12 +36,12 @@ router.post("/update", async function (req, res) {
     res.send(blockchain.chain.latestBlock);
 });
 router.put("/sync", async function (req, res) {
-    const myLastestBlock = blockchain.chain.latestBlock;
+    const myLastestBlock = await blockchain.chain.latestBlock();
     const otherNodesLastestBlocks = [];
     for (const node of blockchain.nodes.list) {
         try {
             const [firstBlock, lastBlock] = (await axios.get(`${node}/block`, { params: { firstAndLast: true } })).data;
-            if (isEqualBlock(firstBlock, blockchain.chain.genesisBlock) &&
+            if (isEqualBlock(firstBlock, await blockchain.chain.genesisBlock()) &&
                 !isEqualBlock(myLastestBlock, lastBlock)) {
                 otherNodesLastestBlocks.push({ block: lastBlock, node });
             }

@@ -21,8 +21,8 @@ const blockchain = new Blockchain({
 	minerPublicKey: minerKeys.publicKey,
 	consensus: new Consensus()
 });
-blockchain.init();
-blockchain.mineNewBlock();
+await blockchain.init();
+await blockchain.mineNewBlock();
 
 const trx = new Transaction({
 	from: minerKeys.publicKey,
@@ -34,8 +34,8 @@ const trx = new Transaction({
 trx.sign( minerKeys.privateKey );
 
 const blockNumber = await blockchain.addTransaction( trx.data );
-blockchain.mineNewBlock();
-console.log( "Mined block :", blockNumber, blockchain.chain.latestBlock );
+await blockchain.mineNewBlock();
+console.log( "Mined block :", blockNumber, await blockchain.chain.latestBlock() );
 
 const trx2 = new Transaction({
 	from: userKeys.publicKey,

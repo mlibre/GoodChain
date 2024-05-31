@@ -14,9 +14,6 @@ export function computeHash(data) {
         .update(stringData)
         .digest("hex");
 }
-export function objectify(data) {
-    return JSON.parse(JSON.stringify(data));
-}
 export function initJsonFile(filePath, defaultData = {}) {
     const folderPath = path.dirname(filePath);
     if (!existsSync(folderPath)) {
@@ -65,12 +62,6 @@ export function createFolder(folderPath) {
 }
 export function generateUuid() {
     return uuidv4();
-}
-export function removePublicKeyHeaders(publicKey) {
-    const headerRegex = /^-----BEGIN PUBLIC KEY-----\r?\n/;
-    const footerRegex = /\n-----END PUBLIC KEY-----/;
-    const strippedPublicKey = publicKey.replace(headerRegex, "");
-    return strippedPublicKey.replace(footerRegex, "");
 }
 export function generateFilePath(folderPath, ...params) {
     return path.join(folderPath, ...params);

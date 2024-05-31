@@ -147,6 +147,10 @@ export default class Blockchain
 		{
 			return b.fee - a.fee;
 		});
+		if ( trx.isCoinBase() )
+		{
+			return 0;
+		}
 		return await this.chain.length() + 1;
 	}
 

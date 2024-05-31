@@ -28,9 +28,9 @@ describe( "Blockchain Test Suite", () =>
 		cleanTestDB();
 	});
 
-	test( "mining first block", () =>
+	test( "mining first block", async () =>
 	{
-		const newBlock = blockchain.mineNewBlock(); // miner: 200
+		const newBlock = await blockchain.mineNewBlock(); // miner: 200
 		expect( newBlock.index ).toBe( 1 );
 		expect( blockchain.chain.validateChain() ).toBe( true );
 	});
@@ -48,7 +48,7 @@ describe( "Blockchain Test Suite", () =>
 		transaction1.sign( minerKeys.privateKey );
 		await blockchain.addTransaction( transaction1.data );
 
-		const blockWithTransaction1 = blockchain.mineNewBlock(); // miner: 250, miner receives his own trx fee
+		const blockWithTransaction1 = await blockchain.mineNewBlock(); // miner: 250, miner receives his own trx fee
 		expect( blockWithTransaction1.transactions.length ).toBe( 2 ); // including coinbase transaction
 		expect( blockchain.chain.validateChain() ).toBe( true );
 	});
@@ -66,7 +66,7 @@ describe( "Blockchain Test Suite", () =>
 		transaction2.sign( senderKeys.privateKey );
 		await blockchain.addTransaction( transaction2.data );
 
-		const blockWithTransaction2 = blockchain.mineNewBlock(); // miner: 351
+		const blockWithTransaction2 = await blockchain.mineNewBlock(); // miner: 351
 		expect( blockWithTransaction2.transactions.length ).toBe( 2 ); // including coinbase transaction
 		expect( blockchain.chain.validateChain() ).toBe( true );
 	});
