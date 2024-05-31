@@ -2,10 +2,8 @@ import * as Block from "./block.js";
 export default class ChainStore {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     db;
-    sublevel;
     constructor(leveldb) {
-        this.sublevel = "chain";
-        this.db = leveldb.sublevel(this.sublevel, { valueEncoding: "json" });
+        this.db = leveldb.sublevel("chain", { valueEncoding: "json" });
     }
     async length() {
         return await this.lastKey();
@@ -28,7 +26,7 @@ export default class ChainStore {
     }
     async get(blockNumber) {
         const blockIndex = parseInt(blockNumber.toString());
-        if (blockIndex >= await this.length() || blockIndex < 0) {
+        if (blockIndex > await this.length() || blockIndex < 0) {
             throw new Error("Invalid block number");
         }
         const block = await this.db.get(blockIndex.toString());
@@ -56,7 +54,7 @@ export default class ChainStore {
     pushAction(block) {
         const action = {
             type: "put",
-            sublevel: this.sublevel,
+            sublevel: this.db,
             key: block.index.toString(),
             value: block
         };

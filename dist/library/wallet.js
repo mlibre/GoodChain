@@ -5,10 +5,8 @@ import { isLevelNotFoundError } from "../guards.js";
 class Wallet {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     db;
-    sublevel;
     constructor(leveldb) {
-        this.sublevel = "wallet";
-        this.db = leveldb.sublevel(this.sublevel, { valueEncoding: "json" });
+        this.db = leveldb.sublevel("wallet", { valueEncoding: "json" });
     }
     async allWallets() {
         const result = await this.db.iterator().all();
@@ -91,7 +89,7 @@ class Wallet {
         wallet.balance += amount;
         const action = {
             type: "put",
-            sublevel: this.sublevel,
+            sublevel: this.db,
             key: address,
             value: wallet
         };
@@ -107,7 +105,7 @@ class Wallet {
         wallet.transaction_number++;
         const action = {
             type: "put",
-            sublevel: this.sublevel,
+            sublevel: this.db,
             key: address,
             value: wallet
         };
