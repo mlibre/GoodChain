@@ -8,11 +8,9 @@ class Wallet
 {
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	public db: any;
-	sublevel: string;
 	constructor ( leveldb: Level<string, BlockData> )
 	{
-		this.sublevel = "wallet";
-		this.db = leveldb.sublevel<string, UserWallet>( this.sublevel, { valueEncoding: "json" });
+		this.db = leveldb.sublevel<string, UserWallet>( "wallet", { valueEncoding: "json" });
 	}
 
 	async allWallets (): Promise<AllWallets>
@@ -121,7 +119,7 @@ class Wallet
 		wallet.balance += amount;
 		const action: PutAction = {
 			type: "put",
-			sublevel: this.sublevel,
+			sublevel: this.db,
 			key: address,
 			value: wallet
 		};
@@ -140,7 +138,7 @@ class Wallet
 		wallet.transaction_number++;
 		const action: PutAction = {
 			type: "put",
-			sublevel: this.sublevel,
+			sublevel: this.db,
 			key: address,
 			value: wallet
 		};

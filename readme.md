@@ -1,6 +1,6 @@
 # GoodChain
 
-Welcome to **GoodChain**, a blockchain platform designed for both beginners and experienced users, seeking simplicity and flexibility. Built with `TypeScript` and `LevelDB (soon)`, **GoodChain** offers a customizable environment for experimenting with consensus algorithms, including a default Simple **Proof-of-Work (PoW)** option.
+Welcome to **GoodChain**, a blockchain platform designed for both beginners and experienced users, seeking simplicity and flexibility. Built with `TypeScript` and `LevelDB`, **GoodChain** offers a customizable environment for experimenting with consensus algorithms, including a default Simple **Proof-of-Work (PoW)** option.
 
 **GoodChain** is a distributed ledger that enables secure and irreversible transactions across a peer-to-peer distributed network of nodes, ensuring the integrity of data.  
 
@@ -139,13 +139,13 @@ This project is licensed under the GNU General Public License.
 
 The first version of `GoodChain` was a simple blockchain implementation used to learn about blockchain technology. It used `json` files to store the blockchain data. Check out the [releases](https://github.com/mlibre/GoodChain/releases/tag/1.0.5) to see the code.
 
-### Version 2 (latest version)
+### Version 2
 
-The second version of `GoodChain` built using `Node.js` and `Express.js`, and uses `git` to store the blockchain data.
+The second version of `GoodChain` built using `Node.js` and `Express.js`, and uses `git` to store the blockchain data. Check out the [releases](https://github.com/mlibre/GoodChain/releases/tag/2.0.2) to see the code.
 
-### Version 3 (in progress)
+### Version 3 (latest version)
 
-The third version of `GoodChain` is built using `TypeScript`, `Express.js`, and `TypeORM`.
+The third version of `GoodChain` is built using `TypeScript`, `Express.js`, and `LevelDB`.
 
 ## Donate 💖
 

@@ -5,11 +5,9 @@ export default class ChainStore
 {
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	public db: any;
-	sublevel: string;
 	constructor ( leveldb: Level<string, BlockData> )
 	{
-		this.sublevel = "chain";
-		this.db = leveldb.sublevel<string, BlockData>( this.sublevel, { valueEncoding: "json" });
+		this.db = leveldb.sublevel<string, BlockData>( "chain", { valueEncoding: "json" });
 	}
 
 	async length (): Promise<number>
@@ -43,7 +41,7 @@ export default class ChainStore
 	async get ( blockNumber: number | string ): Promise<BlockData>
 	{
 		const blockIndex = parseInt( blockNumber.toString() );
-		if ( blockIndex >= await this.length() || blockIndex < 0 )
+		if ( blockIndex > await this.length() || blockIndex < 0 )
 		{
 			throw new Error( "Invalid block number" );
 		}
@@ -82,7 +80,7 @@ export default class ChainStore
 	{
 		const action: PutAction = {
 			type: "put",
-			sublevel: this.sublevel,
+			sublevel: this.db,
 			key: block.index.toString(),
 			value: block
 		};
