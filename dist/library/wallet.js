@@ -19,6 +19,7 @@ class Wallet {
         const actionList = [];
         for (const tmpTrx of transactionList) {
             const trx = new Transaction(tmpTrx);
+            trx.validate();
             if (trx.isCoinBase()) {
                 const action = await this.addBalance(trx.to, trx.amount);
                 actionList.push(action);
