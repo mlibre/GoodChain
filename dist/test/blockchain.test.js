@@ -5,27 +5,27 @@ import POWConsensus from "../library/pow-consensus.js";
 import fs from "fs";
 import { describe, test, expect, beforeAll, afterAll } from "vitest";
 const TEST_DB_PATH = `${import.meta.dirname}/test-db`;
-describe("Blockchain Test Suite", () => {
+describe.sequential("Blockchain Test Suite", async () => {
     let blockchain;
     let senderKeys;
     let receiverKeys;
     let minerKeys;
-    beforeAll(() => {
-        cleanTestDB();
+    await beforeAll(async () => {
+        await cleanTestDB(blockchain);
         minerKeys = Wallet.generateKeyPair();
-        blockchain = initializeBlockchain(minerKeys.publicKey); // miner: 100
+        blockchain = await initializeBlockchain(minerKeys.publicKey); // miner: 100
         senderKeys = Wallet.generateKeyPair();
         receiverKeys = Wallet.generateKeyPair();
-    });
-    afterAll(() => {
-        cleanTestDB();
-    });
-    test("mining first block", async () => {
+    }, 100000);
+    await afterAll(async () => {
+        await cleanTestDB(blockchain);
+    }, 100000);
+    await test.sequential("mining first block", async () => {
         const newBlock = await blockchain.mineNewBlock(); // miner: 200
         expect(newBlock.index).toBe(1);
-        expect(blockchain.chain.validateChain()).toBe(true);
-    });
-    test("Sending a transaction from miner to sender and mining a new block", async () => {
+        expect(await blockchain.chain.validateChain()).toBe(true);
+    }, 100000);
+    await test.sequential("Sending a transaction from miner to sender and mining a new block", async () => {
         const transaction1 = new Transaction({
             from: minerKeys.publicKey,
             to: senderKeys.publicKey,
@@ -36,11 +36,11 @@ describe("Blockchain Test Suite", () => {
         });
         transaction1.sign(minerKeys.privateKey);
         await blockchain.addTransaction(transaction1.data);
-        const blockWithTransaction1 = await blockchain.mineNewBlock(); // miner: 250, miner receives his own trx fee
+        const blockWithTransaction1 = await blockchain.mineNewBlock(); // sender: 50, miner: 250, miner receives his own trx fee
         expect(blockWithTransaction1.transactions.length).toBe(2); // including coinbase transaction
-        expect(blockchain.chain.validateChain()).toBe(true);
-    });
-    test("Sending a transaction from sender to receiver and mining a new block", async () => {
+        expect(await blockchain.chain.validateChain()).toBe(true);
+    }, 100000);
+    test.sequential("Sending a transaction from sender to receiver and mining a new block", async () => {
         const transaction2 = new Transaction({
             from: senderKeys.publicKey,
             to: receiverKeys.publicKey,
@@ -53,21 +53,21 @@ describe("Blockchain Test Suite", () => {
         await blockchain.addTransaction(transaction2.data);
         const blockWithTransaction2 = await blockchain.mineNewBlock(); // miner: 351
         expect(blockWithTransaction2.transactions.length).toBe(2); // including coinbase transaction
-        expect(blockchain.chain.validateChain()).toBe(true);
+        expect(await blockchain.chain.validateChain()).toBe(true);
     });
-    test("Validating the final state of the blockchain", () => {
-        const finalStateValid = blockchain.chain.validateChain();
+    test.sequential("Validating the final state of the blockchain", async () => {
+        const finalStateValid = await blockchain.chain.validateChain();
         expect(finalStateValid).toBe(true);
     });
-    test("Validating wallet balances after transactions", () => {
-        const senderWalletBalance = blockchain.wallet.getBalance(senderKeys.publicKey);
-        const receiverWalletBalance = blockchain.wallet.getBalance(receiverKeys.publicKey);
-        const minerWalletBalance = blockchain.wallet.getBalance(minerKeys.publicKey);
-        expect(senderWalletBalance).toBe(24); // 50 - 25 - 1 (fee)
-        expect(receiverWalletBalance).toBe(25); // received 25
-        expect(minerWalletBalance).toBe(351); // 100 + 100 + 50 + 1 + 100
+    test.sequential("Validating wallet balances after transactions", async () => {
+        const senderWalletBalance = await blockchain.wallet.getBalance(senderKeys.publicKey);
+        const receiverWalletBalance = await blockchain.wallet.getBalance(receiverKeys.publicKey);
+        const minerWalletBalance = await blockchain.wallet.getBalance(minerKeys.publicKey);
+        expect(senderWalletBalance.balance).toBe(24); // 50 - 25 - 1 (fee)
+        expect(receiverWalletBalance.balance).toBe(25); // received 25
+        expect(minerWalletBalance.balance).toBe(351); // 100 + 100 + 50 + 1 + 100
     });
-    test("Handling transaction with insufficient funds", async () => {
+    test.sequential("Handling transaction with insufficient funds", async () => {
         const transaction3 = new Transaction({
             from: senderKeys.publicKey,
             to: receiverKeys.publicKey,
@@ -89,7 +89,7 @@ describe("Blockchain Test Suite", () => {
             }
         }
     });
-    test("Handling duplicate transaction number", async () => {
+    test.sequential("Handling duplicate transaction number", async () => {
         const transaction4 = new Transaction({
             from: senderKeys.publicKey,
             to: receiverKeys.publicKey,
@@ -111,7 +111,7 @@ describe("Blockchain Test Suite", () => {
             }
         }
     });
-    test("Handling invalid signature", async () => {
+    test.sequential("Handling invalid signature", async () => {
         const transaction5 = new Transaction({
             from: senderKeys.publicKey,
             to: receiverKeys.publicKey,
@@ -132,7 +132,7 @@ describe("Blockchain Test Suite", () => {
             }
         }
     });
-    test("Handling transaction with zero amount", async () => {
+    test.sequential("Handling transaction with zero amount", async () => {
         const transaction6 = new Transaction({
             from: senderKeys.publicKey,
             to: receiverKeys.publicKey,
@@ -154,7 +154,7 @@ describe("Blockchain Test Suite", () => {
             }
         }
     });
-    test("Handling transaction with negative amount", async () => {
+    test.sequential("Handling transaction with negative amount", async () => {
         const transaction7 = new Transaction({
             from: senderKeys.publicKey,
             to: receiverKeys.publicKey,
@@ -176,13 +176,23 @@ describe("Blockchain Test Suite", () => {
             }
         }
     });
-});
-function cleanTestDB() {
-    if (fs.existsSync(TEST_DB_PATH)) {
-        fs.rmSync(TEST_DB_PATH, { recursive: true });
+}, 100000);
+async function cleanTestDB(blockchain) {
+    try {
+        if (blockchain) {
+            await blockchain.database.clear();
+            await blockchain.database.close();
+        }
+        if (fs.existsSync(TEST_DB_PATH)) {
+            fs.rmSync(TEST_DB_PATH, { recursive: true, force: true });
+        }
+    }
+    catch (error) {
+        console.log(error);
+        throw error;
     }
 }
-function initializeBlockchain(minerKeysPublicKey) {
+async function initializeBlockchain(minerKeysPublicKey) {
     const consensus = new POWConsensus();
     const blockchain = new Blockchain({
         dbPath: TEST_DB_PATH,
@@ -194,7 +204,7 @@ function initializeBlockchain(minerKeysPublicKey) {
         minerPublicKey: minerKeysPublicKey,
         consensus
     });
-    blockchain.init();
+    await blockchain.init();
     return blockchain;
 }
 //# sourceMappingURL=blockchain.test.js.map

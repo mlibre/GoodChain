@@ -105,10 +105,10 @@ export default class Blockchain {
         this.checkTransactionsPoolSize();
         const trx = new Transaction(transaction);
         if (!trx.isCoinBase() && trx.from !== null) {
-            await this.wallet.validateAddress(trx.from);
+            await this.wallet.getBalance(trx.from);
             await this.wallet.isTransactionNumberCorrect(trx.from, trx.transaction_number);
         }
-        await this.wallet.validateAddress(trx.to);
+        await this.wallet.getBalance(trx.to);
         trx.validate();
         this.isTransactionDuplicate(trx.data.signature);
         this.transactionPool.push(trx.data);

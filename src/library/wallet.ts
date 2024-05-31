@@ -8,9 +8,11 @@ class Wallet
 {
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	public db: any;
+	cacheWallet: UserWalletsObj;
 	constructor ( leveldb: Level<string, BlockData> )
 	{
 		this.db = leveldb.sublevel<string, UserWallet>( "wallet", { valueEncoding: "json" });
+		this.cacheWallet = {};
 	}
 
 	async allWallets (): Promise<AllWallets>
@@ -21,6 +23,7 @@ class Wallet
 
 	async processTrxActionList ( transactionList: TransactionData[] ): Promise<PutAction[]>
 	{
+		this.cacheWallet = {};
 		const actionList: PutAction[] = [];
 		for ( const tmpTrx of transactionList )
 		{
@@ -39,11 +42,13 @@ class Wallet
 			const action = await this.addBalance( trx.to, trx.amount );
 			actionList.push( action );
 		}
+		this.cacheWallet = {};
 		return actionList;
 	}
 
 	async cleanupTransactions ( transactions: TransactionData[] ): Promise<TransactionData[]>
 	{
+		this.cacheWallet = {};
 		const newTransactions: TransactionData[] = [];
 		const wallets = await this.allWallets();
 		for ( const tmpTrx of transactions )
@@ -66,7 +71,7 @@ class Wallet
 					}
 					minusBalance( trx.from, trx.amount + trx.fee );
 				}
-				await addBalance( trx.to, trx.amount );
+				await addBalance( trx.to, trx.amount ); // todo you can use this.addbalance again
 				newTransactions.push( trx.data );
 			}
 			catch ( error )
@@ -74,6 +79,7 @@ class Wallet
 				console.error( error );
 			}
 		}
+		this.cacheWallet = {};
 		return newTransactions;
 
 		function minusBalance ( address: string, amount: number )
@@ -108,13 +114,35 @@ class Wallet
 
 	async getBalance ( address: string ): Promise<UserWallet>
 	{
-		const wallet = await this.db.get( address.toString() );
-		return wallet;
+		if ( this.cacheWallet[address] )
+		{
+			return this.cacheWallet[address];
+		}
+		try
+		{
+			const wallet = await this.db.get( address.toString() );
+			this.cacheWallet[address] = wallet;
+			return wallet;
+		}
+		catch ( error )
+		{
+			if ( isLevelNotFoundError( error ) && error.code === "LEVEL_NOT_FOUND" )
+			{
+				await this.db.put( address, { balance: 0, transaction_number: 0 });
+				const wallet = await this.db.get( address.toString() );
+				this.cacheWallet[address] = wallet;
+				return wallet;
+			}
+			else
+			{
+				console.log( error );
+				throw error;
+			}
+		}
 	}
 
 	async addBalance ( address: string, amount: number ): Promise<PutAction>
 	{
-		await this.validateAddress( address );
 		const wallet = await this.getBalance( address );
 		wallet.balance += amount;
 		const action: PutAction = {
@@ -128,7 +156,6 @@ class Wallet
 
 	async minusBalance ( address: string, amount: number ): Promise<PutAction>
 	{
-		await this.validateAddress( address );
 		const wallet = await this.getBalance( address );
 		if ( wallet.balance < amount )
 		{
@@ -143,26 +170,6 @@ class Wallet
 			value: wallet
 		};
 		return action;
-	}
-
-	async validateAddress ( address: string ): Promise<void>
-	{
-		try
-		{
-			await this.getBalance( address );
-		}
-		catch ( error: unknown )
-		{
-			if ( isLevelNotFoundError( error ) && error.code === "LEVEL_NOT_FOUND" )
-			{
-				await this.db.put( address, { balance: 0, transaction_number: 0 });
-			}
-			else
-			{
-				console.log( error );
-				throw error;
-			}
-		}
 	}
 
 	async isTransactionNumberCorrect ( address: string, transaction_number: number ): Promise<void>

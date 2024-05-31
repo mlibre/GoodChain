@@ -13,5 +13,8 @@ export default class levelDatabase {
         await this.db.clear();
         return;
     }
+    async close() {
+        await this.db.close();
+    }
 }
 //# sourceMappingURL=database.js.map

@@ -24,4 +24,9 @@ export default class levelDatabase
 		return;
 	}
 
+	async close ()
+	{
+		await this.db.close();
+	}
+
 }

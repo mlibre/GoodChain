@@ -5,14 +5,17 @@ import { isLevelNotFoundError } from "../guards.js";
 class Wallet {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     db;
+    cacheWallet;
     constructor(leveldb) {
         this.db = leveldb.sublevel("wallet", { valueEncoding: "json" });
+        this.cacheWallet = {};
     }
     async allWallets() {
         const result = await this.db.iterator().all();
         return _.fromPairs(result);
     }
     async processTrxActionList(transactionList) {
+        this.cacheWallet = {};
         const actionList = [];
         for (const tmpTrx of transactionList) {
             const trx = new Transaction(tmpTrx);
@@ -28,9 +31,11 @@ class Wallet {
             const action = await this.addBalance(trx.to, trx.amount);
             actionList.push(action);
         }
+        this.cacheWallet = {};
         return actionList;
     }
     async cleanupTransactions(transactions) {
+        this.cacheWallet = {};
         const newTransactions = [];
         const wallets = await this.allWallets();
         for (const tmpTrx of transactions) {
@@ -48,13 +53,14 @@ class Wallet {
                     }
                     minusBalance(trx.from, trx.amount + trx.fee);
                 }
-                await addBalance(trx.to, trx.amount);
+                await addBalance(trx.to, trx.amount); // todo you can use this.addbalance again
                 newTransactions.push(trx.data);
             }
             catch (error) {
                 console.error(error);
             }
         }
+        this.cacheWallet = {};
         return newTransactions;
         function minusBalance(address, amount) {
             if (!wallets[address]) {
@@ -80,11 +86,28 @@ class Wallet {
         }
     }
     async getBalance(address) {
-        const wallet = await this.db.get(address.toString());
-        return wallet;
+        if (this.cacheWallet[address]) {
+            return this.cacheWallet[address];
+        }
+        try {
+            const wallet = await this.db.get(address.toString());
+            this.cacheWallet[address] = wallet;
+            return wallet;
+        }
+        catch (error) {
+            if (isLevelNotFoundError(error) && error.code === "LEVEL_NOT_FOUND") {
+                await this.db.put(address, { balance: 0, transaction_number: 0 });
+                const wallet = await this.db.get(address.toString());
+                this.cacheWallet[address] = wallet;
+                return wallet;
+            }
+            else {
+                console.log(error);
+                throw error;
+            }
+        }
     }
     async addBalance(address, amount) {
-        await this.validateAddress(address);
         const wallet = await this.getBalance(address);
         wallet.balance += amount;
         const action = {
@@ -96,7 +119,6 @@ class Wallet {
         return action;
     }
     async minusBalance(address, amount) {
-        await this.validateAddress(address);
         const wallet = await this.getBalance(address);
         if (wallet.balance < amount) {
             throw new Error("Insufficient balance", { cause: { address, amount } });
@@ -110,20 +132,6 @@ class Wallet {
             value: wallet
         };
         return action;
-    }
-    async validateAddress(address) {
-        try {
-            await this.getBalance(address);
-        }
-        catch (error) {
-            if (isLevelNotFoundError(error) && error.code === "LEVEL_NOT_FOUND") {
-                await this.db.put(address, { balance: 0, transaction_number: 0 });
-            }
-            else {
-                console.log(error);
-                throw error;
-            }
-        }
     }
     async isTransactionNumberCorrect(address, transaction_number) {
         const wallet = await this.getBalance(address);
