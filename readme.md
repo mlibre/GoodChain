@@ -2,17 +2,17 @@
 
 Welcome to **GoodChain**, a blockchain platform designed for both beginners and experienced users, seeking simplicity and flexibility. Built with `TypeScript` and `LevelDB`, **GoodChain** offers a customizable environment for experimenting with consensus algorithms, including a default Simple **Proof-of-Work (PoW)** option.
 
-**GoodChain** is a distributed ledger that enables secure and irreversible transactions across a peer-to-peer distributed network of nodes, ensuring the integrity of data.  
+**GoodChain** is a distributed ledger that enables secure and irreversible transactions across a peer-to-peer distributed network of nodes, ensuring the integrity of data.
 
 ## Key Features 🚀
 
-- **Pluginable Consensus**: Experiment with your consensus algorithms or use the default PoW implementation
+- **Pluggable Consensus**: Experiment with your consensus algorithms or use the default PoW implementation
 - **RESTful API**: Seamlessly integrate external systems with `GoodChain`'s user-friendly API
 - **Wallet Management**: Efficiently manage digital wallets, track balances, and handle transactions
 - **Node Discovery and Synchronization**: Discover and sync with other nodes in the network to maintain a consistent state across the blockchain
 - **Transaction Pool**: Manage pending transactions with our built-in transaction pool
 - **Chain Validation**: Verify the integrity of the blockchain by validating blocks and transactions
-- **EKVS**: `Embeddable persistent key-value stores` are databases that can be embedded into your application. Which means `no separate server` or process is needed to manage the database. `LevelDb` is a popular example of an `EKVS`. `GoodChain` uses `Level` library, a `Nodejs` wrapper for `LevelDB`.
+- **EKVS**: `Embeddable persistent key-value stores` are databases that can be embedded into your application. This means `no separate server` or process is needed to manage the database. `LevelDB` is a popular example of an `EKVS`. `GoodChain` uses the `Level` library, a `Node.js` wrapper for `LevelDB`.
 
 ## Getting Started 🛠️
 
@@ -73,7 +73,7 @@ Each node will have its own blockchain data, wallets, and nodes list, but they c
 
 ### RESTful API Endpoints 🛣️
 
-`GoodChain` provides a rich set of **http API** endpoints for your blockchain interactions. Explore, experiment, and have fun building amazing applications!
+`GoodChain` provides a rich set of **HTTP API** endpoints for your blockchain interactions. Explore, experiment, and have fun building amazing applications!
 
 | Endpoint              | Method | Description                                                                                    |
 | --------------------- | ------ | ---------------------------------------------------------------------------------------------- |
@@ -127,7 +127,7 @@ npm run test src/test/blockchain.test.ts
 
 ## Support and Resources 🤝
 
-Check out the **Bruno collection** in the `assets` folder for a quick start with API requests.
+Check out the **Bruno collection** in the `assets` folder for a quick start with API requests. For further assistance, consider reaching out through our [GitHub Issues](https://github.com/mlibre/GoodChain/issues) page.
 
 ## License 📜
 
@@ -141,7 +141,7 @@ The first version of `GoodChain` was a simple blockchain implementation used to 
 
 ### Version 2
 
-The second version of `GoodChain` built using `Node.js` and `Express.js`, and uses `git` to store the blockchain data. Check out the [releases](https://github.com/mlibre/GoodChain/releases/tag/2.0.2) to see the code.
+The second version of `GoodChain` was built using `Node.js` and `Express.js`, and used `git` to store the blockchain data. Check out the [releases](https://github.com/mlibre/GoodChain/releases/tag/2.0.2) to see the code.
 
 ### Version 3 (latest version)
 
