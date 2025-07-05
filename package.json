@@ -37,7 +37,7 @@
     "uuid": "^9.0.1"
   },
   "devDependencies": {
-    "@eslint/js": "^9.2.0",
+    "@eslint/js": "^9.30.1",
     "@stylistic/eslint-plugin": "^2.1.0",
     "@types/cookie-parser": "^1.4.7",
     "@types/eslint__js": "^8.42.3",

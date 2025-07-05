@@ -152,13 +152,16 @@ class Wallet
 		}
 	}
 
-	reCalculateWallet ( chain: BlockData[] ): void
+	async reCalculateWallet ( chain: BlockData[] ): Promise<void>
 	{
-		this.wipe();
+		await this.wipe();
+		const allActions: PutAction[] = [];
 		for ( const block of chain )
 		{
-			this.processTrxActionList( block.transactions );
+			 const blockActions = await this.processTrxActionList( block.transactions );
+			 allActions.push( ...blockActions );
 		}
+		await this.db.batch( allActions ); // Commit all actions at once
 	}
 
 	async wipe (): Promise<void>
