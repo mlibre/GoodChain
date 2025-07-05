@@ -21,8 +21,6 @@ interface UserWallet
 	transaction_number: number;
 }
 
-type UserWalletsObj = Record<string, UserWallet>;
-
 interface PutAction
 {
 	type: "put",

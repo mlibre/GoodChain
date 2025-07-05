@@ -8,7 +8,7 @@ class Wallet
 {
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	public db: any;
-	cacheWallet: UserWalletsObj;
+	cacheWallet: AllWallets;
 	constructor ( leveldb: Level<string, BlockData> )
 	{
 		this.db = leveldb.sublevel<string, UserWallet>( "wallet", { valueEncoding: "json" });
