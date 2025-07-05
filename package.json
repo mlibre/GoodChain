@@ -26,15 +26,14 @@
   "author": "mlibre",
   "license": "GPL-3.0-only",
   "dependencies": {
-    "axios": "^1.6.7",
-    "cookie-parser": "~1.4.4",
+    "axios": "^1.10.0",
+    "cookie-parser": "^1.4.7",
     "express": "^4.19.2",
-    "level": "^8.0.1",
+    "level": "^10.0.0",
     "lodash": "^4.17.21",
     "minimist": "^1.2.8",
     "morgan": "~1.9.1",
-    "save-dev": "^0.0.1-security",
-    "tslib": "^2.6.2",
+    "tslib": "^2.8.1",
     "uuid": "^9.0.1"
   },
   "devDependencies": {
