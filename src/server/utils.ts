@@ -20,14 +20,14 @@ export function toNum ( value: unknown ): number
 	return Number( value );
 }
 
-export function convertErrorToSimpleObj ( err: SimpleError )
+export function convertErrorToSimpleObj ( err: SerializableError )
 {
 	if ( err.isAxiosError )
 	{
 		delete err.config;
 		delete err.request;
 	}
-	const simpleErr: SimpleError = {};
+	const simpleErr: SerializableError = {};
 	if ( err.message )
 	{
 		simpleErr.message = err.message;

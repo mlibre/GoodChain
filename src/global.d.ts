@@ -71,11 +71,11 @@ interface ErrorWithStdsOutErr extends Error
 	status?: number;
 }
 
-interface SimpleError
+interface SerializableError
 {
 	message?: string;
 	stack?: string;
-	[key: string]: SimpleError;
+	[key: string]: SerializableError;
 }
 
 interface LevelNotFoundError
@@ -85,5 +85,5 @@ interface LevelNotFoundError
 	status: number;
 	message: string;
 	stack: string;
-	[key: string]: SimpleError;
+	[key: string]: SerializableError;
 }

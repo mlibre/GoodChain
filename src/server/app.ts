@@ -61,7 +61,7 @@ function onError ( error: NodeJS.ErrnoException )
 	}
 }
 
-function errorHandler ( err: SimpleError, req: express.Request, res: express.Response, next: express.NextFunction )
+function errorHandler ( err: SerializableError, req: express.Request, res: express.Response, next: express.NextFunction )
 {
 	if ( res.headersSent )
 	{
