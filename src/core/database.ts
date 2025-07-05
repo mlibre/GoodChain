@@ -1,6 +1,6 @@
 import { Level } from "level";
 
-export default class levelDatabase
+export default class LevelDatabase
 {
 	public db: Level<string, BlockData>;
 

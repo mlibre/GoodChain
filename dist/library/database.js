@@ -1,4 +1,4 @@
-export default class levelDatabase {
+export default class LevelDatabase {
     db;
     constructor(leveldb) {
         this.db = leveldb;
