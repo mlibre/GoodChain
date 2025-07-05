@@ -1,6 +1,6 @@
 {
   "name": "goodchain",
-  "version": "3.0.5",
+  "version": "3.1.0",
   "description": "GoodChain: Blockchain for Everyone",
   "main": "index.js",
   "type": "module",
@@ -9,7 +9,7 @@
     "type": "git"
   },
   "engines": {
-    "node": ">=20"
+    "node": ">=22"
   },
   "scripts": {
     "3000": "tsx ./src/server/app.ts --host 'http://127.0.0.1:3000' --nodes 'http://127.0.0.1:3001' --dbPath './assets/db/' --minerKeysFile './assets/keys/miner.json' --name 'GoodChain'",
