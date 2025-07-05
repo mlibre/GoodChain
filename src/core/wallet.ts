@@ -2,7 +2,6 @@ import crypto from "crypto";
 import { Level } from "level";
 import _ from "lodash";
 import Transaction from "./transaction.js";
-import { isLevelNotFoundError } from "../guards.js";
 
 class Wallet
 {
@@ -91,24 +90,19 @@ class Wallet
 		}
 		try
 		{
-			const wallet = await this.db.get( address.toString() );
+			let wallet = await this.db.get( address.toString() );
+			if ( wallet == undefined )
+			{
+				await this.db.put( address, { balance: 0, transaction_number: 0 });
+				wallet = await this.db.get( address.toString() );
+			}
 			this.cacheWallet[address] = wallet;
 			return wallet;
 		}
 		catch ( error )
 		{
-			if ( isLevelNotFoundError( error ) && error.code === "LEVEL_NOT_FOUND" )
-			{
-				await this.db.put( address, { balance: 0, transaction_number: 0 });
-				const wallet = await this.db.get( address.toString() );
-				this.cacheWallet[address] = wallet;
-				return wallet;
-			}
-			else
-			{
-				console.log( error );
-				throw error;
-			}
+			console.log( error );
+			throw error;
 		}
 	}
 

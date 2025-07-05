@@ -1,7 +1,6 @@
 import crypto from "crypto";
 import _ from "lodash";
 import Transaction from "./transaction.js";
-import { isLevelNotFoundError } from "../guards.js";
 class Wallet {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     db;
@@ -68,21 +67,17 @@ class Wallet {
             return this.cacheWallet[address];
         }
         try {
-            const wallet = await this.db.get(address.toString());
+            let wallet = await this.db.get(address.toString());
+            if (wallet == undefined) {
+                await this.db.put(address, { balance: 0, transaction_number: 0 });
+                wallet = await this.db.get(address.toString());
+            }
             this.cacheWallet[address] = wallet;
             return wallet;
         }
         catch (error) {
-            if (isLevelNotFoundError(error) && error.code === "LEVEL_NOT_FOUND") {
-                await this.db.put(address, { balance: 0, transaction_number: 0 });
-                const wallet = await this.db.get(address.toString());
-                this.cacheWallet[address] = wallet;
-                return wallet;
-            }
-            else {
-                console.log(error);
-                throw error;
-            }
+            console.log(error);
+            throw error;
         }
     }
     async addBalance(address, amount) {
@@ -117,11 +112,14 @@ class Wallet {
             throw new Error("Invalid transaction number", { cause: { address, transaction_number } });
         }
     }
-    reCalculateWallet(chain) {
-        this.wipe();
+    async reCalculateWallet(chain) {
+        await this.wipe();
+        const allActions = [];
         for (const block of chain) {
-            this.processTrxActionList(block.transactions);
+            const blockActions = await this.processTrxActionList(block.transactions);
+            allActions.push(...blockActions);
         }
+        await this.db.batch(allActions); // Commit all actions at once
     }
     async wipe() {
         await this.db.clear();
