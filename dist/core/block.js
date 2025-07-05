@@ -35,7 +35,6 @@ export function verifyGenesisBlock(block) {
         throw new Error("Invalid previous hash");
     }
 }
-export function blockify(data) {
+export function cloneBlock(data) {
     return JSON.parse(JSON.stringify(data));
 }
-//# sourceMappingURL=block.js.map

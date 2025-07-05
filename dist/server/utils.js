@@ -13,7 +13,7 @@ export function parseUrl(url) {
 export function toNum(value) {
     return Number(value);
 }
-export function convertErrorToSimpleObj(err) {
+export function convertErrorToObject(err) {
     if (err.isAxiosError) {
         delete err.config;
         delete err.request;
@@ -27,7 +27,7 @@ export function convertErrorToSimpleObj(err) {
     }
     for (const key of Object.getOwnPropertyNames(err)) {
         if (err[key] && (err[key] instanceof Error || typeof err[key] === "object")) {
-            simpleErr[key] = convertErrorToSimpleObj(err[key]);
+            simpleErr[key] = convertErrorToObject(err[key]);
         }
         else {
             simpleErr[key] = err[key];
@@ -35,7 +35,7 @@ export function convertErrorToSimpleObj(err) {
     }
     return simpleErr;
 }
-export function axiosErrorHandling(error, data) {
+export function logAxiosError(error, data) {
     if (error instanceof AxiosError) {
         console.error(`Error fetching data from node ${data}:`, error.code, error.message, error?.response?.data);
     }

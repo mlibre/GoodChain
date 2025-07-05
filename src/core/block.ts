@@ -49,7 +49,7 @@ export function verifyGenesisBlock ( block: BlockData ): void
 	}
 }
 
-export function blockify ( data: BlockData ): BlockData
+export function cloneBlock ( data: BlockData ): BlockData
 {
 	return JSON.parse( JSON.stringify( data ) );
 }

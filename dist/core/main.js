@@ -1,6 +1,6 @@
 import { Level } from "level";
 import _ from "lodash";
-import { blockify, verifyBlock, verifyGenesisBlock } from "./block.js";
+import { cloneBlock, verifyBlock, verifyGenesisBlock } from "./block.js";
 import ChainStore from "./chain.js";
 import LevelDatabase from "./database.js";
 import Nodes from "./nodes.js";
@@ -39,7 +39,7 @@ export default class Blockchain {
     async #mineGenesisBlock() {
         const self = this;
         await self.database.clear();
-        const coinbaseTrx = self.genCoinbaseTransaction();
+        const coinbaseTrx = self.generateCoinbaseTransaction();
         await self.addTransaction(coinbaseTrx);
         const block = {
             index: 0,
@@ -57,7 +57,7 @@ export default class Blockchain {
         const self = this;
         const blockIndex = await self.chain.length();
         self.transactionPool = await self.wallet.cleanupTransactions(self.transactionPool);
-        const coinbaseTrx = self.genCoinbaseTransaction();
+        const coinbaseTrx = self.generateCoinbaseTransaction();
         await self.addTransaction(coinbaseTrx);
         const lastBlock = await self.chain.latestBlock();
         const block = {
@@ -73,10 +73,10 @@ export default class Blockchain {
         return self.addBlock(block);
     }
     async addBlock(block) {
-        const newBlock = blockify(block);
+        const newBlock = cloneBlock(block);
         await this.verifyCandidateBlock(newBlock);
         const actions = await this.wallet.processTrxActionList(newBlock.transactions);
-        actions.push(this.chain.pushAction(newBlock));
+        actions.push(this.chain.createPutAction(newBlock));
         await this.database.batch(actions);
         this.transactionPool = [];
         return newBlock;
@@ -102,7 +102,7 @@ export default class Blockchain {
         return true;
     }
     async addTransaction(transaction) {
-        this.checkTransactionsPoolSize();
+        this.validateTransactionPoolSize();
         const trx = new Transaction(transaction);
         if (!trx.isCoinBase() && trx.from !== null) {
             await this.wallet.getBalance(trx.from);
@@ -110,7 +110,7 @@ export default class Blockchain {
         }
         await this.wallet.getBalance(trx.to);
         trx.validate();
-        this.isTransactionDuplicate(trx.data.signature);
+        this.assertTransactionNotDuplicate(trx.data.signature);
         this.transactionPool.push(trx.data);
         this.transactionPool.sort((a, b) => {
             return b.fee - a.fee;
@@ -138,7 +138,7 @@ export default class Blockchain {
         }
         return results;
     }
-    genCoinbaseTransaction() {
+    generateCoinbaseTransaction() {
         return {
             from: null,
             to: this.minerPublicKey,
@@ -148,12 +148,12 @@ export default class Blockchain {
             signature: null
         };
     }
-    checkTransactionsPoolSize() {
+    validateTransactionPoolSize() {
         if (this.transactionPool.length >= this.transactionPoolSize) {
             throw new Error("Transaction pool is full");
         }
     }
-    isTransactionDuplicate(signature) {
+    assertTransactionNotDuplicate(signature) {
         const duplicate = _.find(this.transactionPool, { signature });
         if (duplicate) {
             throw new Error("Duplicate transaction");
@@ -163,7 +163,7 @@ export default class Blockchain {
         await this.database.clear();
         const actions = [];
         for (const block of newChain) {
-            const putAction = await this.chain.pushAction(block);
+            const putAction = await this.chain.createPutAction(block);
             actions.push(putAction);
             actions.push(...await this.wallet.processTrxActionList(block.transactions));
             this.database.batch(actions);

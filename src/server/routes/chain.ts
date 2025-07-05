@@ -2,7 +2,7 @@ import express from "express";
 const router = express.Router();
 import blockchain from "../blockchain.js";
 import axios from "axios";
-import { isEqualBlock, axiosErrorHandling } from "../utils.js";
+import { isEqualBlock, logAxiosError } from "../utils.js";
 
 router.get( "/", async function ( req, res )
 {
@@ -30,7 +30,7 @@ router.post( "/update", async function ( req, res )
 			}
 			catch ( error )
 			{
-				axiosErrorHandling( error, node );
+				logAxiosError( error, node );
 			}
 		}
 
@@ -49,7 +49,7 @@ router.post( "/update", async function ( req, res )
 
 router.put( "/sync", async function ( req, res )
 {
-	const myLastestBlock = await blockchain.chain.latestBlock();
+	const myLatestBlock = await blockchain.chain.latestBlock();
 	const otherNodesLastestBlocks = [];
 	for ( const node of blockchain.nodes.list )
 	{
@@ -60,7 +60,7 @@ router.put( "/sync", async function ( req, res )
 			).data;
 			if (
 				isEqualBlock( firstBlock, await blockchain.chain.genesisBlock() ) &&
-				!isEqualBlock( myLastestBlock, lastBlock )
+				!isEqualBlock( myLatestBlock, lastBlock )
 			)
 			{
 				otherNodesLastestBlocks.push({ block: lastBlock, node });

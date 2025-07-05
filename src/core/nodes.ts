@@ -13,7 +13,7 @@ export default class Nodes
 		const nodesFile = initJsonFile( this.filePath );
 		this.list = _.uniq( nodes.list.concat( nodesFile.list || [] ) );
 		this.hostUrl = nodes.hostUrl ?? nodesFile.hostUrl;
-		this.updateDB();
+		this.saveNodesToFile();
 	}
 
 	get all (): ( string | undefined )[]
@@ -26,7 +26,7 @@ export default class Nodes
 		if ( !this.isDuplicate( url ) )
 		{
 			this.list.push( url );
-			this.updateDB();
+			this.saveNodesToFile();
 			return true;
 		}
 		return false;
@@ -54,7 +54,7 @@ export default class Nodes
 		return { host, port, protocol };
 	}
 
-	updateDB (): void
+	saveNodesToFile (): void
 	{
 		updateFile( this.filePath, {
 			list: this.list,

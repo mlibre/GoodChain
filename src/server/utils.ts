@@ -20,7 +20,7 @@ export function toNum ( value: unknown ): number
 	return Number( value );
 }
 
-export function convertErrorToSimpleObj ( err: SerializableError )
+export function convertErrorToObject ( err: SerializableError )
 {
 	if ( err.isAxiosError )
 	{
@@ -40,7 +40,7 @@ export function convertErrorToSimpleObj ( err: SerializableError )
 	{
 		if ( err[key] && ( err[key] instanceof Error || typeof err[key] === "object" ) )
 		{
-			simpleErr[key] = convertErrorToSimpleObj( err[key] );
+			simpleErr[key] = convertErrorToObject( err[key] );
 		}
 		else
 		{
@@ -50,7 +50,7 @@ export function convertErrorToSimpleObj ( err: SerializableError )
 	return simpleErr;
 }
 
-export function axiosErrorHandling ( error: unknown, data?: string )
+export function logAxiosError ( error: unknown, data?: string )
 {
 	if ( error instanceof AxiosError )
 	{

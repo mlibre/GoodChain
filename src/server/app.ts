@@ -3,7 +3,7 @@ import express from "express";
 import cookieParser from "cookie-parser";
 import logger from "morgan";
 import { hostPort, hostAddress } from "./config.js";
-import { convertErrorToSimpleObj } from "./utils.js";
+import { convertErrorToObject } from "./utils.js";
 
 import "./blockchain.js";
 
@@ -67,5 +67,5 @@ function errorHandler ( err: SerializableError, req: express.Request, res: expre
 	{
 		return next( err );
 	}
-	res.status( 500 ).send( convertErrorToSimpleObj( err ) );
+	res.status( 500 ).send( convertErrorToObject( err ) );
 }

@@ -6,19 +6,19 @@ export default class ChainStore {
         this.db = leveldb.sublevel("chain", { valueEncoding: "json" });
     }
     async length() {
-        return await this.lastKey();
+        return await this.getLatestBlockIndex();
     }
-    async lastKey() {
-        let lastKey;
+    async getLatestBlockIndex() {
+        let getLatestBlockIndex;
         const iterator = this.db.keys({ reverse: true });
         for await (const key of iterator) {
-            lastKey = key;
+            getLatestBlockIndex = key;
             break;
         }
-        if (!lastKey) {
+        if (!getLatestBlockIndex) {
             throw new Error("No blocks found");
         }
-        return Number(lastKey);
+        return Number(getLatestBlockIndex);
     }
     async getAll() {
         const result = await this.db.values().all();
@@ -44,14 +44,14 @@ export default class ChainStore {
         return await this.get(0);
     }
     async latestBlock() {
-        const lastKey = await this.lastKey();
-        const lastBlock = await this.get(lastKey);
+        const getLatestBlockIndex = await this.getLatestBlockIndex();
+        const lastBlock = await this.get(getLatestBlockIndex);
         if (!lastBlock) {
             throw new Error("No blocks found");
         }
         return lastBlock;
     }
-    pushAction(block) {
+    createPutAction(block) {
         const action = {
             type: "put",
             sublevel: this.db,
@@ -78,7 +78,7 @@ export default class ChainStore {
     }
     async isEmpty() {
         try {
-            await this.lastKey();
+            await this.getLatestBlockIndex();
             return false;
         }
         catch (error) {

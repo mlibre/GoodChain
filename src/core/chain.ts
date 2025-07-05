@@ -12,24 +12,24 @@ export default class ChainStore
 
 	async length (): Promise<number>
 	{
-		return await this.lastKey();
+		return await this.getLatestBlockIndex();
 	}
 
-	async lastKey (): Promise<number>
+	async getLatestBlockIndex (): Promise<number>
 	{
-		let lastKey;
+		let getLatestBlockIndex;
 		const iterator = this.db.keys({ reverse: true });
 
 		for await ( const key of iterator )
 		{
-			lastKey = key;
+			getLatestBlockIndex = key;
 			break;
 		}
-		if ( !lastKey )
+		if ( !getLatestBlockIndex )
 		{
 			throw new Error( "No blocks found" );
 		}
-		return Number( lastKey );
+		return Number( getLatestBlockIndex );
 	}
 
 	async getAll (): Promise<BlockData[]>
@@ -67,8 +67,8 @@ export default class ChainStore
 
 	async latestBlock (): Promise<BlockData>
 	{
-		const lastKey = await this.lastKey();
-		const lastBlock = await this.get( lastKey );
+		const getLatestBlockIndex = await this.getLatestBlockIndex();
+		const lastBlock = await this.get( getLatestBlockIndex );
 		if ( !lastBlock )
 		{
 			throw new Error( "No blocks found" );
@@ -76,7 +76,7 @@ export default class ChainStore
 		return lastBlock;
 	}
 
-	pushAction ( block: BlockData ): PutAction
+	createPutAction ( block: BlockData ): PutAction
 	{
 		const action: PutAction = {
 			type: "put",
@@ -114,7 +114,7 @@ export default class ChainStore
 	{
 		try
 		{
-			await this.lastKey();
+			await this.getLatestBlockIndex();
 			return false;
 		}
 		catch ( error: unknown )

@@ -3,7 +3,7 @@ import express from "express";
 import cookieParser from "cookie-parser";
 import logger from "morgan";
 import { hostPort, hostAddress } from "./config.js";
-import { convertErrorToSimpleObj } from "./utils.js";
+import { convertErrorToObject } from "./utils.js";
 import "./blockchain.js";
 import chainRouter from "./routes/chain.js";
 import blockRouter from "./routes/block.js";
@@ -52,6 +52,6 @@ function errorHandler(err, req, res, next) {
     if (res.headersSent) {
         return next(err);
     }
-    res.status(500).send(convertErrorToSimpleObj(err));
+    res.status(500).send(convertErrorToObject(err));
 }
 //# sourceMappingURL=app.js.map
