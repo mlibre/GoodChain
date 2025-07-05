@@ -1,6 +1,6 @@
 import _ from "lodash";
 import { computeHash } from "./utils.js";
-export default class POW {
+export default class PowConsensus {
     name;
     difficulty;
     minDifficulty;

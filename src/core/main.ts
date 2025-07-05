@@ -4,14 +4,14 @@ import { blockify, verifyBlock, verifyGenesisBlock } from "./block.js";
 import ChainStore from "./chain.js";
 import LevelDatabase from "./database.js";
 import Nodes from "./nodes.js";
-import ConsensusClass from "./pow-consensus.js";
+import PowConsensus from "./pow-consensus.js";
 import Transaction from "./transaction.js";
 import { calculateMiningFee, computeHash, createFolder } from "./utils.js";
 import Wallet from "./wallet.js";
 
 export default class Blockchain
 {
-	public consensus: ConsensusClass;
+	public consensus: PowConsensus;
 	private chainName: string;
 	public minerPublicKey: string ;
 	public chain: ChainStore;
