@@ -38,3 +38,4 @@ export function verifyGenesisBlock(block) {
 export function cloneBlock(data) {
     return JSON.parse(JSON.stringify(data));
 }
+//# sourceMappingURL=block.js.map
