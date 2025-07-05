@@ -52,7 +52,7 @@ interface TransactionData
 	id?: string;
 }
 
-interface NodesBlocks
+interface NodesBlock
 {
 	block: BlockData,
 	node: string

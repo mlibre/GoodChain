@@ -111,7 +111,7 @@ export default class PowConsensus
 		});
 	}
 
-	chooseChain ( nodesBlocks: NodesBlocks[] ): NodesBlocks | undefined
+	chooseChain ( nodesBlocks: NodesBlock[] ): NodesBlock | undefined
 	{
 		return _.maxBy( nodesBlocks, ( nodeBlock ) =>
 		{
