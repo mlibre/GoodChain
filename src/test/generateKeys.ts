@@ -1,5 +1,5 @@
-import { deleteFolder, initJsonFile } from "../library/utils.js";
-import Wallet from "../library/wallet.js";
+import { deleteFolder, initJsonFile } from "../core/utils.js";
+import Wallet from "../core/wallet.js";
 
 deleteFolder( "./assets/keys/" );
 

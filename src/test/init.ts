@@ -1,9 +1,9 @@
-import Blockchain from "../library/main.js";
-import Consensus from "../library/pow-consensus.js";
-import Transaction from "../library/transaction.js";
+import Blockchain from "../core/main.js";
+import Consensus from "../core/pow-consensus.js";
+import Transaction from "../core/transaction.js";
 
-import { deleteFile, deleteFolder, initJsonFile } from "../library/utils.js";
-import Wallet from "../library/wallet.js";
+import { deleteFile, deleteFolder, initJsonFile } from "../core/utils.js";
+import Wallet from "../core/wallet.js";
 
 deleteFolder( "assets/db/" );
 deleteFile( "./assets/keys/miner.json" );

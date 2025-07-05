@@ -1,7 +1,7 @@
-import Blockchain from "../library/main.js";
-import Wallet from "../library/wallet.js";
-import Transaction from "../library/transaction.js";
-import POWConsensus from "../library/pow-consensus.js";
+import Blockchain from "../core/main.js";
+import Wallet from "../core/wallet.js";
+import Transaction from "../core/transaction.js";
+import POWConsensus from "../core/pow-consensus.js";
 import fs from "fs";
 import { describe, test, expect, beforeAll, afterAll } from "vitest";
 
